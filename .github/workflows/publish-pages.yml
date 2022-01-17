@@ -26,7 +26,7 @@ jobs:
         run: |
           REMOTE_REPO=$(git remote get-url --push origin)
           # ref: https://github.com/maxheld83/ghpages/blob/68f783a4f5313d776c1599e18479607e71c9c738/entrypoint.sh
-          # cd build/revealjs
+          cd build/revealjs
           git init
           git config user.name $GITHUB_ACTOR
           git config user.email $GITHUB_ACTOR@users.noreply.github.com
