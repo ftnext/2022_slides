@@ -31,4 +31,5 @@ jobs:
           git config user.email $GITHUB_ACTOR@users.noreply.github.com
           git add .
           git commit -m "[release] Publish on GitHub Pages"
+          git remote -v
           git push --force origin master:gh-pages
