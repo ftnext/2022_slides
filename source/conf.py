@@ -73,3 +73,7 @@ revealjs_script_conf = """
         slideNumber: "c/t",
     }
 """
+
+revealjs_css_files = [
+    "css/common.css",
+]
