@@ -1,0 +1,39 @@
+お前、誰よ
+========================================
+
+* Python大好き **にっきー**
+
+  * Twitter `@ftnext <https://twitter.com/ftnext>`_
+  * GitHub `@ftnext <https://github.com/ftnext>`_
+
+* Python歴4年。株式会社ユーザベースのデータサイエンティスト（NLPer）
+
+心を燃やしたPyCon JP 2021座長
+--------------------------------------------------
+
+* 座長（＝ **開催に責任** を持つ人）
+* `技術で(も)支えたPyCon JP 2021 <https://nikkie-ftnext.hatenablog.com/entry/pyconjp2021-portfolio>`_
+
+News: PyCon JP 2022 座長決定
+--------------------------------------------------
+
+.. raw:: html
+
+    <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">PyCon JP 2022 座長決定<br><br>来年のPyCon JP 2022の座長が決まりました。<br><br>座長: 片寄 里菜（かたよせ りな）<br><br>PyCon JP 2022をどのような形にするか 決めにくい状況です。座長のもとで、スタッフや参加者が楽しいイベントが作れることを期待しています。<a href="https://t.co/XpaXfOqe8m">https://t.co/XpaXfOqe8m</a> <a href="https://twitter.com/hashtag/pyconjp?src=hash&amp;ref_src=twsrc%5Etfw">#pyconjp</a></p>&mdash; PyCon JP (@pyconjapan) <a href="https://twitter.com/pyconjapan/status/1481932340498624513?ref_src=twsrc%5Etfw">January 14, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+もう少し：このコミットグラフは？
+--------------------------------------------------
+
+TODO：画像を入れる（SVGで保存できるらしい）
+
+たたーん！ 映画『`アイの歌声を聴かせて <https://ainouta.jp/>`_』🤖🎤🎼 鑑賞回数！
+----------------------------------------------------------------------------------------------------
+
+* ㊗️ 日本アカデミー賞 優秀アニメーション作品賞 👏
+* ほんとによくて、2021年10月の公開から20回以上観てます
+* ブログ「好きな映画の鑑賞ログをGitHubのContributionのような形式で表示する」 `前編 <https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution1-cal-heatmap>`_ ・ `後編 <https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution2-cors-error>`_
+
+One more thing: Everyday Contribution🙌
+--------------------------------------------------
+
+TODO：GitHubのプロフィール
