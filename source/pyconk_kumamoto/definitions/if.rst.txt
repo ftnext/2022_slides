@@ -1,0 +1,89 @@
+``if`` 文
+========================================
+
+    if 文は、条件分岐を実行するために使われます:
+
+`8.1. if 文 <https://docs.python.org/ja/3/reference/compound_stmts.html#the-if-statement>`_
+
+``if`` 文の構文
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   if_stmt: "if" assignment_expression ":" suite
+          : ("elif" assignment_expression ":" suite)*
+          : ["else" ":" suite]
+
+味わう ``if`` 文 1/3
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   if_stmt: "if" assignment_expression ":" suite
+          : ("elif" assignment_expression ":" suite)*
+          : ["else" ":" suite]
+
+* キーワード ``if`` で始まるヘッダと続くスイートからなる節は **必須**
+
+味わう ``if`` 文 2/3
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   if_stmt: "if" assignment_expression ":" suite
+          : ("elif" assignment_expression ":" suite)*
+          : ["else" ":" suite]
+
+* ``elif`` の節は **0回以上** の繰り返し（ない場合もあるし、複数ある場合もある）
+
+味わう ``if`` 文 3/3
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   if_stmt: "if" assignment_expression ":" suite
+          : ("elif" assignment_expression ":" suite)*
+          : ["else" ":" suite]
+
+* ``else`` の節は **オプション** （0回または1回繰り返し）
+
+脱線： ``assignment_expression``
+========================================
+
+``if`` 節や ``else`` 節のヘッダに登場する ``assignment_expression`` について
+
+``assignment_expression`` は代入式
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   assignment_expression: [identifier ":="] expression
+
+`6.12. 代入式 <https://docs.python.org/ja/3/reference/expressions.html#grammar-token-python-grammar-assignment_expression>`_
+
+代入式はPython3.8 (2019/10 release) から
+------------------------------------------------
+
+    大きな構文の一部として、変数に値を割り当てる新しい構文 := が追加されました。
+    この構文は セイウチの目と牙 に似ているため、「セイウチ演算子」の愛称で知られています。
+
+https://docs.python.org/ja/3/whatsnew/3.8.html#assignment-expressions
+
+代入式の例（Python 3.8 What's Newより）
+------------------------------------------------
+
+    代入式により len() 関数を二重に呼びだすことを回避しています:
+
+.. code-block:: python
+
+    if (n := len(a)) > 10:
+        print(f"List is too long ({n} elements, expected <= 10)")
+
+構文を読んでの気づき 1/2
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   assignment_expression: [identifier ":="] expression
+
+* ``:=`` は **オプション** として ``if`` 文の定義に登場
+
+構文を読んでの気づき 2/2
+------------------------------------------------
+
+* ``:=`` が使えるようになるんだくらいの理解だったが、制御フローの構文が変わるほどの **大きな変更だった** ことを実感
+* ``while`` 文の定義にも登場します
