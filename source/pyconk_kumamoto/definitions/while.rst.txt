@@ -1,0 +1,37 @@
+``while`` 文
+========================================
+
+    while 文は、式の値が真である間、実行を繰り返すために使われます:
+
+`8.2. while 文 <https://docs.python.org/ja/3/reference/compound_stmts.html#the-while-statement>`_
+
+``while`` 文の構文
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   while_stmt: "while" assignment_expression ":" suite
+             : ["else" ":" suite]
+
+味わう ``while`` 文
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   while_stmt: "while" assignment_expression ":" suite
+             : ["else" ":" suite]
+
+* キーワード ``while`` で始まるヘッダと続くスイートからなる節が **必須**
+* オプションの ``else`` の節
+
+``while`` ``else``
+------------------------------------------------
+
+    式が偽であれば (最初から偽になっていることもありえます)、 else 節がある場合にはそれを実行し、ループを終了します。
+
+    最初のスイート内で break 文が実行されると、 else 節のスイートを実行することなくループを終了します。
+
+🚨 構文でサポートされますが、ループでは ``else`` 節を使わないのがオススメ
+------------------------------------------------------------------------------------------------
+
+    項目9　forループとwhileループの後のelseブロックは使わない
+
+`Effective Python 第2版 <https://www.oreilly.co.jp/books/9784873119175/>`_ （誤解を生みやすいためと説明されます）
