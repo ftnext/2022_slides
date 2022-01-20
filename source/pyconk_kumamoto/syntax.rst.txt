@@ -1,0 +1,30 @@
+文の定義を味わう
+========================================
+
+構文定義を読んでみる
+========================================
+
+* `8. 複合文 <https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements>`_ 中の定義を読んでみましょう
+* 拡張BNF記法に沿って読むと、**簡潔な行数で、抜け漏れなく説明される** 感動がありました！
+
+構文定義、積ん読！
+------------------------------------------------
+
+* ``if`` 文
+* ``while`` 文
+* ``for`` 文
+* 関数定義（``def``）
+* ``match`` 文
+
+.. include:: definitions/if.rst.txt
+
+.. include:: definitions/while.rst.txt
+
+.. include:: definitions/for.rst.txt
+
+.. include:: definitions/funcdef.rst.txt
+
+小まとめ🥟：Pythonにおける文
+========================================
+
+* 拡張BNF記法で、簡潔かつ抜け漏れなく表現されている
