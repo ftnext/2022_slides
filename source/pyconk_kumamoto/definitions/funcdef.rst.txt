@@ -1,0 +1,35 @@
+関数定義
+========================================
+
+    関数定義は、ユーザ定義関数オブジェクトを定義します
+
+`8.7. 関数定義 <https://docs.python.org/ja/3/reference/compound_stmts.html#function-definitions>`_
+
+関数定義の構文（``def``）
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   funcdef: [decorators] "def" funcname "(" [parameter_list] ")"
+          : ["->" expression] ":" suite
+
+味わう関数定義 1/2
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   funcdef: [decorators] "def" funcname "(" [parameter_list] ")"
+          : ["->" expression] ":" suite
+
+* キーワード ``def`` で始まり関数名 ``funcname`` と ``()`` を含むヘッダと、続くスイートからなる節が必須
+* ``()`` の中の仮引数 ``parameter_list`` はオプショナル
+
+味わう関数定義 2/2
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   funcdef: [decorators] "def" funcname "(" [parameter_list] ")"
+          : ["->" expression] ":" suite
+
+* 他にもオプショナルなもの
+
+  * デコレータ ``decorators`` （👉Appendix）
+  * 返り値の型を表す型ヒント ``-> expression`` の部分
