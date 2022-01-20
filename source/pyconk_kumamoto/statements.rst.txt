@@ -60,7 +60,7 @@ Pythonにおける文
     :language: python
     :lines: 5-9
     :linenos:
-    :emphasize-lines: 6-7
+    :emphasize-lines: 2-3
 
 節の例 2/2
 --------------------------------------------------
@@ -69,7 +69,7 @@ Pythonにおける文
     :language: python
     :lines: 5-9
     :linenos:
-    :emphasize-lines: 8-9
+    :emphasize-lines: 4-5
 
 節の構成要素
 --------------------------------------------------
@@ -90,7 +90,7 @@ Pythonにおける文
     :language: python
     :lines: 5-9
     :linenos:
-    :emphasize-lines: 6,8
+    :emphasize-lines: 2,4
 
 スイート
 --------------------------------------------------
@@ -105,7 +105,7 @@ Pythonにおける文
     :language: python
     :lines: 5-9
     :linenos:
-    :emphasize-lines: 7,9
+    :emphasize-lines: 3,5
 
 スイートには複合文をネストできる
 --------------------------------------------------
@@ -126,3 +126,68 @@ Pythonにおける文
 * 複合文は **節** （ヘッダとスイート）からなる
 * コロンはヘッダを示している！
 * インデントはスイートを示している！
+
+文の補足：用語集には続きが
+========================================
+
+    A statement is either an expression or one of several constructs with a keyword,
+
+文は、式または、キーワードから構成されるものです（nikkie訳）
+
+キーワード
+========================================
+
+* いくつかの **トークン**
+* 例
+
+  * ``if``
+  * ``else``
+  * ``for``
+  * ``def``
+
+キーワードは、予約語
+------------------------------------------------
+
+.. code-block:: python
+
+    >>> if = 1231  # 変数として使えません
+      File "<stdin>", line 1
+        if = 1231
+           ^
+    SyntaxError: invalid syntax
+
+.. _Python用語集 式: https://docs.python.org/ja/3/glossary.html#term-expression
+
+文の構成要素：式
+========================================
+
+    何かの値と評価される、一まとまりの構文
+    (A piece of syntax which can be evaluated to some value.)
+
+`Python用語集 式`_
+
+用語集「式」の続き
+------------------------------------------------
+
+    言い換えると、式とは（中略）値を返す式の要素の積み重ねです。
+    (In other words, an expression is an accumulation of expression elements [...] which all return a value.)
+
+`Python用語集 式`_
+
+式の例
+------------------------------------------------
+
+* ``108`` （リテラル）は式
+* ``1 + 2`` は式（演算子を使用）
+* 関数呼び出しも式（ ``print("だんだんな〜")`` ）
+
+式自体で文
+------------------------------------------------
+
+以下の例の関数呼び出しは式であり、文でもある
+
+.. literalinclude:: ../../samplecode/reintro/roland.py
+    :language: python
+    :lines: 5-9
+    :linenos:
+    :emphasize-lines: 3,5
