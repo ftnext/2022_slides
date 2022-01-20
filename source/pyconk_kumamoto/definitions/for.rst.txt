@@ -1,0 +1,30 @@
+``for`` 文
+========================================
+
+    for 文は、シーケンス (文字列、タプルまたはリスト) や、その他の反復可能なオブジェクト (iterable object) 内の要素に渡って反復処理を行うために使われます:
+
+`8.3. for 文 <https://docs.python.org/ja/3/reference/compound_stmts.html#the-for-statement>`_
+
+``for`` 文の構文
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   for_stmt: "for" target_list "in" expression_list ":" suite
+           : ["else" ":" suite]
+
+味わう ``for`` 文
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   for_stmt: "for" target_list "in" expression_list ":" suite
+           : ["else" ":" suite]
+
+* キーワード ``for`` で始まり ``in`` を含むヘッダと、続くスイートからなる節が必須
+* オプションの ``else`` の節
+
+``for`` ``else``
+------------------------------------------------
+
+    全ての要素を使い切ったとき（略）else 節があればそれが実行され、ループは終了します。
+
+    最初のスイートの中で break 文が実行されると、 else 節のスイートを実行することなくループを終了します。
