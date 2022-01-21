@@ -1,0 +1,2 @@
+.. productionlist:: python-grammar
+   assignment_expression: [identifier ":="] expression
