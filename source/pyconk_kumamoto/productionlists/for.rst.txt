@@ -1,0 +1,3 @@
+.. productionlist:: python-grammar
+   for_stmt: "for" target_list "in" expression_list ":" suite
+           : ["else" ":" suite]
