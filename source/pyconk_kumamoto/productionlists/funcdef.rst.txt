@@ -1,0 +1,3 @@
+.. productionlist:: python-grammar
+   funcdef: [decorators] "def" funcname "(" [parameter_list] ")"
+          : ["->" expression] ":" suite
