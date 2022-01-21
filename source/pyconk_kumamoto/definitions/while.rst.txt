@@ -8,16 +8,12 @@
 ``while`` 文の構文
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   while_stmt: "while" assignment_expression ":" suite
-             : ["else" ":" suite]
+.. include:: productionlists/while.rst.txt
 
 味わう ``while`` 文
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   while_stmt: "while" assignment_expression ":" suite
-             : ["else" ":" suite]
+.. include:: productionlists/while.rst.txt
 
 * キーワード ``while`` で始まるヘッダと続くスイートからなる節が **必須**
 * オプションの ``else`` の節
