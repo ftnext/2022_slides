@@ -1,0 +1,3 @@
+.. productionlist:: python-grammar
+   while_stmt: "while" assignment_expression ":" suite
+             : ["else" ":" suite]
