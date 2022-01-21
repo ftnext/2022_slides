@@ -1,0 +1,32 @@
+Module(
+  body=[
+    Assign(
+      targets=[
+        Name(id='name', ctx=Store())],
+      value=Call(
+        func=Name(id='input', ctx=Load()),
+        args=[
+          Constant(value='名前を入力してください: ')],
+        keywords=[])),
+    If(
+      test=Compare(
+        left=Name(id='name', ctx=Load()),
+        ops=[
+          Eq()],
+        comparators=[
+          Constant(value='ローランド')]),
+      body=[
+        Expr(
+          value=Call(
+            func=Name(id='print', ctx=Load()),
+            args=[
+              Constant(value='俺か')],
+            keywords=[]))],
+      orelse=[
+        Expr(
+          value=Call(
+            func=Name(id='print', ctx=Load()),
+            args=[
+              Constant(value='俺以外か')],
+            keywords=[]))])],
+  type_ignores=[])
