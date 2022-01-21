@@ -1,0 +1,110 @@
+``match`` 文
+========================================
+
+    The match statement is used for pattern matching.
+
+``match`` 文はパターンマッチングに使われます（nikkie訳）
+
+`8.6. The match statement <https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement>`_
+
+キャッチアップのリソース📚
+------------------------------------------------
+
+* PyCon Kyushu 2022 Kumamoto: Introduction to Structural Pattern Matching (by takanory-san)
+* `PEP 636 -- Structural Pattern Matching: Tutorial > Appendix A -- Quick Intro <https://www.python.org/dev/peps/pep-0636/#appendix-a-quick-intro>`_
+* `PyCon JP 2021 レポート <https://gihyo.jp/news/report/01/pyconjp2021/0002>`_ （YouTubeにアーカイブあります）
+
+パターンマッチの構文
+------------------------------------------------
+
+.. include:: productionlists/match.rst.txt
+
+``match`` 文の例
+------------------------------------------------
+
+.. code-block:: python
+    :linenos:
+
+    def fizzbuzz(number):
+        match number % 3, number % 5:
+            case 0, 0: return "FizzBuzz"
+            case 0, _: return "Fizz"
+            case _, 0: return "Buzz"
+            case _, _: return str(number)
+
+味わう ``match`` 文 1/3
+------------------------------------------------
+
+.. include:: productionlists/match.rst.txt
+
+* ソフトキーワード ``match`` で始まるヘッダが必須
+
+.. code-block:: python
+    :linenos:
+    :emphasize-lines: 2
+
+    def fizzbuzz(number):
+        match number % 3, number % 5:
+            case 0, 0: return "FizzBuzz"
+            case 0, _: return "Fizz"
+            case _, 0: return "Buzz"
+            case _, _: return str(number)
+
+味わう ``match`` 文 2/3
+------------------------------------------------
+
+.. include:: productionlists/match.rst.txt
+
+* ``case_block`` （スイート）が1つ以上
+
+.. code-block:: python
+    :linenos:
+    :emphasize-lines: 3-6
+
+    def fizzbuzz(number):
+        match number % 3, number % 5:
+            case 0, 0: return "FizzBuzz"
+            case 0, _: return "Fizz"
+            case _, 0: return "Buzz"
+            case _, _: return str(number)
+
+味わう ``match`` 文 3/3
+------------------------------------------------
+
+.. include:: productionlists/match.rst.txt
+
+* ``NEWLINE`` （改行）や ``INDENT`` （インデント）の明示
+* ``case`` のブロックはヘッダの後につなげない（例えば ``if`` はヘッダの後に続けられる）
+
+もう少し： ``case_block``
+------------------------------------------------
+
+.. include:: productionlists/case_block.rst.txt
+
+味わう ``case_block``
+------------------------------------------------
+
+.. include:: productionlists/case_block.rst.txt
+
+* ソフトキーワード ``case`` で始まるヘッダが必須
+* スイートが ``block`` （セミコロンで区切っても書けるし、次の行にインデントしても書ける）
+
+ガード（guard）※オプショナル
+------------------------------------------------
+
+.. productionlist:: python-grammar
+   guard: "if" named_expression
+
+ガードの例
+------------------------------------------------
+
+.. code-block:: python
+
+    >>> flag = False
+    >>> match (100, 200):
+    ...    case (100, 200) if flag:  # マッチするが, ガードが成り立たない
+    ...        print("Case 2")
+    ...    case (100, y):  # ここにマッチ！（yに200が代入される）
+    ...        print(f"Case 3, y: {y}")
+    ...
+    Case 3, y: 200
