@@ -1,0 +1,2 @@
+.. productionlist:: python-grammar
+    case_block: 'case' patterns [guard] ":" block
