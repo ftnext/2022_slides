@@ -8,16 +8,12 @@
 ``for`` 文の構文
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   for_stmt: "for" target_list "in" expression_list ":" suite
-           : ["else" ":" suite]
+.. include:: productionlists/for.rst.txt
 
 味わう ``for`` 文
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   for_stmt: "for" target_list "in" expression_list ":" suite
-           : ["else" ":" suite]
+.. include:: productionlists/for.rst.txt
 
 * キーワード ``for`` で始まり ``in`` を含むヘッダと、続くスイートからなる節が必須
 * オプションの ``else`` の節
