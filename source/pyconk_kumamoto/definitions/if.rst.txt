@@ -39,8 +39,7 @@
 ``assignment_expression`` は代入式
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   assignment_expression: [identifier ":="] expression
+.. include:: productionlists/assignment_expression.rst.txt
 
 `6.12. 代入式 <https://docs.python.org/ja/3/reference/expressions.html#grammar-token-python-grammar-assignment_expression>`_
 
@@ -65,8 +64,7 @@ https://docs.python.org/ja/3/whatsnew/3.8.html#assignment-expressions
 構文を読んでの気づき 1/2
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   assignment_expression: [identifier ":="] expression
+.. include:: productionlists/assignment_expression.rst.txt
 
 * ``:=`` は **オプション** として ``if`` 文の定義に登場
 
