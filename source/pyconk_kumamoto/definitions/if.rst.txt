@@ -8,38 +8,26 @@
 ``if`` 文の構文
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   if_stmt: "if" assignment_expression ":" suite
-          : ("elif" assignment_expression ":" suite)*
-          : ["else" ":" suite]
+.. include:: productionlists/if.rst.txt
 
 味わう ``if`` 文 1/3
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   if_stmt: "if" assignment_expression ":" suite
-          : ("elif" assignment_expression ":" suite)*
-          : ["else" ":" suite]
+.. include:: productionlists/if.rst.txt
 
 * キーワード ``if`` で始まるヘッダと続くスイートからなる節は **必須**
 
 味わう ``if`` 文 2/3
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   if_stmt: "if" assignment_expression ":" suite
-          : ("elif" assignment_expression ":" suite)*
-          : ["else" ":" suite]
+.. include:: productionlists/if.rst.txt
 
 * ``elif`` の節は **0回以上** の繰り返し（ない場合もあるし、複数ある場合もある）
 
 味わう ``if`` 文 3/3
 ------------------------------------------------
 
-.. productionlist:: python-grammar
-   if_stmt: "if" assignment_expression ":" suite
-          : ("elif" assignment_expression ":" suite)*
-          : ["else" ":" suite]
+.. include:: productionlists/if.rst.txt
 
 * ``else`` の節は **オプション** （0回または1回繰り返し）
 
