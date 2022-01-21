@@ -22,6 +22,7 @@ jobs:
         run: |
           make revealjs
           touch build/revealjs/.nojekyll
+          rm -r build/revealjs/_sources
       - name: Publish on GitHub Pages
         run: |
           # ref: https://github.com/maxheld83/ghpages/blob/68f783a4f5313d776c1599e18479607e71c9c738/entrypoint.sh
