@@ -16,3 +16,8 @@
 .. include:: ebnf.rst.txt
 
 .. include:: syntax.rst.txt
+
+.. include:: wrapup.rst.txt
+
+EOF
+==============================
