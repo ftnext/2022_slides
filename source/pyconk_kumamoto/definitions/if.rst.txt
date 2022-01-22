@@ -77,7 +77,7 @@ EBNFでは、たった **3行**
 脱線： ``assignment_expression``
 ========================================
 
-``if`` 節や ``else`` 節のヘッダに登場する ``assignment_expression`` について
+``if`` 節や ``elif`` 節のヘッダに登場する ``assignment_expression`` について
 
 ``assignment_expression`` は代入式
 ------------------------------------------------
