@@ -19,5 +19,7 @@
 
 .. include:: wrapup.rst.txt
 
+.. include:: appendix.rst.txt
+
 EOF
 ==============================
