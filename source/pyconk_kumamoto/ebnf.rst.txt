@@ -24,6 +24,8 @@ EBNFとも呼ぶドキュメントもありました（Extended Backus–Naur Fo
 
 * `PEP 617 -- New PEG parser for CPython <https://www.python.org/dev/peps/pep-0617/>`_
 
+  * Parsing Expression Grammar（解析表現文法）
+
 拡張BNF記法の読み方
 ========================================
 
