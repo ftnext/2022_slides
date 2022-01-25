@@ -19,3 +19,19 @@
 
 **Enjoy** development with Python!
 
+References
+========================================
+
+* `Python 言語リファレンス <https://docs.python.org/ja/3/reference/index.html>`_
+
+* `WEB+DB PRESS Vol.125 <https://gihyo.jp/magazine/wdpress/archive/2021/vol125>`_ 「特集1 作って学ぶ プログラミング言語のしくみ」
+
+  * 抽象文法、具象文法
+
+本トークの元：2021/11 OSC Fukuoka
+------------------------------------------------
+
+.. raw:: html
+
+    <iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/osc_fukuoka_Nov/revisit_python_from_statements.html"
+        title="文に立ち返って再入門するPython"></iframe>
