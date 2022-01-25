@@ -38,3 +38,5 @@ One more thing: Everyday Contribution🙌
 --------------------------------------------------
 
 .. figure:: ../_static/pyconk_kumamoto/202201_nikkie_contribution.png
+
+2020/08の `100DaysOfContribution 達成しました！ <https://nikkie-ftnext.hatenablog.com/entry/100days-of-contribution>`_ が続いています
