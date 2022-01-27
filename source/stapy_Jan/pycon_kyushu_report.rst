@@ -5,6 +5,26 @@ PyCon Kyushu 2022 Kumamoto レポート
 :Event: みんなのPython勉強会 #77 LT
 :Presented: 2022/01/27 nikkie
 
+お前、誰よ
+========================================
+
+* nikkie（にっきー）
+* Python歴4年（いまPythonの見た目が面白い！）
+* みんなのPython勉強会 4代目LT王子、スタッフ
+* PyCon JP 2021座長
+
+最近のnikkie
+--------------------------------------------------
+
+.. figure:: ../_static/stapy_Jan/202201_stapy_ainouta_watch_log.png
+
+映画『`アイの歌声を聴かせて <https://ainouta.jp/>`_』🤖🎤🎼 はいいぞ！
+----------------------------------------------------------------------------------------------------
+
+* ㊗️ 日本アカデミー賞 優秀アニメーション作品賞 👏
+* ほんとによくて、2021年10月の公開から **20回以上** 観てます
+* ブログ「好きな映画の鑑賞ログをGitHubのContributionのような形式で表示する」 `前編 <https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution1-cal-heatmap>`_ ・ `後編 <https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution2-cors-error>`_
+
 PyCon Kyushu 2022 Kumamoto
 ========================================
 
