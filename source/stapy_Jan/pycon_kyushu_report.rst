@@ -32,7 +32,14 @@ PyCon Kyushu 2022 Kumamoto
 
     <iframe width="640" height="480" src="https://kyushu.pycon.jp/2022/" title="PyCon Kyushu 2022 Kumamoto Webサイト"></iframe>
 
-.. revealjs-break::
+Python Conference as PyCon
+--------------------------------------------------
+
+* 世界中の国や地域でPyConが開かれています
+* 「PyCon Kyushuは、プログラミング言語 Python のユーザが集う九州地区で開催される技術カンファレンスです」（前スライドで紹介したサイトより）
+
+PyCon Kyushu 2022 Kumamoto
+--------------------------------------------------
 
 * ``datetime.date(2022, 1, 22)`` (土)開催 at 熊本城ホール
 * テーマ「Grow with Covid-19」
