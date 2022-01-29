@@ -1,3 +1,8 @@
+:ogp_title: 文に立ち返ってPython再入門
+:ogp_event_name: pyconk_kumamoto
+:ogp_slide_name: revisit_python_from_statements
+:ogp_description: 2022/01 PyCon Kyushu 2022 Kumamoto 30分トーク スライド
+
 ==============================
 文に立ち返ってPython再入門
 ==============================
