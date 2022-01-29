@@ -1,3 +1,8 @@
+:ogp_title: PyCon Kyushu 2022 Kumamoto レポート
+:ogp_event_name: stapy_Jan
+:ogp_slide_name: pycon_kyushu_report
+:ogp_description: 2022/01 みんなのPython勉強会 #77 LT スライド
+
 ========================================
 PyCon Kyushu 2022 Kumamoto レポート
 ========================================
