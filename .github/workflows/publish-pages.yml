@@ -29,7 +29,7 @@ jobs:
           make revealjs
           rm -r build/revealjs/_sources
       - name: Publish on GitHub Pages
-        uses: ftnext/action-push-ghpages@main
+        uses: ftnext/action-push-ghpages@v1.0.0-alpha
         with:
           build_dir: build/revealjs
           github_token: ${{ secrets.GITHUB_TOKEN }}
