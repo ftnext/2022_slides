@@ -29,14 +29,6 @@ jobs:
           make revealjs
           rm -r build/revealjs/_sources
       - name: Publish on GitHub Pages
-        run: |
-          # ref: https://github.com/maxheld83/ghpages/blob/68f783a4f5313d776c1599e18479607e71c9c738/entrypoint.sh
-          cd build/revealjs
-          git init
-          git config user.name $GITHUB_ACTOR
-          git config user.email $GITHUB_ACTOR@users.noreply.github.com
-          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git add .
-          git commit -m "[release] Publish on GitHub Pages"
-          git remote -v
-          git push --force origin master:gh-pages
+        uses: ftnext/2022_slides@main
+        with:
+          build_dir: build/revealjs
