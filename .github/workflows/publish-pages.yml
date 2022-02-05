@@ -32,3 +32,4 @@ jobs:
         uses: ftnext/2022_slides@main
         with:
           build_dir: build/revealjs
+          github_token: ${{ secrets.GITHUB_TOKEN }}
