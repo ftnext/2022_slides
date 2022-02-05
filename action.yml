@@ -6,7 +6,7 @@ inputs:
     description: "Path to the directory where the static files are located."
     required: true
   github_token:
-    description: "Specify `${{ secrets.GITHUB_TOKEN }}`."
+    description: "Specify GITHUB_TOKEN in your repository."
     required: true
 runs:
   using: composite
