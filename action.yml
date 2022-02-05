@@ -5,6 +5,9 @@ inputs:
   build_dir:
     description: "Path to the directory where the static files are located."
     required: true
+  github_token:
+    description: "Specify `${{ secrets.GITHUB_TOKEN }}`."
+    required: true
 runs:
   using: composite
   steps:
@@ -14,10 +17,11 @@ runs:
         git init
         git config user.name $GITHUB_ACTOR
         git config user.email $GITHUB_ACTOR@users.noreply.github.com
-        git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+        git remote add origin https://x-access-token:${INPUT_GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         git add .
         git commit -m "[release] Publish on GitHub Pages"
         git push --force origin master:gh-pages
       env:
         INPUT_BUILD_DIR: ${{ inputs.build_dir }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
       shell: bash
