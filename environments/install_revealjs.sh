@@ -19,4 +19,4 @@ python "${PROJECT_ROOT_DIR}/tools/fetch_revealjs.py"
 
 mv "${PROJECT_ROOT_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/revealjs4" "${SITE_PACKAGES_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/"
 
-rm -r "${PROJECT_ROOT_DIR}/${var:?}" "${PROJECT_ROOT_DIR}/"{package-lock.json,tools,sphinx_revealjs}
+rm -r "${PROJECT_ROOT_DIR}/"{package-lock.json,tools,var,sphinx_revealjs}
