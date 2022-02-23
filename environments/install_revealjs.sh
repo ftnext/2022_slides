@@ -1,22 +1,32 @@
 #!/usr/bin/env bash
+# Same implementation as https://github.com/attakei/sphinx-revealjs/blob/v1.4.4/tools/fetch_revealjs.py
+
 set -euo pipefail
 
-SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
-PROJECT_ROOT_DIR=$(dirname "${SCRIPT_DIR}")
+version=$1
+destDirAbsolutePath=$2
 
-SITE_PACKAGES_DIR=$(python -c 'import site; print(site.getsitepackages()[0])')
-if [ -e "${SITE_PACKAGES_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/revealjs4" ]; then
-  echo 'Reveal.js assets are already installed.'
-  exit 0
+if [ ! -e "${destDirAbsolutePath}" ]; then
+  mkdir -p "${destDirAbsolutePath}"
+else
+  if [ -n "$(ls "${destDirAbsolutePath}")" ]; then
+    echo 'It seems Reveal.js assets are already installed.'
+    exit 0
+  fi
 fi
 
-mkdir -p "${PROJECT_ROOT_DIR}/tools"
-wget -O "${PROJECT_ROOT_DIR}/tools/fetch_revealjs.py" https://raw.githubusercontent.com/attakei/sphinx-revealjs/master/tools/fetch_revealjs.py
-wget -O "${PROJECT_ROOT_DIR}/package-lock.json" https://raw.githubusercontent.com/attakei/sphinx-revealjs/master/package-lock.json
+revealjsTarBallName="reveal.js-${version}.tgz"
 
-python "${PROJECT_ROOT_DIR}/tools/fetch_revealjs.py"
-# fetch_revealjs.py creates ${PROJECT_ROOT_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/revealjs4/{dist,plugin,LICENSE}
+workDir=$(mktemp -d)
+cd "${workDir}"
 
-mv "${PROJECT_ROOT_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/revealjs4" "${SITE_PACKAGES_DIR}/sphinx_revealjs/themes/sphinx_revealjs/static/"
+wget "https://registry.npmjs.org/reveal.js/-/${revealjsTarBallName}"
+tar -xf "${revealjsTarBallName}"
 
-rm -r "${PROJECT_ROOT_DIR}/"{package-lock.json,tools,var,sphinx_revealjs}
+for resource in dist plugin LICENSE
+do
+  mv package/${resource} "${destDirAbsolutePath}"
+done
+
+cd -
+rm -r "${workDir}"
