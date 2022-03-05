@@ -92,16 +92,16 @@ AI シオン🤖🎤🎼
 シオン v0.0.1をPython🐍で実装(中)
 --------------------------------------------------
 
-1. 日本語を **聞き取る**
+1. 日本語を **聞き取る** （ASR）
 2. テキスト処理（オウム返し）
-3. 日本語を **喋って** 返す
+3. 日本語を **喋って** 返す（TTS）
 
 シオン v0.0.1 powered by **Perl** 🐪
 --------------------------------------------------
 
-1. 日本語を聞き取る 🐍
+1. 日本語を聞き取る（ASR） 🐍
 2. **テキスト処理**
-3. 日本語を喋って返す 🐍
+3. 日本語を喋って返す（TTS） 🐍
 
 🐪と🐍をシェルスクリプトで繋ぎます
 
@@ -197,10 +197,22 @@ Appendix：語り残したこと
 音声の聞き取り・喋る仕組み
 ------------------------------------------------
 
-* 聞き取り：声をPythonに聴かせて `前編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part1>`_ ・ `後編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part2>`_
-* 喋る：`Pythonの読み上げを聴かせて <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-text-to-speech>`_
-
 どちらも **公開されている機械学習のモデル** を読み込んで実現しています
+
+音声の聞き取り（ASR）
+------------------------------------------------
+
+* 音声認識 Automatic speech recognition）
+* 声をPythonに聴かせて
+
+  * `前編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part1>`_
+  * `後編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part2>`_
+
+喋る（TTS）
+------------------------------------------------
+
+* 音声合成 Text-To-Speech
+* `Pythonの読み上げを聴かせて <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-text-to-speech>`_
 
 ソースコード
 ------------------------------------------------
