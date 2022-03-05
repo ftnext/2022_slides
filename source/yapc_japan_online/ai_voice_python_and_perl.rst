@@ -147,5 +147,72 @@ LT駆動Perl入門の感想
 Appendix：語り残したこと
 ========================================
 
-お前、誰よ
+* アイの歌声を聴かせてについて
+* シオン v0.0.1実装について
+* 自己紹介詳細版
+
+アイの歌声を聴かせて
 ========================================
+
+* 3/11から期間限定 **配信** ！！ https://ainouta.jp/ondemand.html
+* 劇場で観たい方： `関東や関西、佐渡島で上映中 <https://eigakan.org/theaterpage/schedule.php?t=ainouta>`_ ！！
+
+あのエンジニアからもオススメの声！
+------------------------------------------------
+
+.. raw:: html
+
+    <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">こにふぁーさんとも話したのですが「アイの歌声を聴かせて」、とにかく周囲のエンジニアの評判が高い。徹底したエンタメとしての面白さが突き抜けていますが、それに加えて「とにかく練られている」「全てが丁寧」「神が細部に宿る」的なプロの仕事としてみんな尊敬＆大好きな印象。</p>&mdash; GO (@go0517go) <a href="https://twitter.com/go0517go/status/1483463918563790849?ref_src=twsrc%5Etfw">January 18, 2022</a></blockquote>
+
+.. revealjs-break::
+
+.. raw:: html
+
+    <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">「アイの歌声を聴かせて」観てきた。<br>最高だった。最高レベルのSF作品だった。<br>「すぐ隣にいる近未来」っていう世界観だけでも大好きなのに、もうなんというか上手く言い表わせない。<br>とにかくテクノロジーが健気なんだ。俺が言いたいのはそれだけだ。<br><br>本当に素晴らしいのに上映数が少ないのが謎。</p>&mdash; ミノ駆動 (@MinoDriven) <a href="https://twitter.com/MinoDriven/status/1467453679179800576?ref_src=twsrc%5Etfw">December 5, 2021</a></blockquote>
+
+全人類向け！ 面白いからみんな観て！
+------------------------------------------------
+
+.. raw:: html
+
+    <iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/ainouta/recommend_as_best.html"
+        title="アイうたはいいぞ"></iframe>
+
+シオン v0.0.1実装
+========================================
+
+* ブログで発信中
+* `「シオン・プロジェクト」カテゴリ <https://nikkie-ftnext.hatenablog.com/archive/category/%E3%82%B7%E3%82%AA%E3%83%B3%E3%83%BB%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88>`_
+
+音声の聞き取り・喋る仕組み
+------------------------------------------------
+
+* 聞き取り：声をPythonに聴かせて `前編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part1>`_ ・ `後編 <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part2>`_
+* 喋る：`Pythonの読み上げを聴かせて <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-text-to-speech>`_
+
+どちらも **公開されている機械学習のモデル** を読み込んで実現しています
+
+ソースコード
+------------------------------------------------
+
+* 今年に入ってから、プライベートリポジトリで開発してきました
+* そろそろアルファ版として公開します💪
+
+お前、誰よ（自己紹介詳細版）
+========================================
+
+* Python大好き **にっきー**
+
+  * Twitter `@ftnext <https://twitter.com/ftnext>`_
+  * GitHub `@ftnext <https://github.com/ftnext>`_
+
+* Python歴4年。株式会社ユーザベースのデータサイエンティスト（NLPer）
+
+.. revealjs-break::
+
+* **Py** thon **Con** ference JP スタッフ 2019年から（2022は未定）
+* 2021年は座長（＝開催に責任を持つ人）
+* `技術で(も)支えたPyCon JP 2021 <https://nikkie-ftnext.hatenablog.com/entry/pyconjp2021-portfolio>`_
+
+EOF
+==============================
