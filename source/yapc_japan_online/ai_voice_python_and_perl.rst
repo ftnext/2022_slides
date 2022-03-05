@@ -127,6 +127,52 @@ Demo! AIの声を聴かせます
 
 ※処理が遅いのは生暖かい目で見守ってください（愛すべきポンコツAIなのです）
 
+**追記** デモ1実行時のログ（オウム返し）
+--------------------------------------------------
+
+.. code-block:: bash
+
+    $ ./connect_services.sh
+    start ASR by 🐍
+    2022-03-05 18:21:09,895 - my_first_shion.asr - INFO - ASR model load: start
+    2022-03-05 18:21:17,706 - my_first_shion.asr - INFO - ASR model load: end
+    なにか話してください
+    応答中...
+    end ASR
+    認識した文: カンファレンス楽しい
+
+    start text processing by 🐪
+    end text processing
+    返答する文: カンファレンス楽しい
+
+    start TTS by 🐍
+    2022-03-05 18:21:27,100 - my_first_shion.tts - INFO - TTS model load: start
+    2022-03-05 18:21:27,157 - my_first_shion.tts - INFO - TTS model load: end
+    end TTS
+
+**追記** デモ2実行時のログ（天気を取得して返す）
+--------------------------------------------------
+
+.. code-block:: bash
+
+    $ ./connect_services.sh
+    start ASR by 🐍
+    2022-03-05 18:21:40,275 - my_first_shion.asr - INFO - ASR model load: start
+    2022-03-05 18:21:46,475 - my_first_shion.asr - INFO - ASR model load: end
+    なにか話してください
+    応答中...
+    end ASR
+    認識した文: 天気を教えて
+
+    start text processing by 🐪
+    end text processing
+    返答する文: 東京地方は、晴れています。
+
+    start TTS by 🐍
+    2022-03-05 18:21:53,976 - my_first_shion.tts - INFO - TTS model load: start
+    2022-03-05 18:21:54,026 - my_first_shion.tts - INFO - TTS model load: end
+    end TTS
+
 LT駆動Perl入門の感想🔰
 ========================================
 
