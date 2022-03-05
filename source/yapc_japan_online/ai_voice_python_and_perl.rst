@@ -1,3 +1,8 @@
+:ogp_title: Perlの力も使って聴かせるAIの声
+:ogp_event_name: yapc_japan_online
+:ogp_slide_name: ai_voice_python_and_perl
+:ogp_description: 2022/03 YAPC::Japan::Online 2022 LT スライド
+
 ========================================
 Perlの力も使って聴かせるAIの声
 ========================================
