@@ -110,3 +110,122 @@ IDを使って別の値を照合
     # id_to_name を使った処理が続く
 
     # ... 省略 ...
+
+PyCon JP 2021スタッフ活動と辞書
+========================================
+
+* タイムテーブルに載せるトークの情報
+* sessionizeというサービスのAPIの返り値をパースする
+* 例：トークの部屋の情報は、部屋IDから取得する
+
+sessionize APIの返り値
+--------------------------------------------------
+
+* https://sessionize.com/api/v2/{endpoint_id}/view/All
+* フィールド ``sessions`` , ``speakers``, ``rooms`` などを持つ
+* 各フィールドの値は、（先ほど見た）JSONオブジェクトが入った配列
+
+スクリプト
+--------------------------------------------------
+
+.. code-block:: python
+
+    def create_room_id_name_map(room_data):
+        return {d["id"]: d["name"] for d in room_data}
+    
+    data = fetch_from_sessionize()  # sessionize APIから取得したJSON
+    room_id_name_map = create_room_id_name_map(data["rooms"])
+
+    # data["sessions"]からトークの情報を構築
+    # roomIdに対応するroom nameを取得: room_id_name_map[session["roomId"]]
+
+実装してみての気持ち
+--------------------------------------------------
+
+* ``room_id_name_map`` のようにいくつもの辞書を書いた
+* ``id`` に対応する値を取り出すための辞書を、スクリプトのメインの処理で取り扱う必要はないのでは
+* 辞書を隠せればコードがスッキリしそう
+
+辞書を多用していたスクリプト
+--------------------------------------------------
+
+.. code-block:: python
+
+    data = fetch_from_sessionize()
+    room_id_name_map = create_room_id_name_map(data["rooms"])
+    speaker_id_map = create_speaker_id_map(data["speakers"])
+
+    # data["sessions"]からトークの情報を構築
+    # room_id_name_mapやspeaker_id_mapを使い、それぞれのIDから値を取り出す
+
+辞書をオブジェクトに隠した実装
+========================================
+
+.. code-block:: python
+
+    data = fetch_from_sessionize()  # sessionize APIから取得したJSON
+    # Before: speaker_id_map = create_speaker_id_map(data["speakers"])
+    speaker_factory = SpeakerFactory.from_(data["speakers"])
+
+    # data["sessions"]からトークの情報を構築するコードの一部抜粋
+    # Before: [speaker_id_map[speaker_id] for speaker_id in session["speakers"]]
+    [speaker_factory.create(speaker_id) for speaker_id in session["speakers"]]
+
+``SpeakerFactory``
+--------------------------------------------------
+
+.. code-block:: python
+
+    class SpeakerFactory:
+        def __init__(self, id_to_raw_data_map):
+            # インスタンス変数として、辞書を持つ（ラップしている）
+            self._id_to_raw_data_map = id_to_raw_data_map
+
+``SpeakerFactory``
+--------------------------------------------------
+
+.. .. revealjs-break::
+
+.. code-block:: python
+
+    class SpeakerFactory:
+        # __init__ （前スライド）
+
+        @classmethod
+        def from_(cls, speakers_raw_data) -> SpeakerFactory:
+            """APIの返り値からSpeakerFactoryを作るメソッド（辞書を作ってから初期化する）"""
+            id_to_raw_data_map = {data["id"]: data for data in speakers_raw_data}
+            return cls(id_to_raw_data_map)
+
+``SpeakerFactory``
+--------------------------------------------------
+
+.. .. revealjs-break::
+
+.. code-block:: python
+
+    class SpeakerFactory:
+        # __init__
+        # from_
+
+        def create(self, speaker_id: str) -> Speaker:
+            """speaker_idに対応するSpeakerオブジェクトを返す"""
+            speaker_data = self._id_to_raw_data_map[speaker_id]
+            return Speaker(speaker_data["fullName"], speaker_data["bio"])
+
+``SpeakerFactory`` に込めた想い
+--------------------------------------------------
+
+* 「Speakerの作り方を知っているモノ」（スピーカーのファクトリ）
+* スクリプトのメイン処理で持っていた辞書が、 **ファクトリの属性に移った**
+* スクリプトが知りすぎていなくてスッキリ！✨（変更する場合も箇所が絞られた）
+
+まとめ🌯：内部状態を保持するオブジェクトで読みやすく
+============================================================
+
+* 最初の実装は、スクリプトのメイン処理で辞書を作り、IDに応じたインスタンスを使うというもの
+* リファクタリングとして、 **辞書を属性に持つオブジェクト** を定義
+* スクリプトのメイン処理で辞書を扱う必要がなくなり、スッキリしたコードになった
+
+ご清聴ありがとうございました
+------------------------------------------------
