@@ -85,6 +85,8 @@
 .. literalinclude:: students.json
     :language: python
 
+単純化のために、プロパティの数を絞っています
+
 💡 ``items`` プロパティの配列から **辞書** を作ろう！
 ------------------------------------------------------------
 
@@ -115,28 +117,37 @@
         name: str
         favorite: str
 
-IDを使って別の値を照合
---------------------------------------------------
-
-* 別のデータには ``id`` だけが含まれる
-* ``id`` に対応する ``name`` を知りたい
-* 💡 ``id`` をキー、 ``name`` を値とする **辞書** を作ろう
+オブジェクトを操作してほしいデータを入手する想定です
 
 .. doctestを通すためのコード
     >>> import json
     >>> with open("students.json", encoding="utf8") as f:
     ...     data = json.load(f)
 
-``id`` をキー、 ``name`` を値とする辞書を作る
+``id`` をキー、 ``Student`` インスタンスを値とする辞書を作る
+------------------------------------------------------------
+
+.. code-block:: python
+
+    >>> students = {}  # 空の辞書で初期化
+    >>> for obj in data:  # dataは先ほどの「学生を表すデータ」
+    ...     students[obj["id"]] = Student(obj["name"], obj["favorite"])
+    >>> students["1231"]
+    Student(name='satomi', favorite='抹茶アイス')
+
+Pythonでは、内包表記で書ける🐍
 --------------------------------------------------
 
 .. code-block:: python
 
-    >>> id_to_name = {}  # 空の辞書で初期化
-    >>> for obj in data:  # dataは先ほどの「加工したいデータ」
-    ...     id_to_name[obj["id"]] = obj["name"]
-    >>> id_to_name["1231"]
-    'satomi'
+    >>> students = {  # for文で作ったのと同様に辞書ができます
+    ...     obj["id"]: Student(obj["name"], obj["favorite"])
+    ...     for obj in data
+    ... }
+    >>> students["1231"]
+    Student(name='satomi', favorite='抹茶アイス')
+
+for文より内包表記の方が性能がよいと言われます
 
 スクリプトに書く
 --------------------------------------------------
@@ -145,10 +156,11 @@ IDを使って別の値を照合
 
     # ... 省略 ...
 
-    id_to_name = {}
-    for obj in data:
-        id_to_name[obj["id"]] = obj["name"]
-    # id_to_name を使った処理が続く
+    students = {
+        obj["id"]: Student(obj["name"], obj["favorite"])
+        for obj in data
+    }
+    # students を使った処理が続く
 
     # ... 省略 ...
 
@@ -158,15 +170,15 @@ IDを使って別の値を照合
 .. code-block:: python
 
     def create_mapping(data):
-        id_to_name = {}
-        for obj in data:
-            id_to_name[obj["id"]] = obj["name"]
-        return id_to_name
+        return {
+            obj["id"]: Student(obj["name"], obj["favorite"])
+            for obj in data
+        }
 
     # ... 省略 ...
 
-    id_to_name = create_mapping(data)
-    # id_to_name を使った処理が続く
+    students = create_mapping(data)
+    # students を使った処理が続く
 
     # ... 省略 ...
 
@@ -189,19 +201,22 @@ sessionize APIの返り値
 
 .. code-block:: python
 
-    def create_room_id_name_map(room_data):
-        return {d["id"]: d["name"] for d in room_data}
+    def create_speakers(speaker_data):
+        return {
+            d["id"]: Speaker(d["fullName"], d["bio"])
+            for d in speaker_data
+        }
     
     data = fetch_from_sessionize()  # sessionize APIから取得したJSON
-    room_id_name_map = create_room_id_name_map(data["rooms"])
+    speakers = create_speakers(data["speakers"])
 
     # data["sessions"]からトークの情報を構築
-    # roomIdに対応するroom nameを取得: room_id_name_map[session["roomId"]]
+    # speakerのidに対応するnameを取得: speakers[session["speakers"][0]].name
 
 実装してみての気持ち
 --------------------------------------------------
 
-* ``room_id_name_map`` のようにいくつもの辞書を書いた
+* ``speakers`` のようにいくつもの辞書を書いた
 * ``id`` に対応する値を取り出すための辞書を、スクリプトのメインの処理で取り扱う必要はないのでは
 * 辞書を隠せればコードがスッキリしそう
 
@@ -211,11 +226,11 @@ sessionize APIの返り値
 .. code-block:: python
 
     data = fetch_from_sessionize()
-    room_id_name_map = create_room_id_name_map(data["rooms"])
-    speaker_id_map = create_speaker_id_map(data["speakers"])
+    rooms = create_rooms(data["rooms"])
+    speakers = create_speakers(data["speakers"])
 
     # data["sessions"]からトークの情報を構築
-    # room_id_name_mapやspeaker_id_mapを使い、それぞれのIDから値を取り出す
+    # roomsやspeakersを使い、それぞれのIDから値を取り出す
 
 辞書をオブジェクトに隠した実装
 ========================================
@@ -223,11 +238,11 @@ sessionize APIの返り値
 .. code-block:: python
 
     data = fetch_from_sessionize()  # sessionize APIから取得したJSON
-    # Before: speaker_id_map = create_speaker_id_map(data["speakers"])
+    # Before: speakers = create_speakers(data["speakers"])
     speaker_factory = SpeakerFactory.from_(data["speakers"])
 
     # data["sessions"]からトークの情報を構築するコードの一部抜粋
-    # Before: [speaker_id_map[speaker_id] for speaker_id in session["speakers"]]
+    # Before: [speakers[speaker_id] for speaker_id in session["speakers"]]
     [speaker_factory.create(speaker_id) for speaker_id in session["speakers"]]
 
 ``SpeakerFactory``
@@ -236,9 +251,9 @@ sessionize APIの返り値
 .. code-block:: python
 
     class SpeakerFactory:
-        def __init__(self, id_to_raw_data_map):
+        def __init__(self, speakers_raw_map: Mapping):
             # インスタンス変数として、辞書を持つ（ラップしている）
-            self._id_to_raw_data_map = id_to_raw_data_map
+            self._speakers = speakers_raw_map
 
 ``SpeakerFactory``
 --------------------------------------------------
@@ -251,10 +266,10 @@ sessionize APIの返り値
         # __init__ （前スライド）
 
         @classmethod
-        def from_(cls, speakers_raw_data) -> SpeakerFactory:
+        def from_(cls, speakers_raw_data: Sequence) -> SpeakerFactory:
             """APIの返り値からSpeakerFactoryを作るメソッド（辞書を作ってから初期化する）"""
-            id_to_raw_data_map = {data["id"]: data for data in speakers_raw_data}
-            return cls(id_to_raw_data_map)
+            speakers_raw_map = {data["id"]: data for data in speakers_raw_data}
+            return cls(speakers_raw_map)
 
 ``SpeakerFactory``
 --------------------------------------------------
@@ -269,7 +284,7 @@ sessionize APIの返り値
 
         def create(self, speaker_id: str) -> Speaker:
             """speaker_idに対応するSpeakerオブジェクトを返す"""
-            speaker_data = self._id_to_raw_data_map[speaker_id]
+            speaker_data = self._speakers[speaker_id]
             return Speaker(speaker_data["fullName"], speaker_data["bio"])
 
 ``SpeakerFactory`` に込めた想い
