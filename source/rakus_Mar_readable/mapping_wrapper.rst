@@ -40,6 +40,12 @@
 
     <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">我が名はにっきー、<a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 大好きなデータサイエンティスト！<br>アイうたに出会い、開発ネタが次々浮かんで毎日幸せ！(RT)<br>本日 <a href="https://twitter.com/hashtag/studyhacklt?src=hash&amp;ref_src=twsrc%5Etfw">#studyhacklt</a> にて上記共有予定も、なんと最終上映+監督トークとブッキング！<br>トークだけは見過ごせません！登壇辞退です<br><br>空いた枠を埋めた方に大感謝です🙇‍♂️ <a href="https://t.co/Ikw8hq41VY">https://t.co/Ikw8hq41VY</a></p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1499300361370099716?ref_src=twsrc%5Etfw">March 3, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+このLTでは
+--------------------------------------------------
+
+* APIの返り値（JSON形式）をパースする実装で、スッキリ書けた例を共有します
+* コード例はPython🐍です
+
 本題：こんなシーンありませんか？
 ========================================
 
@@ -47,19 +53,75 @@
 * JSONオブジェクトが入った配列から **辞書** を作りたい
 * Pythonの「辞書」は、他の言語では「マッピング」や「連想配列」です
 
-加工したいデータ
+単純化すると、2つのプロパティを持つJSON
+--------------------------------------------------
+
+.. code-block:: json
+
+    {
+      "main_data": [...],
+      "items": [...]
+    }
+
+``main_data`` プロパティ
+--------------------------------------------------
+
+* 配列の要素1つ1つが処理の対象
+* ``items`` に関して、 ``item_id`` だけを含む
+
+  * itemのデータを見たいときは ``item_id`` を使って ``items`` プロパティから探す必要がある
+
+``items`` プロパティ
+--------------------------------------------------
+
+* itemの **一覧**
+* ``main_data`` プロパティから ``item_id`` で参照される
+
+  * ``item_id`` に対応したitemを返せるように実装したい
+
+``items`` プロパティの例：学生を表すデータ
 --------------------------------------------------
 
 .. code-block:: json
 
     [
-      {"id": "0606", "name": "shion"},
-      {"id": "1231", "name": "satomi"},
-      {"id": "0410", "name": "toma"},
-      {"id": "1120", "name": "gocchan"},
-      {"id": "0708", "name": "aya"},
-      {"id": "0309", "name": "thunder"},
+      {"id": "0606", "name": "shion", "favorite": null},
+      {"id": "1231", "name": "satomi", "favorite": "抹茶アイス"},
+      {"id": "0410", "name": "toma", "favorite": "干物"},
+      {"id": "1120", "name": "gocchan", "favorite": "ポテチ"},
+      {"id": "0708", "name": "aya", "favorite": "ナタデココ"},
+      {"id": "0309", "name": "thunder", "favorite": "きな粉餅"},
     ]
+
+💡 ``items`` プロパティの配列から **辞書** を作ろう！
+------------------------------------------------------------
+
+* ``main_data`` プロパティのデータを処理する際に、この辞書を使う
+* キーに ``item_id`` （ ``main_data`` プロパティで持つ）
+* 値は ``item_id`` に対応するitem（ ``items`` プロパティの要素のうち、該当するもの）
+
+.. doctestを通すためのコード
+    >>> from dataclasses import dataclass
+    >>> @dataclass
+    ... class Student:
+    ...     name: str
+    ...     favorite: str
+
+今回の辞書の値はデータクラスで
+--------------------------------------------------
+
+.. code-block:: python
+
+    from dataclasses import dataclass
+    @dataclass
+    class Student:
+        """
+        >>> Student("nikkie", "アイの歌声を聴かせて")
+        Student(name='nikkie', favorite='アイの歌声を聴かせて')
+
+        """
+        name: str
+        favorite: str
 
 IDを使って別の値を照合
 --------------------------------------------------
