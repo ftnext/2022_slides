@@ -1,8 +1,8 @@
 [
-  {"id": "0606", "name": "shion", "favorite": null},
-  {"id": "1231", "name": "satomi", "favorite": "抹茶アイス"},
-  {"id": "0410", "name": "toma", "favorite": "干物"},
-  {"id": "1120", "name": "gocchan", "favorite": "ポテチ"},
-  {"id": "0708", "name": "aya", "favorite": "ナタデココ"},
-  {"id": "0309", "name": "thunder", "favorite": "きな粉餅"}
+  {"id": "0606", "fullName": "shion", "bio": null},
+  {"id": "1231", "fullName": "satomi", "bio": "抹茶アイスが好き"},
+  {"id": "0410", "fullName": "toma", "bio": "干物全般が好き"},
+  {"id": "1120", "fullName": "gocchan", "bio": "ポテチが好き"},
+  {"id": "0708", "fullName": "aya", "bio": "ナタデココが好き"},
+  {"id": "0309", "fullName": "thunder", "bio": "きな粉餅が好き"}
 ]
