@@ -1,0 +1,21 @@
+name: Doctests on slides
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+      - name: Doctest on rakus March readable LT slide
+        run: |
+          cd source/rakus_Mar_readable
+          python -m doctest mapping_wrapper.rst -v
