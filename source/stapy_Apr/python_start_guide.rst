@@ -41,6 +41,10 @@ Pythonを始める上で、こんなオススメ書籍があります
 
 ブレスト中
 
+.. include:: learn_programming.rst.txt
+
+.. include:: cycle_tips.rst.txt
+
 stapy 阿久津さん提唱 TIP
 --------------------------------------------------
 
