@@ -13,14 +13,14 @@ Appendix: blockとは
 
     <blockquote class="twitter-tweet" data-align="center" data-conversation="none" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pycon9kuB?src=hash&amp;ref_src=twsrc%5Etfw">#pycon9kuB</a> <a href="https://twitter.com/takanory?ref_src=twsrc%5Etfw">@takanory</a> さんからいただいた質問<br>match文のBNFのblockはsuiteとはどう違う？<br><br>A: 調査不足です。説明できるほど理解してなかったと認識しました。後ほどアップデートします！<br>質問ありがとうございました</p>&mdash; nikkie にっきー (@ftnext) <a href="https://twitter.com/ftnext/status/1484788757241147393?ref_src=twsrc%5Etfw">January 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-回答： ``block`` はPEG記法
+回答： ``block`` はPEG
 ------------------------------------------------
 
 * この発表で扱った **BNFではない**
 * `10. 完全な文法仕様 <https://docs.python.org/ja/3/reference/grammar.html>`_ に見つけた（複合文のドキュメントに見つけられなかった）
-* ``match`` 文はPython3.10からなので、Python3.9からのPEG記法の採用は納得
+* ``match`` 文はPython3.10からなので、Python3.9からのPEGの採用は納得
 
-``block`` のPEG記法
+``block`` のPEG
 ------------------------------------------------
 
 この発表で紹介した「スイート」（EBNFの ``suite``）を表していると思われる（宿題：PEG版にアップデート）

@@ -15,7 +15,7 @@ EBNFとも呼ぶドキュメントもありました（Extended Backus–Naur Fo
 
     各規則は name (規則によって定義されているものの名前) と ::= から始まります。（ `1.2. 本マニュアルにおける表記法`_）
 
-注意⚠️：Python 3.9からはPEG記法
+注意⚠️：Python 3.9からはPEG
 --------------------------------------------------
 
 * python.jp `Python 3.9 の with文 <https://www.python.jp/pages/with-statement-3.9.html>`_
