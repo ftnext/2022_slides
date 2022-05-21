@@ -19,3 +19,7 @@ jobs:
         run: |
           cd source/rakus_Mar_readable
           python -m doctest mapping_wrapper.rst -v
+      - name: Doctest on rakus May Python Tips LT slide
+        run: |
+          cd source/rakus_May_pythontips
+          python -m doctest unpack_operators.rst.txt function_with_stars.rst.txt -v
