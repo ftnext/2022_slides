@@ -1,3 +1,8 @@
+:ogp_title: \* と **
+:ogp_event_name: rakus_May_pythontips
+:ogp_slide_name: superstar
+:ogp_description: 2022/05 Python Tips LT会 - vol.3 LT スライド
+
 ============================================================
 ``*`` と ``**``
 ============================================================
