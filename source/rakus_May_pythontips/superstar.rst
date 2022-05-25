@@ -131,7 +131,7 @@ Pythonにおける ``*``
 
 Enjoy development with stars! 🌟💫
 
-TODO：appendix（追加をお楽しみに！）
+.. include:: appendix.rst.txt
 
 EOF
 ==============================
