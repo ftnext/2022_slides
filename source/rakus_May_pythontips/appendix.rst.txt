@@ -2,3 +2,10 @@ Appendix (WIP)
 ==============================
 
 追加をお楽しみに！
+
+その他の ``*``
+==============================
+
+* `*インポート <https://docs.python.org/ja/3/tutorial/modules.html#importing-from-a-package>`_ （ ``from module import *`` と書けるけれど非推奨）
+* `glob.glob <https://docs.python.org/ja/3/library/glob.html#glob.glob>`_ （``*`` 、``**``）（Mikumoさん、ありがとうございます）
+* `re <https://docs.python.org/ja/3/library/re.html#regular-expression-syntax>`_ （``*``）
