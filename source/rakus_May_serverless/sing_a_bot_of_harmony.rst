@@ -1,3 +1,8 @@
+:ogp_title: 「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します
+:ogp_event_name: rakus_May_serverless
+:ogp_slide_name: sing_a_bot_of_harmony
+:ogp_description: 2022/05 サーバーレス LT vol.2 LT スライド
+
 ================================================================================
 「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します
 ================================================================================
