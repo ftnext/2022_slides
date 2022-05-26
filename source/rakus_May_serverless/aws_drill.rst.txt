@@ -37,7 +37,7 @@ harmonizer_botは **初回** の内容で作りました
 --------------------------------------------------
 
 * 第3回も一部参照しています
-* 拡張しがいがあって最高！
+* ドリル4回分残しているので、拡張しがいがあって最高！
 
 AWSドリル第1回で作るTwitter Bot
 ============================================================
@@ -55,7 +55,7 @@ Bot用Twitterアカウントの設定
 --------------------------------------------------
 
 * Twitter API **v2** の Essential access は申請不要で使える！
-* developer accountを登録し、APIのキーやトークンを払い出す
+* Bot用アカウントでdeveloper accountを登録し、APIのキーやトークンを払い出す
 * 詳しくは https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api
 
 ツイートのエンドポイント
@@ -76,6 +76,7 @@ Bot用Twitterアカウントの設定
     import os
     from requests_oauthlib import OAuth1Session
 
+    # 環境変数の読み込み
     consumer_key = os.getenv("TWITTER_API_KEY")
     client_secret = os.getenv("TWITTER_API_KEY_SECRET")
     access_token = os.getenv("TWITTER_API_ACCESS_TOKEN")
@@ -130,8 +131,8 @@ AWS Lambda
 Amazon EventBridge
 --------------------------------------------------
 
-* Lambda関数はeventを受け取ると実行される（``lambda_handler`` 関数の第1引数）
-* EventBridgeでeventを発生させる
+* Lambda関数はevent（JSON）を受け取ると実行される（``lambda_handler`` 関数の第1引数）
+* EventBridgeでeventを **発生** させる
 
   * 定期的に、Lambda関数に対して（👉Lambda関数の日次実行）
 
@@ -140,17 +141,17 @@ Amazon EventBridge
 
 .. raw:: html
 
-    <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">3/21は <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 公開から144日目です。<br>今日も、元気で、頑張るぞっ、おーっ</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1505680602942492674?ref_src=twsrc%5Etfw">March 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">3/21は <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 公開から144日目です。<br>今日も、元気で、頑張るぞっ、おーっ</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1505680602942492674?ref_src=twsrc%5Etfw">March 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 LT：アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ
 --------------------------------------------------------------------------------
 
-* 秘密1：AWSドリルを参考にしました
+* 秘密1： **AWSドリル** を参考にしました
 * 秘密2
 * 秘密3
 
 NEXT：1日に複数回つぶやかせるには？🤔
 --------------------------------------------------
 
-* Lambda関数をつぶやきの種類だけ増やす？
+* Lambda関数をつぶやきの種類だけ作る？
 * 1つのLambda関数の中で、この時間はこのつぶやきというロジックを書く？
