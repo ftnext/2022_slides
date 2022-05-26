@@ -51,8 +51,8 @@ Lambda関数の実装（イメージ）
 --------------------------------------------------
 
 * 「何時にどういうeventが発生して、それによりこれこれのツイートをする」という構成
-* 何時の部分は簡単に変えられる（8時にツイートしていたのを今日から9時にしよう）
-* EventBridgeのルール名は「何時」ではなく、「やりたいこと」にした方がよかったです
+* **何時の部分は簡単に変えられる** （8時にツイートしていたのを今日から9時にしよう）
+* EventBridgeのルール名は変更できないので、「何時」ではなく「やりたいこと」にした方がよかったです
 
 入力トランスフォーマー
 ============================================================
@@ -69,7 +69,7 @@ https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-input-transformer-tu
 --------------------------------------------------
 
 * 入力パスは変数定義。今回は使わないので ``{}`` にしています
-* 入力テンプレートはeventのJSON。何時ならこの値と固定しています
+* 入力テンプレートは **eventのJSON**。何時ならこの値と固定しています
 
 .. code-block:: json
 
@@ -80,9 +80,9 @@ https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-input-transformer-tu
 こうして、アイうた応援Botは複数回つぶやけるようになった🚀
 ============================================================
 
-.. TODO 最新のツイートを埋め込む
+.. raw:: html
 
-https://twitter.com/harmonizer_bot/status/1527967514155569153
+    <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">👩🏻‍🔬「にぃじ」<br><br>アイの歌声を聴かせて 非公式Botが5/26の午後2時をお伝えします🌈</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1529688839891329027?ref_src=twsrc%5Etfw">May 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 いいわ、いいわ！
 
@@ -90,11 +90,11 @@ LT：アイの歌声を聴かせて応援Botの秘密はね、最後じゃない
 --------------------------------------------------------------------------------
 
 * 秘密1：AWSドリルを参考にしました
-* 秘密2：eventの種類を変えて、1日複数回ツイートさせています
+* 秘密2： **eventの種類を変え** て、1日複数回ツイートさせています
 * 秘密3
 
 現在、神化する lambda_function.py と戦っています
 --------------------------------------------------------------------------------
 
-* 長大な :file:`lambda_function.py` のSmellを察知
-* Pythonのパッケージングで、薄くするのを試みる日々（エントリポイントは薄く）
+* :file:`lambda_function.py` が肥大化するSmellを察知
+* Pythonのパッケージングで、薄くするのを試みる日々（エントリポイントは薄く！）
