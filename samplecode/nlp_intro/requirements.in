@@ -1,0 +1,5 @@
+fugashi[unidic-lite]
+jsonlines
+scikit-learn
+torch
+transformers[ja]
