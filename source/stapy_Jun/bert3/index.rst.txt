@@ -1,0 +1,28 @@
+Part III. 自然言語処理とBERT
+============================================================
+
+（今日のstapyと）最近の自然言語処理を席巻している *BERT* がいよいよ登場します
+
+Part III. 自然言語処理とBERT
+--------------------------------------------------
+
+* BERTに至る流れ
+* BERTの訓練 101
+* BERTの利用例
+
+.. include:: bert3/stream_to_bert.rst.txt
+
+.. include:: bert3/bert_sentiment_analysis.rst.txt
+
+.. include:: bert3/bert_101.rst.txt
+
+.. include:: bert3/bert_examples.rst.txt
+
+まとめ🥟 Part III. 自然言語処理とBERT
+============================================================
+
+* BERTは **複数** のタスクを扱えるモデル！（性能もよい）
+* ライブラリ ``transformers`` を使って
+
+  * 公開された **モデル** の利用
+  * 事前学習済みモデルを **ファインチューニング**
