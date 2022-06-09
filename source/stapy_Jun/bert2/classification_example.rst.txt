@@ -27,7 +27,7 @@
 .. revealjs-break::
 
 * データ：ニュースグループの投稿（``sklearn.datasets.fetch_20newsgroups``）
-* 機械学習アルゴリズム：サポートベクターマシン（``sklearn.svm.SVC``）
+* 機械学習アルゴリズム：ニューラルネットワーク（``sklearn.neural_network.MLPClassifier``）
 
 機械学習でテキストを扱う流れ
 ============================================================
@@ -117,7 +117,35 @@ openglやgpuはこのテキストに特徴的ということ
 コード例
 --------------------------------------------------
 
-TODO includeして示す TfidfVectorizerなど（ファイルへのリンクも埋め込みたい）
+.. code-block:: python
+
+    from sklearn.datasets import fetch_20newsgroups
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.neural_network import MLPClassifier
+
+    categories = ["alt.atheism", "soc.religion.christian", "comp.graphics", "sci.med"]
+
+    twenty_train = fetch_20newsgroups(  # ニュースグループの投稿4カテゴリ分（正解ラベル付き）
+        subset="train", categories=categories, shuffle=True, random_state=42
+    )
+    tfidf_vect = TfidfVectorizer()
+    X_train_tfidf = tfidf_vect.fit_transform(twenty_train.data)  # TFIDFで特徴量抽出
+
+    clf = MLPClassifier()
+    clf.fit(X_train_tfidf, twenty_train.target)
+
+モデルの実力、見せてもらおう！
+--------------------------------------------------
+
+短い投稿をモデルで分類してみます
+
+.. code-block:: txt
+
+    'God is love' -> soc.religion.christian
+    # 宗教カテゴリに分類された
+
+    'OpenGL on the GPU is fast' -> comp.graphics
+    # コンピュータカテゴリに分類された
 
 英語と日本語の違い
 --------------------------------------------------
