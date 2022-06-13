@@ -1,7 +1,7 @@
 # ref: https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import SVC
+from sklearn.neural_network import MLPClassifier
 
 # 全20カテゴリあるが、このチュートリアルでは4カテゴリの分類とする
 categories = [
@@ -24,7 +24,7 @@ X_train_tfidf = tfidf_vect.fit_transform(twenty_train.data)
 print(f"{X_train_tfidf.shape=}")
 
 # 機械学習アルゴリズムはサポートベクターマシン（分類）
-clf = SVC()
+clf = MLPClassifier()
 # モデルの訓練
 clf.fit(X_train_tfidf, twenty_train.target)
 
