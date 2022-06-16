@@ -155,7 +155,7 @@ IMO：状況によって詳細化の程度が変わる！
 IMO：ユーザーストーリー×状況でチームで理解で捗りそう
 ------------------------------------------------------------
 
-* 「規模で分類できればいい」フェーズで詳細化しすぎる開発者（_過去の私_）がいたら？
+* 「規模で分類できればいい」フェーズで詳細化しすぎる開発者（*過去の私*）がいたら？
 * **どこまで詳細化するかチーム内の認識合わせ** がポイントっぽい！
 
 まとめ🌯 ユーザーストーリーについて
@@ -184,7 +184,7 @@ Happy Agile!🙌
 Announcements / References が続きます
 
 📣ご存知ですか？ XP祭り
---------------------------------------------------
+============================================================
 
 .. raw:: html
 
@@ -193,7 +193,8 @@ Announcements / References が続きます
 📣The Art of Agile Development 読書会
 --------------------------------------------------
 
-最近はYouTubeの動画（英語）を鑑賞して語り合っています
+* 拙ブログ `近況報告：『The Art of Agile Development Second edition』の読書会に参加しています <https://nikkie-ftnext.hatenablog.com/entry/join-art-of-agile-development-2nd-reading-meetup>`_
+* 最近はYouTubeの動画（英語）を鑑賞して語り合っています
 
 📣Uzabase Tech Blogのストーリーの記事
 --------------------------------------------------
@@ -210,7 +211,9 @@ Announcements / References が続きます
 
     <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">アジャイルの実践を追求するメディア「Agile Journey」をオープンしました！🎉<br>アジャイル開発の進め方・実践につながる具体的な手法などの情報をユーザベース・株式会社はてな編集部でお届けします！👀<a href="https://t.co/M359OtMQ3j">https://t.co/M359OtMQ3j</a><a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB?src=hash&amp;ref_src=twsrc%5Etfw">#アジャイル</a> <a href="https://twitter.com/hashtag/AgileJourney?src=hash&amp;ref_src=twsrc%5Etfw">#AgileJourney</a></p>&mdash; Agile Journey (@agilejourney_ub) <a href="https://twitter.com/agilejourney_ub/status/1537249281471418374?ref_src=twsrc%5Etfw">June 16, 2022</a></blockquote>
 
-📣6/24(金) TechBase vol.1
+.. _TechBase vol.1: https://uzabase-tech.connpass.com/event/249180/
+
+📣6/24(金) `TechBase vol.1`_
 --------------------------------------------------
 
 .. raw:: html
@@ -220,7 +223,9 @@ Announcements / References が続きます
 References
 ============================================================
 
-TODO: 紹介した3冊をここへ
+* 『`エクストリームプログラミング <https://www.ohmsha.co.jp/book/9784274217623/>`_』(2015)
+* 『`Clean Agile <https://www.kadokawa.co.jp/product/302007001102/>`_』(2020)
+* 『`The Art of Agile Development Second edition <https://www.jamesshore.com/v2/books/aoad2>`_』(2021)
 
 EOF
 ============================================================
