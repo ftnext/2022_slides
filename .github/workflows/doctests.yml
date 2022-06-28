@@ -23,3 +23,7 @@ jobs:
         run: |
           cd source/rakus_May_pythontips
           python -m doctest unpack_operators.rst.txt function_with_stars.rst.txt -v
+      - name: Doctest on rakus Jun OOLT slide
+        run: |
+          cd source/rakus_Jun_oo
+          python -m doctest minodriven_book_circle.rst -v
