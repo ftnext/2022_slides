@@ -147,3 +147,111 @@ Based on `アートオブアジャイルデベロップメント読書会`_
 
 2.不変がないPythonで値オブジェクトどうすればいいんだ？
 ============================================================
+
+読書会で深まった理解
+
+値オブジェクト
+--------------------------------------------------
+
+* 「値を **クラス（型）として表現** する設計パターン」（#ミノ駆動本 3章 p.77）
+* 「値を扱うための専用クラスを作るやり方」（#増田本 1章 Kindle の位置No.687）
+
+  * 「値オブジェクトを **不変** にする」（#増田本 1章 Kindle の位置No.727）
+
+Pythonで実装例：金額を表すクラス
+--------------------------------------------------
+
+.. code:: python
+
+    @dataclass(frozen=True)
+    class Money:
+        amount: int
+        currency: str
+
+        def __post_init__(self):
+            if self.amount < 0:
+                raise ValueError("金額が0以上でありません。")
+
+        def __add__(self, other: Money) -> Money:
+            if not isinstance(other, Money):
+                return NotImplemented
+            if self.currency != other.currency:
+                raise ValueError("通貨単位が違います。")
+            added = self.amount + other.amount
+            return self.__class__(added, self.currency)
+
+#ミノ駆動本 3章を参考にしました（`ソースコード <https://github.com/ftnext/exile-of-the-wicked-py/blob/92a81a564ec01bba7d0e67da447848a86c83d2d5/chapter3/dataclass_version.py>`_）
+
+.. doctestを通すためのコード
+    >>> from dataclasses import dataclass
+    >>> @dataclass(frozen=True)
+    ... class Money:
+    ...     amount: int
+    ...     currency: str
+    ...     def __post_init__(self):
+    ...         if self.amount < 0:
+    ...             raise ValueError("金額が0以上でありません。")
+    ...     def __add__(self, other):
+    ...         if not isinstance(other, Money):
+    ...             return NotImplemented
+    ...         if self.currency != other.currency:
+    ...             raise ValueError("通貨単位が違います。")
+    ...         added = self.amount + other.amount
+    ...         return self.__class__(added, self.currency)
+
+不変です💰
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> yukichi = Money(10_000, "¥")
+    >>> yukichi.amount = 1_000_000
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "<string>", line 4, in __setattr__
+    dataclasses.FrozenInstanceError: cannot assign to field 'amount'
+
+属性に再代入できません
+
+あれ、不変じゃない😱
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> object.__setattr__(yukichi, "amount", -1_000_000)
+    >>> yukichi
+    Money(amount=-1000000, currency='¥')
+
+マイナス百万円爆誕！！💥
+
+IMO：実装 and **コミュニケーション**
+--------------------------------------------------
+
+* Pythonには不変はない（みたい） 例：先の `object.__setattr__`
+* 「不変な値オブジェクトを変更したい」と考えるということは、 **何かがうまくいっていない** のでは？
+* 大元の問題を特定し解決するために、コミュニケーションを取ろう
+
+.. ref: https://twitter.com/ftnext/status/1537780337559818240
+
+まとめ🌯 1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向
+============================================================
+
+* ミノ駆動本の読書会（Python使い視点）を開いてます（次回は `7/1(火) 条件分岐 <https://pythonista-books.connpass.com/event/251790/>`_）
+* 読もう、ミノ駆動本 & 開いてみよう、読書会
+
+読書会で得た学びを共有
+--------------------------------------------------
+
+* アウトプットして学ぶ & 他の方のアウトプットがインプットとなって学ぶ
+* #ミノ駆動本 × #増田本 、 **合わせ読み** で理解深まる
+* Pythonに不変はない 👉 コードの外の **コミュニケーション**
+
+ご清聴ありがとうございました
+--------------------------------------------------
+
+これまでの読書py参加者の皆さまに感謝申し上げます
+
+今後ともよろしくお願いします（ウェルカムカモーン）
+
+EOF
+============================================================
