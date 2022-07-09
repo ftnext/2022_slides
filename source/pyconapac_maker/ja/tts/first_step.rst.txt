@@ -1,0 +1,59 @@
+TTS 初手：OSコマンド呼び出し
+============================================================
+
+TTS（音声合成）コマンド
+--------------------------------------------------
+
+* macOS: :command:`say` コマンド（この後詳しく）
+* LinuxやWindows: `espeak コマンド <http://espeak.sourceforge.net/>`_
+
+macOSの ``say`` コマンド
+--------------------------------------------------
+
+.. code-block:: shell
+
+    say -v Kyoko いま、幸せ？
+
+* :command:`say -v ?` で言語ごとのvoiceを一覧できる
+
+  * ja_JP: Kyoko
+  * zh_TW: Mei-Jia
+
+.. zh-TW is an IETF language tag for the Chinese language as used in Taiwan,
+    https://en.wikipedia.org/wiki/Zh-TW
+
+sayコマンドをPythonから呼び出す
+--------------------------------------------------
+
+* 標準ライブラリの ``subprocess``
+* ドキュメント中の例「`ロギングメッセージを喋る <https://docs.python.org/ja/3/howto/logging-cookbook.html#speaking-logging-messages>`_」
+
+``subprocess.run``
+--------------------------------------------------
+
+* TTSに限らずコマンドを呼び出せる
+* コマンドは **引数のシーケンス** として渡す
+
+.. code-block:: python
+
+    >>> import subprocess
+    >>> subprocess.run(["ls", "-l"])  # ls -l を呼び出す
+
+.. 「一般に、引数のシーケンスを渡す方が望ましいです。」
+    https://docs.python.org/ja/3/library/subprocess.html#frequently-used-arguments
+
+``subprocess.run`` を使ったTTS
+--------------------------------------------------
+
+.. code-block::
+
+    >>> import subprocess
+    >>> subprocess.run(["say", "-v", "Kyoko", "いま、幸せ？"])
+
+TTSサンプルスクリプト
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/my_shion/tts_first_step.py
+    :language: python
+    :linenos:
+    :emphasize-lines: 6
