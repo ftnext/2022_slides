@@ -1,0 +1,57 @@
+ASR 初手：Web API利用
+============================================================
+
+ASR（音声認識）Web API
+--------------------------------------------------
+
+* Google Cloud Speech-to-Text API（👈今回利用）
+* Microsoft Azure Speech
+* IBM Speech to Text
+* etc. etc.
+
+ライブラリ ``SpeechRecognition``
+--------------------------------------------------
+
+* 音声認識（ASR）のライブラリ
+* Web APIやエンジンをサポート
+* https://github.com/Uberi/speech_recognition
+
+``SpeechRecognition`` を使って実装する処理
+--------------------------------------------------
+
+1. マイクから音声を取得
+2. 音声をASR Web APIに送る
+
+1.マイクから音声を取得
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> import speech_recognition as sr
+    >>> r = sr.Recognizer()
+    >>> with sr.Microphone(sample_rate=16_000) as source:
+    ...     print("なにか話してください")
+    ...     audio = r.listen(source)
+    ...     print("音声を取得しました")
+
+2.音声をASR Web APIに送る
+--------------------------------------------------
+
+Google Cloud Speech-to-Text APIを利用
+
+.. code-block:: python
+
+    >>> with open("path/to/service_account_key.json") as f:
+    ...     credentials = f.read()
+    >>> recognized_text = r.recognize_google_cloud(
+    ...     audio, credentials, language="ja-JP"
+    ... )
+    >>> print(recognized_text.strip())
+
+ASRサンプルスクリプト
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/my_shion/asr_first_step.py
+    :language: python
+    :linenos:
+    :emphasize-lines: 9,17-19,28-31
