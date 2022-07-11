@@ -1,0 +1,50 @@
+TTS 作り込み：機械学習モデル利用
+============================================================
+
+ライブラリ ``ttslearn``
+--------------------------------------------------
+
+* 音声合成（TTS）のライブラリ（**日本語** 対応）
+* 『Pythonで学ぶ音声合成』
+* https://github.com/r9y9/ttslearn
+
+日本語音声合成のコード例
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> from ttslearn.dnntts import DNNTTS
+    >>> dnntts_engine = DNNTTS()
+    >>> audio_array, sampling_rate = dnntts_engine.tts("いま、幸せ？")
+
+``DNNTTS()``
+--------------------------------------------------
+
+* 深層ニューラルネットワーク（DNN）を使った音声合成の実装
+* 事前訓練済みのモデルを（ダウンロードして）読み込んでいる
+* ``tts`` メソッドで音声データを表す **NumPy array** が返る
+
+合成音声の再生 ``sounddevice``
+--------------------------------------------------
+
+* Pythonで音声を再生・録音するためのライブラリ
+* 音声データを表す **NumPy arrayを再生** するのに使う
+* https://github.com/spatialaudio/python-sounddevice/
+
+TTSのコード例
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> audio_array, sampling_rate = dnntts_engine.tts("いま、幸せ？")
+    >>> import sounddevice as sd
+    >>> sd.play(audio_array, sampling_rate)
+    >>> sd.wait()
+
+作り込んだTTSサンプルスクリプト
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/my_shion/tts_pretrained_model.py
+    :language: python
+    :linenos:
+    :emphasize-lines: 6,10-12
