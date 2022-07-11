@@ -1,0 +1,13 @@
+shion.pyに統合
+============================================================
+
+1. 音声を認識してテキストに変換する（ASR）
+2. テキストを処理して応答のテキストを作る（オウム返し）
+3. 応答テキストを読み上げる（TTS）
+
+.. revealjs-break::
+
+.. literalinclude:: ../../samplecode/my_shion/shion.py
+    :language: python
+    :linenos:
+    :emphasize-lines: 62-64
