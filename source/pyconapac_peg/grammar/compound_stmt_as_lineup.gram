@@ -1,0 +1,6 @@
+compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
