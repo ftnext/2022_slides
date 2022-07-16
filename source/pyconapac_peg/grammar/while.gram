@@ -1,0 +1,2 @@
+while_stmt:
+    | 'while' named_expression ':' block [else_block]
