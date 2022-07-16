@@ -1,0 +1,8 @@
+if_stmt:
+    | 'if' named_expression ':' block elif_stmt
+    | 'if' named_expression ':' block [else_block]
+elif_stmt:
+    | 'elif' named_expression ':' block elif_stmt
+    | 'elif' named_expression ':' block [else_block]
+else_block:
+    | 'else' ':' block
