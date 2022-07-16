@@ -1,0 +1,43 @@
+関数定義
+========================================
+
+    関数定義は、ユーザ定義関数オブジェクトを定義します
+
+`8.7. 関数定義 <https://docs.python.org/ja/3/reference/compound_stmts.html#function-definitions>`_
+
+関数定義の構文（``def``）
+------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+
+味わう関数定義 1/2
+------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+    :lines: 1-3
+
+* 1つ以上のデコレータが付く、または付かない
+
+味わう関数定義 2/2 （``async def`` は範囲外）
+------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+    :lines: 4-5
+
+* キーワード ``def`` で始まり関数名 ``NAME`` と ``()`` を含むヘッダと、続くブロックからなる節が必須
+* ``()`` の中の仮引数 ``params`` や返り値の型ヒント ``'->' expression`` はオプショナル
+
+``func_type_comment`` （オプショナル）
+------------------------------------------------
+
+.. code-block:: python
+
+    def embezzle(self, account, funds=1000000, *fake_receipts):
+        # type: (str, int, *str) -> None
+        """Embezzle funds from account using fake receipts."""
+        <code goes here>
+
+`Suggested syntax for Python 2.7 and straddling code (PEP 484) <https://peps.python.org/pep-0484/#suggested-syntax-for-python-2-7-and-straddling-code>`_
