@@ -1,0 +1,101 @@
+``match`` 文
+========================================
+
+    The match statement is used for pattern matching.
+
+``match`` 文はパターンマッチングに使われます（nikkie訳）
+
+`8.6. The match statement <https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement>`_
+
+Python 3.10 (2021/10 release) から
+------------------------------------------------
+
+.. code-block:: python
+
+    match subject:
+        case <pattern_1>:
+            <action_1>
+        case <pattern_2>:
+            <action_2>
+        case <pattern_3>:
+            <action_3>
+        case _:
+            <action_wildcard>
+
+`What's New In Python 3.10 <https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching>`_ より
+
+``match`` 文の例
+------------------------------------------------
+
+.. code-block:: python
+    :linenos:
+
+    def fizzbuzz(number):
+        match number % 3, number % 5:
+            case 0, 0: return "FizzBuzz"
+            case 0, _: return "Fizz"
+            case _, 0: return "Buzz"
+            case _, _: return str(number)
+
+``match`` 文の構文
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+
+味わう ``match`` 文 1/4
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 1-2
+
+* ソフトキーワード ``match`` で始まるヘッダが必須
+* ``case_block`` が1つ以上
+
+味わう ``match`` 文 2/4
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 1-2
+
+* ``NEWLINE`` （**改行**）や ``INDENT`` （**インデント**）が **必須**
+* ``case`` のブロックはヘッダの後につなげない（例えば ``if`` はヘッダの後に続けられる）
+
+味わう ``match`` 文 3/4 （``case_block``）
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 6-7
+
+* ソフトキーワード ``case`` で始まるヘッダが必須
+* ``block`` が続く（＝同じ行にセミコロンで区切って続けられるし、次の行にインデントしても書ける）
+
+味わう ``match`` 文 4/4 （``guard``）
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 6-8
+    :emphasize-lines: 2-3
+
+* ``case`` で始まるヘッダの一部を構成
+* ただしガードはオプショナル（``?``）
+
+ガードの例
+------------------------------------------------
+
+.. code-block:: python
+
+    >>> flag = False
+    >>> match (100, 200):
+    ...    case (100, 200) if flag:  # マッチするが, ガードが成り立たない
+    ...        print("Case 2")
+    ...    case (100, y):  # ここにマッチ！（yに200が代入される）
+    ...        print(f"Case 3, y: {y}")
+    ...
+    Case 3, y: 200
+
+`8.6. The match statement <https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement>`_ より
