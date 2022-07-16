@@ -1,0 +1,9 @@
+function_def:
+    | decorators function_def_raw
+    | function_def_raw
+function_def_raw:
+    | 'def' NAME '(' [params] ')' ['->' expression ] ':' [func_type_comment] block
+    | ASYNC 'def' NAME '(' [params] ')' ['->' expression ] ':' [func_type_comment] block
+func_type_comment:
+    | NEWLINE TYPE_COMMENT &(NEWLINE INDENT)
+    | TYPE_COMMENT
