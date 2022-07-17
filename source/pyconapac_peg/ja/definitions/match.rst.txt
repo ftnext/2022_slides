@@ -7,6 +7,8 @@
 
 `8.6. The match statement <https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement>`_
 
+.. ``match`` 文はパターンマッチングに使われます
+
 Python 3.10 (2021/10 release) から
 ------------------------------------------------
 
@@ -24,6 +26,9 @@ Python 3.10 (2021/10 release) から
 
 `What's New In Python 3.10 <https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching>`_ より
 
+.. What's New In Python 3.10かも持ってきましたが、
+    matchとcaseというソフトキーワードが導入され、パターンマッチが書けるようになりました！
+
 ``match`` 文の例
 ------------------------------------------------
 
@@ -37,11 +42,15 @@ Python 3.10 (2021/10 release) から
             case _, 0: return "Buzz"
             case _, _: return str(number)
 
+.. 例えばFizzBuzzはmatch文を使うと結構スッキリ書けます
+
 ``match`` 文の構文
 ------------------------------------------------
 
 .. literalinclude:: grammar/match.gram
     :language: peg
+
+.. 構文定義はこのようになっていて、順番に見ていきます
 
 味わう ``match`` 文 1/4
 ------------------------------------------------
@@ -53,6 +62,9 @@ Python 3.10 (2021/10 release) から
 * ソフトキーワード ``match`` で始まるヘッダが必須
 * ``case_block`` が1つ以上
 
+.. match_stmtという規則は、ソフトキーワード ``match`` で始まり、これは必須。
+    ``case_block`` が1つ以上来ます
+
 味わう ``match`` 文 2/4
 ------------------------------------------------
 
@@ -62,6 +74,9 @@ Python 3.10 (2021/10 release) から
 
 * ``NEWLINE`` （**改行**）や ``INDENT`` （**インデント**）が **必須**
 * ``case`` のブロックはヘッダの後につなげない（例えば ``if`` はヘッダの後に続けられる）
+
+.. NEWLINE NEWLINE DEDENTが必須になっているので、
+    matchのヘッダと同じ行でcaseは書けないことが分かります
 
 味わう ``match`` 文 3/4 （``case_block``）
 ------------------------------------------------
@@ -73,6 +88,10 @@ Python 3.10 (2021/10 release) から
 * ソフトキーワード ``case`` で始まるヘッダが必須
 * ``block`` が続く（＝同じ行にセミコロンで区切って続けられるし、次の行にインデントしても書ける）
 
+.. case_blockはなにかですが、
+    ソフトキーワード ``case`` で始まるヘッダが必須で
+    blockが続きますが、NEWLINEなどの明示はないので同じ行に書いても、改行してインデントしても書けます
+
 味わう ``match`` 文 4/4 （``guard``）
 ------------------------------------------------
 
@@ -83,6 +102,9 @@ Python 3.10 (2021/10 release) から
 
 * ``case`` で始まるヘッダの一部を構成
 * ただしガードはオプショナル（``?``）
+
+.. ガードというものがありまして、これはオプショナルですが、
+    ``case`` で始まるヘッダの一部を構成しています
 
 ガードの例
 ------------------------------------------------
@@ -99,3 +121,7 @@ Python 3.10 (2021/10 release) から
     Case 3, y: 200
 
 `8.6. The match statement <https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement>`_ より
+
+.. ガードの例ですが、flagをガードに使っています。
+    (100, 200)というタプルが来たときにカードが成り立っていないのでこのcase blockは実行されません。
+    次の(100, y)というcaseブロックにマッチしています。
