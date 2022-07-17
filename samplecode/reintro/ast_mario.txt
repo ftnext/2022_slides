@@ -1,0 +1,38 @@
+Module(
+   body=[
+      Assign(
+         targets=[
+            Name(id='name', ctx=Store())],
+         value=Call(
+            func=Name(id='input', ctx=Load()),
+            args=[
+               Constant(value='Input your name: ')],
+            keywords=[])),
+      If(
+         test=Compare(
+            left=Call(
+               func=Attribute(
+                  value=Name(id='name', ctx=Load()),
+                  attr='lower',
+                  ctx=Load()),
+               args=[],
+               keywords=[]),
+            ops=[
+               Eq()],
+            comparators=[
+               Constant(value='mario')]),
+         body=[
+            Expr(
+               value=Call(
+                  func=Name(id='print', ctx=Load()),
+                  args=[
+                     Constant(value="It's me, Mario!")],
+                  keywords=[]))],
+         orelse=[
+            Expr(
+               value=Call(
+                  func=Name(id='print', ctx=Load()),
+                  args=[
+                     Constant(value="It's not Mario.")],
+                  keywords=[]))])],
+   type_ignores=[])
