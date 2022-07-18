@@ -5,11 +5,11 @@
 :Event: PyCon APAC 2022
 :Presented: 2022/07/20 (pre-recorded) nikkie
 
-.. include:: opening.rst.txt
+.. include:: ja/opening.rst.txt
 
-.. include:: self_introduction.rst.txt
+.. include:: ja/self_introduction.rst.txt
 
-.. include:: introduction.rst.txt
+.. include:: ja/introduction.rst.txt
 
 お品書き：文とPEGからPython再入門
 --------------------------------------------------
