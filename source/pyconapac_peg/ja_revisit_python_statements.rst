@@ -18,6 +18,8 @@
 2. 文を定義する（PEG）
 3. 文の定義を味わう
 
+.. 大きく3つのパートから話していきます
+
 .. include:: ../pyconk_kumamoto/statements.rst.txt
 
 .. include:: ja/peg.rst.txt
