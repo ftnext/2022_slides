@@ -1,69 +1,69 @@
-Part I. Pythonにおける文
+Part I. Statements in Python
 ========================================
 
-用語集「文」
+Glossary "statement"
 ========================================
 
     A statement is part of a suite (a “block” of code).
 
-`Python用語集 文 (en) <https://docs.python.org/3/glossary.html#term-statement>`_
+https://docs.python.org/3/glossary.html#term-statement
 
-文はスイート (コードの"ブロック") の一部です。（nikkie訳）
+.. One of my favorite Python documents is the glossary.
+    I often look up in the glossary, and when I look up "statement",
+    it says a statement is part of a suite.
+    A suite is a block of code.
 
-.. 私の好きなPythonドキュメントの1つに「用語集」があります。
-    けっこう用語集を引くんですけど、「文」についても用語集を引くと
-    「文はスイートの一部です」と書かれています。
-    スイートとはコードのブロックです。
+.. _8. Compound statements: https://docs.python.org/3/reference/compound_stmts.html#compound-statements
 
-.. _8. 複合文: https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements
-
-今回は「複合文」にフォーカス
+Focus on "compound statements"
 --------------------------------------------------
 
-    複合文には、他の文 (のグループ) が入ります
+    Compound statements contain (groups of) other statements;
 
-言語リファレンス `8. 複合文`_
+The Python Language Reference `8. Compound statements`_
 
-.. リファレンスでは単純文と複合文に分かれていますが、今回は複合文にフォーカスします。
-    「複合文には、他の文（のグループ）が入ります」
+.. The reference includes simple statements and compound statements,
+    but we will focus on compound sentences this time.
+    The reference says compound statements contain other statements.
 
-複合文の例（ ``if`` 文）
---------------------------------------------------
+Example of compound statements: ``if`` statement
+-----------------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
     :language: python
     :lines: 2-6
     :linenos:
 
-.. 複合文の例は先ほども見たif文です。
+.. An example of a compound statement is this if statement we saw earlier.
 
-複合文のイメージは制御フロー
---------------------------------------------------
+Compound statements are like **control flows**
+-----------------------------------------------------------
 
-    複合文は、中に入っている他の文の実行の制御に何らかのやり方で影響を及ぼします。（ `8. 複合文`_）
+    they[\*compound statements] affect or control the execution of those other statements in some way (`8. Compound statements`_)
 
-``if`` 文だと分岐（実行する／しない）
+``if`` statement is a branch (execute / don't execute).
 
-.. 複合文にはifの他に、tryやwithなどあるんですけれどイメージとしては制御フローかと思います。
-    「中に入っている他の文の実行」を制御します
+.. In addition to "if" there are other compound statements such as "try" and "with,"
+    but the overview of a compound statement is a control flow.
+    It controls "the execution of other statements contained in it.
 
-複合文の構成要素
+Elements of compound statement
 ========================================
 
-* 節
-* ヘッダ
-* スイート
+* clause
+* header
+* suite
 
-.. 複合文を構成する要素として、節とヘッダとスイートの3つがあります
+.. There are three elements that make up a compound statement: clause, header and suite
 
-節
+Clause
 --------------------------------------------------
 
-    複合文は、一つ以上の '節 (clause)' からなります。（ `8. 複合文`_）
+    A compound statement consists of one or more ‘clauses.’ (`8. Compound statements`_)
 
-.. 節とは何かというと、複合文は一つ以上の節からなると、複合文のリファレンスに書いてありまして
+.. What is a clause? The reference says that a compound statement consists of one or more clauses,
 
-例の ``if`` 文を構成する節　その1
+e.g. Clauses in ``if`` statement 1/2
 --------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
@@ -72,9 +72,10 @@ Part I. Pythonにおける文
     :linenos:
     :emphasize-lines: 2-3
 
-.. 2行目のifと続く3行目が1つ目の節
+.. Here is an example consisting of two clauses.
+    The first clause is the line 2, if, followed by the line 3
 
-例の ``if`` 文を構成する節　その2
+e.g. Clauses in ``if`` statement 2/2
 --------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
@@ -83,38 +84,39 @@ Part I. Pythonにおける文
     :linenos:
     :emphasize-lines: 4-5
 
-.. 4行目のelseと続く5行目が2つ目の節で、2つの節から構成されていたんだとなります。
+.. and the second clause is the line 4, else, followed by the line 5
 
-節の構成要素
+Elements of clause
 --------------------------------------------------
 
-    節は、ヘッダと 'スイート (suite)' からなります。（ `8. 複合文`_）
+    A clause consists of a header and a ‘suite.’ (`8. Compound statements`_)
 
-.. 節の構成要素として、ヘッダとスイートというものがありまして
+.. There are two components of a clause: a header and a suite.
 
-ヘッダ
+Header
 --------------------------------------------------
 
-    各節のヘッダは一意に識別するキーワードで始まり、コロンで終わります。（ `8. 複合文`_）
+    Each clause header begins with a uniquely identifying keyword and ends with a colon.
+    各節のヘッダは一意に識別するキーワードで始まり、コロンで終わります。（ `8. Compound statements`_）
 
-.. 「ヘッダは一意に識別するキーワードで始まり、コロンで終わ」る
+.. Headers begin with a uniquely identifying keyword and end with a colon.
 
-キーワード
+Keyword
 --------------------------------------------------
 
-* いくつかの **トークン** （字句）
-* 例
+* Specific tokens
+* e.g.
 
   * ``if``
   * ``else``
   * ``for``
   * ``def``
 
-.. キーワードって何？となったんですけど、これは特定のトークンですね。
-    ここに挙げた以外にもclassなどがあります
+.. What is a keyword?　Keywords are specific tokens.
+    Besides those listed here, There are other classes, etc.
 
-ヘッダはキーワードで始まりコロンで終わる
---------------------------------------------------
+Header begins with a keyword and ends with a colon
+-----------------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
     :language: python
@@ -122,19 +124,19 @@ Part I. Pythonにおける文
     :linenos:
     :emphasize-lines: 2,4
 
-.. ヘッダはキーワードで始まりコロンで終わるということで
-    例えば2行目を見るとifというキーワードで始まりコロンで終わるのでヘッダなんです。
-    4行目もelseというキーワードで始まりコロンで終わるのでヘッダなんです。
+.. Header begins with a keyword and ends with a colon.
+    For example, if we look at line 2, it starts with the keyword 'if' and ends with a colon, so it is a header.
+    Line 4 is also a header because it begins with the keyword 'else' and ends with a colon.
 
-スイート
+Suite
 --------------------------------------------------
 
-    スイートは、[略]、または、ヘッダに続く行で一つ多くインデントされた文の集まりです。（ `8. 複合文`_）
+    A suite can be [...], or it can be one or more indented statements on subsequent lines. (`8. Compound statements`_)
 
-.. ではスイートはなんなの？というと、リファレンスから持ってきたのですが、
-    ヘッダに続く行で一つ多くインデントされた文の集まり、です。
+.. So what is the suite? I referred to the reference.
+    Suite is one or more indented statements following the header.
 
-スイートはインデントされた文の集まり
+Suite is one or more indented statements
 --------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
@@ -143,10 +145,11 @@ Part I. Pythonにおける文
     :linenos:
     :emphasize-lines: 3,5
 
-.. これがスイートです。
-    私はドキュメントではぱっと分からなかったのですが、これを見ると3行目と5行目が一つ多くインデントされているのでスイート
+.. This is an example of a suite.
+    The explanation in the reference didn't make sense to me,
+    but if you look at this, lines 3 and 5 are indented, so they're suites!
 
-スイートはインデントされた文の集まり（2文以上）
+e.g. Suite as two indented statements
 --------------------------------------------------
 
 .. code-block:: python
@@ -160,19 +163,19 @@ Part I. Pythonにおける文
     else:
         print("It's not Mario.")
 
-.. 文の集まりなので複数の文を入れられます
+.. A suite is a collection of statements, so it can contain multiple statements.
 
-スイート
+Suite
 --------------------------------------------------
 
-    [先に紹介した形式] のスイートに限り、さらに複合文をネストできます（ `8. 複合文`_）
+    Only the latter form[\*prior quoted] of a suite can contain nested compound statements; (`8. Compound statements`_)
 
-複合文は **再帰** 的！（複合文のスイートに別の複合文）
+Compound statements are defined **recursively**!
 
-.. あとは、このスイートは複合文をネストできるんですね。
-    複合文のスイートの中に別の複合文を入れられる
+.. Also, suites can nest compound statements.
+    You can put other compound statements inside a suite of compound statement.
 
-スイートに複合文をネストする例
+e.g. Suite nests other compound statement
 --------------------------------------------------
 
 .. code-block:: python
@@ -186,115 +189,116 @@ Part I. Pythonにおける文
     else:
         print("It's not Mario.")
 
-.. こんな感じでif文のスイートにfor文を書いてみました。
-    そのfor文にもヘッダとスイートがあってと皆さんはもう見えてくると思います。
+.. I wrote a for statement in a suite of if statements.
+    I think you can already see that there is a header and a suite for that 'for' statement as well.
 
-小まとめ🥟：Pythonにおける文
-========================================
+Short summary🥟: Statements in Python
+==================================================
 
-* 複合文は **節** （ヘッダとスイート）からなる
-* コロンはヘッダを示している！
-* インデントはスイートを示している！
+* Compound statements consist of **clauses** (headers and suites)
+* Colons indicate headers!
+* Indents indicate suites!
 
-.. というわけでリファレンスを深ぼってみると
-    複合文は節、つまりヘッダとスイートからなっていて。
-    Pythonを書くときに忘れるとSyntax errorと言われるコロンとインデント、
-    コロンはヘッダに、インデントはスイートに対応するわけですね。
-    ふだん書いているPythonを説明できているなという感動が私はありました
+.. Short summary is here.
+    A compound statement consists of clauses, or headers and suites.
+    When you forget colon or indent, you see syntax errors,
+    but colons correspond to headers and indents corresponds to suites.
+    I was impressed that explanations of the reference matched the Python I usually write.
 
 .. ここまでで約4分
 
-文の補足：用語集には続きが
-========================================
+Supplementation💊 about statements: Glossary continues
+================================================================================
 
     A statement is either an expression or one of several constructs with a keyword, such as if, while or for.
 
-文は、式または、 if, while, for のようなキーワードから構成されるものです（nikkie訳）
+https://docs.python.org/3/glossary.html#term-statement
 
-.. もうちょっと文について補足していきますと、用語集には続きがありまして、
-    文は、式または、 if, while, for のようなキーワードから構成されるもの と書いてあります。
+.. To add a little more about the statement, the glossary continues that
+    A statement is either an expression or one of several constructs with a keyword
 
-文はどちらか
+A statement is either
 ------------------------------------------------
 
-1. 式 (an expression)
-2. キーワードから構成されるもの (one of several constructs with a keyword)
+1. an expression
+2. one of several constructs with a keyword
 
-.. つまり文は式のときもあるし、キーワードから構成されるときもある
+.. That is, sometimes a statement is an expression, and sometimes it consists of constructs with a keyword
 
-キーワードの補足：予約語
-========================================
+Supplementation💊: Keywords are reserved (2)
+==================================================
 
 .. code-block:: python
 
-    >>> if = 1231  # 変数として使えません
+    >>> if = 1231  # Cannot use as variable
       File "<stdin>", line 1
         if = 1231
            ^
     SyntaxError: invalid syntax
 
-.. キーワードは予約語です。例えば変数として使えません
+.. Keywords are reserved words. For example, they cannot be used as variables.
 
-.. _Python用語集 式: https://docs.python.org/ja/3/glossary.html#term-expression
+.. _Glossary 'expression': https://docs.python.org/ja/3/glossary.html#term-expression
 
-文の構成要素の1つ：式とは
-========================================
+Another element of statement: Expression (1)
+==================================================
 
-    何かの値と評価される、一まとまりの構文
-    (A piece of syntax which can be evaluated to some value.)
+    A piece of syntax which can be evaluated to some value.
 
-`Python用語集 式`_
+`Glossary 'expression'`_
 
-.. もう一つ「文は式」と定義されていましたが、式とは何かというと
-    式は「何かの値と評価される、一まとまりの構文」だそうで
+.. Here is another topic.
+    The glossary says "a statement is an expression." What is an expression?
+    An expression is "A piece of syntax which can be evaluated to some value.
 
-用語集「式」の続き
+Glossary continues
 ------------------------------------------------
 
-    言い換えると、式とは [中略] 値を返す式の要素の積み重ねです。
-    (In other words, an expression is an accumulation of expression elements [...] which all return a value.)
+    In other words, an expression is an accumulation of expression elements [...] which all return a value.
 
-`Python用語集 式`_
+`Glossary 'expression'`_
 
-式の定義にも **再帰** ！
+Expressions are defined **recursively** too!
 
-.. もうちょっと見ていくと 式とは値を返す式の要素の積み重ね なので
-    式の定義の中に式がでていて再帰的な定義がされています。
+.. If we look at glossary a little further, an expression is an accumulation of expression elements which return a value.
+    The expression is defined with expression itself, recursively!
 
-.. _6. 式: https://docs.python.org/ja/3/reference/expressions.html
+.. _6. Expressions: https://docs.python.org/3/reference/expressions.html
 
-式の要素とは
+Elements of expression
 ------------------------------------------------
 
-* 式の要素の1つ、リテラル（ `6. 式`_ 6.2.2）
-* 例：整数 ``108`` はリテラル 👉 ``108`` は式
+* *Literals* (`6. Expressions`_ 6.2.2)
+* e.g. ``108`` is literal (``int``) 👉 ``108`` is expression
 
-.. 積み重ねる式の要素をいくつか挙げると、リテラルは式です。
-    リテラルには整数や文字列などいろいろありますが、この例では整数はリテラルでそれ自体が式です
+.. Here are some examples of an accumulation of expression elements.
+    A literal is an expression.
+    In this example, the integer is a literal that is itself an expression.
 
-さらに、式の要素
+Elements of expression, next
 ------------------------------------------------
 
-* 式の要素の1つ、演算子（ `6. 式`_ 6.7）
-* 例： ``33 - 4`` は式（リテラル、演算子、リテラル）
-* 式の要素を組合せて、別の式ができる（再帰）
+* *Operators* (`6. Expressions`_ 6.7)
+* e.g. ``33 - 4`` is expression (literal, operator, literal)
+* Really accumulation of expression elements (recursive)
 
-.. 式の要素の別の例として演算子を紹介します。
-    33 - 4 は演算子を使った式です。
+.. Another example of an element of an expression is the operator.
+    33(thirty three) minus  4 is an expression using operators.
 
-もう少し、式の要素
+Elements of expression, just one more
 ------------------------------------------------
 
-* 関数呼び出しも、式の要素の1つ（ `6. 式`_ 6.3.4）
-* 例： ``print("だんだんな〜")``
+* *Calls* (`6. Expressions`_ 6.3.4)
+* e.g. ``print("你好")``
 
-.. まだまだありますが、もう1個だけ紹介すると、関数呼び出しも式の要素の1つです。
-    文字列リテラルを使ってprint関数を呼び出したこちらも式です
+.. There is more, but I will introduce just one more:
+    a function call is also an element of an expression.
+    Here's expression that uses a string literal to call the print function.
 
-式自体で文（用語集で文は式のケース）
+Expression itself is statement
 ------------------------------------------------
 
-以下の例の関数呼び出しは文でもある（スイートとして書けている）
+The function call in the following example is also a *statement* (written as a suite)
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
     :language: python
@@ -302,7 +306,9 @@ Part I. Pythonにおける文
     :linenos:
     :emphasize-lines: 3,5
 
-.. これまでずっと見てきた例ですが、式自体で文ということで、
-    スイートの3行目と5行目は関数呼び出しの式で、文だったということです
+.. This is the example we've been looking at all along.
+    Note that an expression itself is a statement.
+    Lines 3 and 5 of are expressions because they are function calls.
+    And the expression is a statement, so each statement is a suite!
 
 .. 補足で2分半（Part Iは6分半）
