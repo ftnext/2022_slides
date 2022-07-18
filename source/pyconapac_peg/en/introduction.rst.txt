@@ -1,46 +1,44 @@
 Statements in programming
 ==================================================
 
-* **High** level / **Low** level
-* Short introduction about **compile**
+1. **High** level / **Low** level
+2. Short introduction about **compile**
 
-.. 最初に導入として、プログラミングにおける文について2点話します
+.. First of all, as an introduction, I will talk two points about statements in programming.
 
-高水準（高級）／低水準（低級）
+1 **High** level / **Low** level
 ========================================
 
-High level / Low level
+.. First, about High level and Low level.
 
-.. 1点目は、High level / Low level 高水準／低水準という話をします
-
-高水準言語／機械語
---------------------------------------------------
+High-level programming language / Machine language
+------------------------------------------------------------
 
 .. list-table::
 
     * - High level
       - Low level
-    * - 高水準言語（例：Python）
-      - 機械語
-    * - 人間👩‍💻👨‍💻が読み書き
-      - 機械🤖が読み書き
+    * - High-level programming language (e.g. Python)
+      - Machine language
+    * - Humans 👩‍💻👨‍💻 read and write
+      - Machines 🤖 read and write
 
-.. 高水準言語と機械語という対比なんですけれども
-    人間が読み書きするのは高水準言語、例えばPythonや他のプログラミング言語、
-    機械が読み書きするのは機械語。
+.. This slide shows the contrast between High-level programming language and Machine language.
+    Humans read and write high-level languages, such as Python and other programming languages,
+    while machines read and write machine languages.
 
-高水準言語で書いたプログラムの例（:file:`mario.py`）
---------------------------------------------------
+E.g. Program written in high-level language 👩‍💻👨‍💻（:file:`mario.py`）
+--------------------------------------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
     :language: python
     :lines: 2-6
     :linenos:
 
-.. 例としてif文をもってきました。
-    入力した名前がMarioのときとそうでないときで分岐します
+.. As an example, I wrote a simple if statement program.
+    It branches when the input name is Mario and when it is not.
 
-:file:`mario.py` 実行例
+Execute :file:`mario.py` 🤖
 --------------------------------------------------
 
 .. code-block:: shell
@@ -53,59 +51,60 @@ High level / Low level
     Input your name: mario
     It's me, Mario!
 
-.. 実行すると、nikkieはMarioと一致しないので"It's not Mario."
-    marioと入力すると"It's me, Mario!"と表示されます
+.. In executing the script, nikkie does not match Mario, so it says "It's not Mario".
+    If you type mario, it says "It's me, Mario!
 
-人間が高水準言語でプログラムを書けるとは
+For humans to write in high-level languages
 --------------------------------------------------
 
-* 人間👩‍💻👨‍💻が高水準言語を読み書き
-* 機械🤖が機械語を読み書き
+* Humans 👩‍💻👨‍💻 read and write high-level language
+* Machines 🤖 read and write machine language
 
 .. revealjs-fragments::
 
-    * 機械は高水準言語を機械語に **変換** している
+    * Machines 🤖 **converts** program in high-level language into machine language
 
-.. 機械の側が高水準言語を機械語に *変換* しています。
+.. For humans to write programs in high-level languages [PRESS SPACE]
+  Machines converts program written in high-level language into machine language
 
-人間が高水準言語でプログラムを書けるためには
---------------------------------------------------
+.. revealjs-break::
 
-* 機械は（機械語だけでなく） **高水準言語も読んで** いる
+* Machines 🤖 **read high-level languages** (not only machine language)
 
 .. revealjs-fragments::
 
-    * 機械は高水準言語で書かれたプログラムの **構造を捉えて** いる
+    * Machines 🤖 **recognize the structure** of programs written in high-level languages
 
-.. この条件分岐のプログラムのように、人間が高水準言語でプログラムを書けるためには、（移植）
-    つまり、機械は（機械語だけでなく） **高水準言語も読んで** いるわけです
+.. Machines 🤖 read not only machine language but also high-level languages. [PRESS SPACE]
+    Machines recognize the structure of programs written in high-level languages.
 
-**機械** がプログラムの構造を理解する
---------------------------------------------------
+Statement allows machines 🤖 to understand the structure of the program
+--------------------------------------------------------------------------------
 
-そのための **文**
+.. statement allows machines to understand the structure of the program.
 
-.. **機械** がプログラムの構造を理解する、そのための **文** と考えられるかなと思います
-
-計算機科学における「コンパイル」
+2 Short introduction about **compile**
 ==================================================
 
-参考：『 `コンピュータシステムの理論と実装 <https://www.oreilly.co.jp/books/9784873117126/>`_ 』
+ref: "`The Elements of Computing Systems <https://mitpress.mit.edu/books/elements-computing-systems>`_"
 
-.. もう一つ別の視点として、『コンピュータシステムの理論と実装』という本を参考に
-    コンパイルについて考えてみましょう
+.. Second, let's think about compilation.
+    I referred to the book "The Elements of Computing Systems".
 
-コンパイルの例
+Example of compilation
 --------------------------------------------------
 
-* ソースコード（Pythonで書かれた）
-* バイトコード（インタプリタの内部表現。pycファイルにキャッシュ。 ref: `用語集 <https://docs.python.org/ja/3/glossary.html#term-bytecode>`_）
+* Source code (written in Python)
+* Bytecode (ref: `Glossary <https://docs.python.org/3/glossary.html#term-bytecode>`_)
 
-.. コンパイルの例として、
-    Pythonで書かれたソースコードをバイトコードに変換します。
-    バイトコードはインタプリタの内部表現で、pycファイルにキャッシュされます。
+  * internal representation in the interpreter
+  * cached in .pyc files
 
-``if`` 文の例でコンパイルを見る
+.. I will show you an example of compilation.
+    Source codes written in Python are converted into bytecode.
+    bytecode is the internal representation in the interpreter and cached in .pyc files.
+
+Compile the ``if`` statement program
 --------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/mario.py
@@ -113,103 +112,107 @@ High level / Low level
     :lines: 2-6
     :linenos:
 
-.. ``if`` 文の例でコンパイルを見ます。
-    これはソースコードですね
+.. See the compilation in the if statement example.
+    This is a source code.
 
-コンパイルから2点ピックアップ
+2 steps from compile
 --------------------------------------------------
 
-1. 字句解析
-2. 抽象構文木
+1. Lexical analysis
+2. Abstract Syntax Trees
 
-.. コンパイルはいくつものステップでなっているんですけれども、2点だけピックアップします。
-    1つは字句解析、もう一つは抽象構文木です
+.. Compilation consists of a number of steps, but I will pick up only two.
+    One is lexical analysis and the other is abstract syntax tree.
 
-字句解析（tokenize）
+2-1. Lexical analysis
 --------------------------------------------------
 
-* ソースコードは文字列
-* **字句（トークン）** ＝意味を持つ最小単位
+* Source code is string.
+* Parse into **tokens**, the smallest unit of meaning.
 
-.. 字句解析（tokenize）ですけれど、
-    ソースコードはひとまとまりの文字列、
-    その文字列をトークン、意味を持つ最小単位に解析します
+.. Source code is string.
+    In Lexical analysis, machines parse source code into tokens.
+    Token is the smallest unit of meaning.
 
-字句解析の例（:command:`python -m tokenize -e mario.py`）
-------------------------------------------------------------
+e.g. Lexical analysis (:command:`python -m tokenize -e mario.py`)
+--------------------------------------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/token_mario.txt
     :language: txt
     :lines: 9-18
 
-.. Pythonの標準ライブラリにはtokenizeというライブラリがありましてそれを使って字句解析できます。
-    これがif文の部分を字句解析した結果です
+.. For lexical analysis, you can use the standard Python library 'tokenize'.
+    Here is the result of tokenizing the if statement.
 
-抽象構文木
+2-2. Abstract Syntax Trees
 --------------------------------------------------
 
-* AST (Abstract Syntax Trees)
-* 機械は、プログラムの構造を **木** で表す
-* 一連のトークンから抽象構文木を出力
+* AST
+* Machines handle the structure of a program as a **tree**.
+* Output an abstract syntax tree from a sequence of tokens.
 
-.. 続いて抽象構文木、Abstract Syntax Treesですけれども
-    機械は、プログラムの構造を **木** で表して扱います。
-    トークナイズした一連のトークンから抽象構文木を出力
+.. Next, let's look at Abstract Syntax Trees, also called AST.
+    Machines handle the structure of a program by representing it as a **tree**.
+    Machine outputs an abstract syntax tree from a sequence of tokens
 
-抽象構文木の例（:command:`python -m ast -m exec mario.py`）
+e.g. AST (:command:`python -m ast -m exec mario.py`)
 ------------------------------------------------------------
 
 .. literalinclude:: ../../samplecode/reintro/ast_mario.txt
     :language: txt
     :lines: 11-25
 
-.. これは標準ライブラリからastというモジュールを使うことで実施できます
+.. An abstract syntax tree can be created by using the module ast from the standard library.
 
-構文にも2種類ある
+Two kinds of syntax
 --------------------------------------------------
 
 .. list-table::
 
-    * - 抽象構文
-      - 具象構文
-    * - インタプリタが解釈
-      - プログラミング言語の見た目（例：複合文はこう書く）
+    * - Abstract syntax
+      - Concrete syntax
+    * - interpreted by the interpreter
+      - appearance of programming language (e.g. how to write compound statements)
 
-.. ここでお伝えした構文なんですが、抽象構文のほかに具象構文と2種類あります。
-    抽象構文はAbstract Syntaxとインタプリタが解釈するものです。
-    一方具象構文はプログラミング言語の見た目を表します。if文だったらこう
+.. Syntax includes abstract syntax as well as concrete syntax.
+    Abstract syntax is interpreted by the interpreter.
+    Concrete syntax represents the appearance of a programming language.
+    Concrete syntax determines, for example, how if statement would be written
 
-このトークの主題は **具象構文**
+Subject is **concrete syntax**
 --------------------------------------------------
 
-* Pythonの複合文の現在の **見た目** について深堀ります（Python 3.10.5）
-* 機械は文法に沿って具象構文を読んでます（鍵🗝は「再帰」）
+* Deep dive into the current appearance of compound statements (Python 3.10.5)
 
-.. このトークで扱っていくのは具象構文です。
-    Pythonの複合文のいまの **見た目** について深堀っていきます
-    機械は文法に沿って具象構文を読んでいるので、このトークで機械の気持ちの一端を知ることになるかなと思います
+.. revealjs-fragments::
 
-.. TODO 機械＝パーサ
-    字句解析と抽象構文木の間
+    * Machine (**parser** 🤖) reads whether tokens match concrete syntax or not
+    * (Key🗝 is *recursion*)
 
-本トーク「文とPEGからPython再入門」では
+.. It is concrete syntax that I will be talking this time.
+    Let's dive deeply into the current look and feel of compound statements in Python.
+    Prior to making ASTs, the machine, called parser reads whether tokens match Python's concrete syntax or not
+    This talk will give you the viewpoint of parser which reads the programs according to the concrete syntax
+
+Revisit Python from statements and PEG
 ==================================================
 
-* Pythonのコロンやインデントの意味を共有
-* PEGを読んで一緒に味わう
+* Share the meaning of colons and indents
+* Read and taste PEG together
 
-.. Pythonのコロンやインデントの意味を共有しますし、PEGを読んで一緒に味わっていきましょう
-
-.. revealjs-break::
-
-* コロンやインデントの意味： **文の構成要素を機械に伝えている**
-* PEGを読んで一緒に味わう
-
-.. コロンやインデントは **文の構成要素を機械に伝える** ためのものです
+.. In this talk, I will share the meaning of colons and indentation
+    and we will read PEG and taste it together!
 
 .. revealjs-break::
 
-* コロンやインデントの意味：文の構成要素を機械に伝えている
-* PEGを読んで一緒に味わう： **簡潔かつ抜け漏れのない表現**
+* Meaning of colons and indents: **tell parser components of statement**
+* Read and taste PEG together
 
-.. そしてPEGで表現された文法を読むことで簡潔かつ抜け漏れのない表現だなあと一端を知ることになるかと思います
+.. Colons and indents tell parser components of statement
+
+.. revealjs-break::
+
+* Meaning of colons and indents: tell parser components of statement
+* Read and taste PEG together： **expressed concisely and without omissions**
+
+.. After reading PEG together, you will maybe notice concise expression without omissions
