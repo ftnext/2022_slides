@@ -1,0 +1,294 @@
+Part II. Define statements with PEG
+========================================
+
+Parsing Expression Grammar
+==================================================
+
+* `PEP 617 -- New PEG parser for CPython <https://www.python.org/dev/peps/pep-0617/>`_
+* Actually, parser was replaced by a PEG-based one.
+
+.. PEG stands for Parsing Expression Grammar.
+    PEP 617 introduced a new PEG parser for CPython.
+    Since Python 3.9, the parser has actually been quietly replaced by a PEG-based one.
+
+Grammar from rules
+--------------------------------------------------
+
+* Grammar consists of a sequence of rules of the form (PEP 617)
+* Definitions of the rules in PEG are:
+
+.. code-block:: peg
+
+    rule_name: expression
+
+.. In both PEG and pre-PEG, a sequence of rules of the form are defined as a grammar.
+    In the definition of a rule in PEG, the rule_name comes first, followed by a colon and then an expression.
+    We will see how expression is written later.
+
+
+How to read PEG
+========================================
+
+You can find on `PEP 617 'Grammar Expressions' <https://peps.python.org/pep-0617/#grammar-expressions>`_.
+
+.. To be able to read definitions of rules, let's look at how to read the expression.
+    You can find it on PEP 617.
+
+Symbols used in PEG 1/2
+------------------------------------------------
+
+- literals
+- whitespace
+- ``|``
+- ``()``
+- ``[]`` OR ``?``
+
+.. You will see a lot of symbols. This is the first half.
+    I will introduce them in order.
+
+literals
+------------------------------------------------
+
+* Written in **single quotes**
+* e.g. ``'else'`` (keyword)
+
+.. Literals are written in single quotes.
+    Here is an example of the keyword else
+
+.. ✍️ ソフトキーワードがダブルクォートで囲まれているように見える
+
+whitespace
+------------------------------------------------
+
+* e.g. ``e1 e2``
+* Match ``e1``, then match ``e2``.
+* (If it doesn't match ``e1`` first, it won't match ``e1 e2``)
+
+.. Next, whitespace!
+    `e1 space e2` means that match ``e1``, then match ``e2``.
+    So if the expression doesn't match ``e1`` first, it won't match ``e1 e2``.
+
+literals & whitespace
+------------------------------------------------
+
+.. code-block:: peg
+
+    else_block: 'else' ':' block
+
+* First, match literal ``'else'``
+* Next, match literal ``':'``
+* Then, match the rule ``block``
+
+.. As an example of combining literals and whitespace, read the rule else_block.
+    First, it matches the literal ``'else'``.
+    Next it matches the literal ``':'``.
+    Then it matches the rule ``block``, which is the rule ``else_block``.
+
+``|``
+------------------------------------------------
+
+* e.g. ``e1 | e2``
+* Match ``e1`` *or* ``e2``
+* Note: **ordered** choice (left comes first. characteristic of PEG)
+
+.. Next, pipe.
+    ei pipe e2 matches e1 or e2
+    but ss a feature of PEG this is an ordered choice, left comes first.
+
+How to read ``|``
+------------------------------------------------
+
+* ``rule_name: first_rule second_rule`` is **equivalent** of:
+
+.. code-block:: peg
+
+    rule_name:
+        | first_rule
+        | second_rule
+
+* ``|`` before ``first_rule`` is for formatting purposes.
+
+.. Rules using pipe may be written side by side,
+    but you may insert newlines for each expression.
+    To do so, put pipe before the first expression.
+    There is no semantic difference. It is simply for formatting purposes.
+
+``()``
+------------------------------------------------
+
+* Group (with *repetition* later)
+* e.g. 1 ``( e )``: Match ``e``
+* e.g. 2 ``( e1 e2 )``: Match ``e1 e2``
+
+.. Next, parenthesis. This means a group.
+    If there is an e in parenthesis, it matches e,
+    and e1 e2 in the parenthesis matches e1 e2.
+
+``[]`` OR ``?``
+------------------------------------------------
+
+* Match **optionally**
+* e.g. ``[e]`` (equivalent of ``e?``)
+
+  * May or may not match ``e`` (optionally)
+
+.. The next two have the same meaning, bracket and question.
+    bracket e OR e question may or may not match ``e``.
+
+.. ここまでで3分（少し回る）
+
+Symbols used in PEG 2/2
+------------------------------------------------
+
+- ``*``
+- ``+``
+
+  - join (``s.e+``)
+
+- lookahead
+
+  - ``&``
+  - ``!``
+
+- ``~``
+
+.. Now let's see the symbols in the second half.
+
+``*``
+------------------------------------------------
+
+* e.g. ``e*``: Match **zero or more** occurrences of ``e`` (i.e. zero or more repetitions)
+* e.g. ``(e1 e2)*``: Match zero or more repetitions of group ``(e1 e2)``
+
+.. Asterisk matches zero or more occurrences.
+    e* matches zero or more occurrences of e,
+    e1 e2 group and asterisk matches zero or more occurrences of e1 e2
+
+``+``
+------------------------------------------------
+
+* e.g. ``e+``: Match **one or more** occurrences of ``e`` (i.e. one or more repetitions)
+* e.g. ``(e1 e2)+``: Match one or more repetitions of group ``(e1 e2)``
+
+.. plus matches one or more occurrences.
+    asterisk is zero or more and plus is one or more.
+
+``s.e+``
+------------------------------------------------
+
+* Match one or more occurrences of ``e``, **separated** by ``s`` (equivalent of ``(e (s e)*)``)
+*  e.g. ``','.e+``
+
+  * one or more occurrences of ``e``, separated by comma: ``e`` / ``e,e`` / ``e,e,e`` / and so on
+
+.. As an extension of plus, s.e+ matches one or more occurrences of e, separated by s.
+    This is similar to Python's string's join method.
+    comma period e plus matches matches one or more occurrences of ``e``, separated by comma
+
+lookahead
+------------------------------------------------
+
+* rule: ``'a' 'b'`` matches tokens 'a' 'b' ...
+* lookahead: **without consuming** any tokens
+* ``'a' 'b'`` (*b is lookahead*) matches 'a' 'b' ... and **next token is b**
+
+.. Then I introduce "lookahead."
+    Up to this point, like this a and b rule, we have been consuming tokens to see if they match.
+    lookahead sees if token matches without consuming it.
+    The rule a then lookahead of b matches the sequence a b and next token is b.
+
+``&``
+------------------------------------------------
+
+* Positive lookahead: **Succeed** if matched
+* e.g. ``&e``: ``e`` is required to match, but not **consumed** by match
+* (Prior example is the one of positive lookahead)
+
+* 失敗 👉 否定先読み
+    マッチに成功した場合が肯定先読みで失敗した場合は否定先読みです。
+
+.. and is positive lookahead.
+    and e succeeds if it matches e.
+    e`` is required to match, but not **consumed** by match
+
+``!``
+------------------------------------------------
+
+* Negative lookahead: **Fail** if matched
+* e.g. ``primary: atom !'.' !'(' !'['``
+
+  * ``a`` を ``atom`` としたとき、 ``a.`` でも ``a(`` でも ``a[`` でもなければマッチ
+
+.. exclamation is Negative lookahead.
+    exclamation e fails if it matches e. We are expecting for no matches.
+    As an example, let's look at the rule primary.
+    Negative lookaheads are period parenthesis bracket.
+    If ``a`` is ``atom`` and there are not ``a.`` or ``a(`` or ``a[``,
+    then the tokens matches the primary rule.
+    The following tokens are not consumed
+
+``~``
+------------------------------------------------
+
+* Commit
+* e.g. ``rule_name: '(' ~ some_rule ')' | some_alt``
+
+  * Match ``'('``, but doesn't match ``'(' some_rule ')'``, ``some_alt`` is not considered
+  * Commit will not consider **others** in an ordered selection.
+
+.. Finally, tilde. This represents a commit.
+    The rule_name has a commit in parenthesis.
+    Suppose the sequence of tokens starts with parenthesis.
+    We will see if it matches the expression in the some_rule one.
+    Even if it does not match, another choice some_alt is not considered due to the tilde of the commit.
+
+Understand how to read symbols🙌
+========================================
+
+- literals
+- whitespace
+- ``|``
+- ``()``
+- ``[]`` OR ``?``
+
+.. So far, we've introduced (続く)
+
+.. revealjs-break::
+
+- ``*``
+- ``+``
+
+  - join (``s.e+``)
+
+- lookahead
+
+  - ``&``
+  - ``!``
+
+- ``~``
+
+.. many symbols.
+
+Broader world of PEG!
+------------------------------------------------
+
+* Handle *the return type* of rule.
+* **Grammar actions** (Secrets of Python 3.10 `Better error messages <https://docs.python.org/ja/3/whatsnew/3.10.html#better-error-messages>`_)
+* Check `PEP 617 <https://www.python.org/dev/peps/pep-0617/>`_!
+
+.. This is only a small part of PEG.
+    PEG can handle the return type of rule.
+    And Grammar action is amazing.
+    The syntax error message has been improved since Python 3.10, you know?
+    The secret is in the Grammar action.
+    If you are interested, please take a look at PEP 617.
+
+Short summary🥟: Define statements with PEG
+==================================================
+
+* Introduce how to read of each symbol in PEG (i.e. meaning).
+* Ready to read **the definitions of compound statements** of Python.
+
+.. These are the parts that define the statements.
+    I have introduced how to read, or meaning, of each symbol in the PEG.
+    Now you are ready to read the definitions of compound sentences!
