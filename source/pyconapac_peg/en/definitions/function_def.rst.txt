@@ -1,0 +1,57 @@
+Function definitions
+========================================
+
+    A function definition defines a user-defined function object
+
+`8.7. Function definitions <https://docs.python.org/3/reference/compound_stmts.html#function-definitions>`_
+
+.. A function definition defines a user-defined function object 
+
+Syntax of function definitions (``def``)
+------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+
+.. It's a lot, but let's look at them in order
+
+Taste function definitions 1/2
+------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+    :lines: 1-3
+
+* With one or more decorators OR without ones
+
+.. The function_def shows whether one or more decorators are attached or not.
+
+Taste function definitions 2/2 (out of scope: ``async def``)
+----------------------------------------------------------------------
+
+.. literalinclude:: grammar/function_def.gram
+    :language: peg
+    :lines: 4-5
+
+* **Required**: Clause with a header starting with the keyword ``def`` and containing function ``NAME`` and ``()``, and following block
+* ``params`` in ``()`` and type hint ``'->' expression`` are optional
+
+.. We will leave ``async def`` out of scope and look at function_def_raw.
+    A clause consisting of a header starting with the keyword while and containing function ``NAME`` and parenthesis, and the following block is required
+    The else_block seen in if statement comes optionally.
+    parameters in parenthesis and return value's type hit are optional
+
+``func_type_comment`` is also optional
+------------------------------------------------
+
+.. code-block:: python
+
+    def embezzle(self, account, funds=1000000, *fake_receipts):
+        # type: (str, int, *str) -> None
+        """Embezzle funds from account using fake receipts."""
+        <code goes here>
+
+`Suggested syntax for Python 2.7 and straddling code (PEP 484) <https://peps.python.org/pep-0484/#suggested-syntax-for-python-2-7-and-straddling-code>`_
+
+.. The optional rule func_type_comment is for compatibility with Python 2.7,
+    you can comment the parameters and return types immediately after the header line instead of type hints
