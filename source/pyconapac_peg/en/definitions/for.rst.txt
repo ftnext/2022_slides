@@ -1,0 +1,56 @@
+``for`` statement
+========================================
+
+    The for statement is used to iterate over the elements of a sequence (such as a string, tuple or list) or other iterable object:
+
+`8.3. The for statement <https://docs.python.org/3/reference/compound_stmts.html#the-for-statement>`_
+
+.. The for statement is used to iterate over the elements of a sequence or other iterable object.
+
+Syntax of ``for`` statement
+------------------------------------------------
+
+.. literalinclude:: grammar/for.gram
+    :language: peg
+
+.. The syntax is defined this way.
+    Scroll sideways to see it.
+
+Taste ``for`` statement (out of scope: ``async for``)
+----------------------------------------------------------
+
+.. literalinclude:: grammar/for.gram
+    :language: peg
+    :lines: 1-2
+
+* **Required**: Clause with a header starting with the keyword ``for``and containing ``in``, and following block
+* Optional: ``TYPE_COMMENT`` and ``else_block``
+
+.. Let async for be out of scope today.
+    A clause consisting of a header starting with the keyword for and containing in, and the following block is required
+    TYPE_COMMENT and else_block are optional.
+
+type comment of ``for`` statement
+------------------------------------------------
+
+.. code-block:: python
+
+    for x, y in points:  # type: float, float
+        # Here x and y are floats
+        ...
+
+https://peps.python.org/pep-0484/#type-comments
+
+.. What is a type comment?
+    In fact, you can specify the type of a variable after the header of a for statement.
+
+``for`` ``else`` (recommend not using)
+------------------------------------------------
+
+    When the items are exhausted ([...]), the suite in the else clause, if present, is executed, and the loop terminates.
+
+    A break statement executed in the first suite terminates the loop without executing the else clause’s suite.
+
+.. When the items are exhausted, the suite in the else clause is executed and the loop terminates.
+    When a break statement executed, the else clause’s suite is not executed.
+    I recommend not using else block in loop.
