@@ -1,0 +1,51 @@
+``while`` statement
+========================================
+
+    The while statement is used for repeated execution as long as an expression is true:
+
+`8.2. The while statement <https://docs.python.org/3/reference/compound_stmts.html#the-while-statement>`_
+
+.. The while statement is used for repeated execution as long as an expression is true
+
+Syntax of ``while`` statement
+------------------------------------------------
+
+.. literalinclude:: grammar/while.gram
+    :language: peg
+
+.. The syntax of the while statement is defined by just these two lines
+
+Taste ``while`` statement
+------------------------------------------------
+
+.. literalinclude:: grammar/while.gram
+    :language: peg
+
+* **Required**: Clause with a header starting with the keyword ``while`` and following block
+* Optional ``else_block``
+
+.. A clause consisting of a header starting with the keyword while and the following block is required
+    The else_block seen in if statement comes optionally.
+
+``while`` ``else``
+------------------------------------------------
+
+    if the expression is false (which may be the first time it is tested) the suite of the else clause, if present, is executed and the loop terminates.
+
+    A break statement executed in the first suite terminates the loop without executing the else clause’s suite.
+
+.. About while else,
+    if the expression is false, the suite of the else clause is executed and the loop terminates.
+    When a break statement executed, the else clause’s suite is not executed.
+    This kind of syntax is defined in Python.
+
+
+🚨 Syntax supports, but do not use ``else_block`` in loop (recommend)
+--------------------------------------------------------------------------------
+
+    9 Avoid else Blocks After for and while Loops
+
+`Effective Python Second Edition <https://effectivepython.com/>`_ （*Because they are easily misunderstood*）
+
+.. I recommend not using it just because you know about it now.
+    "Effective Python" says Avoid else Blocks After for and while Loops because they are easily misunderstood
