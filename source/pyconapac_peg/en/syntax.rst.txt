@@ -1,0 +1,114 @@
+Part III. Read PEG together
+========================================
+
+Read syntax definitions
+========================================
+
+* Let's read definitions written in **PEG** on `10. Full Grammar specification <https://docs.python.org/3/reference/grammar.html>`_
+
+  * `8. Compound statements`_ (written in *BNF*) is not within the scope of this time.
+
+* Impressed with a **simple** view point & **concise** explanation **without omissions**
+
+.. In this part we will read the concrete syntax definitions together.
+    We read here the definitions written in PEG on the reference 10. Full Grammar specification.
+    Definitions on 8. Compound statements are written in BNF, not PEG, so they are not within the scope of this time.
+    When I read the definitions by PEG, I was impressed a simple view point represented by PEG and that definitions explain concisely without omission.
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+
+References include other statements.
+
+.. These are the five we will read together.
+    References include other statements, with, try, etc. Please read them later if you are interested.
+
+Assumptions of reading PEG
+------------------------------------------------
+
+* Program has been tokenized (lexical analysis)! We have a sequence of tokens.
+* Parser checks that **the sequence of tokens matches the rules**.
+* i.e. you won't see syntax errors if you write according to the definitions.
+
+.. The assumption in reading PEG is that the program has been tokenized, so we have a sequence of tokens.
+    The parser checks that the sequence of tokens matches the rules.
+    We will now read the syntax definition from the parser's point of view.
+    If you write according to the PEGs you read here, you won't see Syntax errors.
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+    :emphasize-lines: 3
+
+.. First, if statement.
+
+.. include:: en/definitions/if.rst.txt
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+    :emphasize-lines: 5
+
+.. ここで6分
+
+.. Next, while statement
+
+.. include:: en/definitions/while.rst.txt
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+    :emphasize-lines: 4
+
+.. Next, for statement
+
+.. include:: en/definitions/for.rst.txt
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+    :emphasize-lines: 2
+
+.. Last two! Read function definition.
+
+.. include:: en/definitions/function_def.rst.txt
+
+Our reading list!
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+    :emphasize-lines: 6
+
+.. Finally, let's look at the match statement
+
+.. include:: en/definitions/match.rst.txt
+
+Finished! 🙌
+------------------------------------------------
+
+.. literalinclude:: grammar/compound_stmt_as_lineup.gram
+    :language: peg
+
+.. These are the five syntax definitions we have read together
+
+Short summary🥟: Read PEG together
+==================================================
+
+* Tasted definitions of compound statements written in PEG
+* **simple** view point
+* AND expressed concisely without omissions
+
+.. We have tasted the definitions of compound statements.
+    The view point of PEG is interested, and PEG expresses concisely without omissions
