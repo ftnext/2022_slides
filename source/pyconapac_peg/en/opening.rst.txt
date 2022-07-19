@@ -1,0 +1,48 @@
+你好❗️ PyCon APAC 2022
+========================================
+
+Many thanks to all the staff who worked so hard❤️
+
+.. I would like to thank all the staff who worked so hard to make this online event possible!
+
+First question: Can you write in Python❔
+==================================================
+
+* ``if``
+* ``for``
+* function
+
+.. Can you write if and for and function in Python?
+    if you answered 'Of course' to the prior question, [続]
+
+About "Revisit Python from statements and PEG"
+--------------------------------------------------
+
+:audience: Intermediate level (equivalent of those who answered "yes")
+:subject: **appearance** pf Python
+
+.. Congrats! you are target audience.
+    I will talk about appearance pf Python such as the if line needs a colon.
+
+Audience take away
+--------------------------------------------------
+
+* Components of Python statements: *expressions and keywords*
+* Explanation of the statement by *clauses, headers, and suites*
+* How to read *PEG*
+
+.. You know the Components of Python statements.
+    You hear Explanation of the statement from different view point
+    We read together the PEG.
+
+Motivation: Python itself is interesting!
+--------------------------------------------------
+
+* Language Reference is *difficult*? But exciting!
+* Difficulty may comes from confusion between **new** and old grammatical expressions, so resolve it (as first step)
+
+.. Do you consider Python language reference difficult?
+    I have tried repeatedly to read the references and find it exciting now that I know a little more!
+    Dramatic changes occurred in Python 3.9 silently
+    and confusion between **new** and old grammatical expressions may make us feel difficulty.
+    As a first step, I will try to resolve the confusion in this talk.
