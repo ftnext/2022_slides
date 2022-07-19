@@ -204,9 +204,6 @@ lookahead
 * e.g. ``&e``: ``e`` is required to match, but not **consumed** by match
 * (Prior example is the one of positive lookahead)
 
-* 失敗 👉 否定先読み
-    マッチに成功した場合が肯定先読みで失敗した場合は否定先読みです。
-
 .. and is positive lookahead.
     and e succeeds if it matches e.
     e`` is required to match, but not **consumed** by match
@@ -217,7 +214,7 @@ lookahead
 * Negative lookahead: **Fail** if matched
 * e.g. ``primary: atom !'.' !'(' !'['``
 
-  * ``a`` を ``atom`` としたとき、 ``a.`` でも ``a(`` でも ``a[`` でもなければマッチ
+  * Given ``a`` is ``atom``, it matches if the expression is not ``a.`` or ``a(`` or ``a[``.
 
 .. exclamation is Negative lookahead.
     exclamation e fails if it matches e. We are expecting for no matches.
