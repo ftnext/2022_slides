@@ -1,0 +1,125 @@
+``match`` statement
+========================================
+
+    The match statement is used for pattern matching.
+
+`8.6. The match statement <https://docs.python.org/3/reference/compound_stmts.html#the-match-statement>`_
+
+.. The match statement is used for pattern matching.
+
+Since Python 3.10 (2021/10 release)
+------------------------------------------------
+
+.. code-block:: python
+
+    match subject:
+        case <pattern_1>:
+            <action_1>
+        case <pattern_2>:
+            <action_2>
+        case <pattern_3>:
+            <action_3>
+        case _:
+            <action_wildcard>
+
+`What's New In Python 3.10 <https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching>`_ より
+
+.. I brought this from What's New In Python 3.10.
+    The soft keywords match and case have been introduced, which enables us to write pattern matching!
+
+Example of ``match`` statement
+------------------------------------------------
+
+.. code-block:: python
+    :linenos:
+
+    def fizzbuzz(number):
+        match number % 3, number % 5:
+            case 0, 0: return "FizzBuzz"
+            case 0, _: return "Fizz"
+            case _, 0: return "Buzz"
+            case _, _: return str(number)
+
+.. For example, we can write FizzBuzz quite clearly using the match statement.
+
+Syntax of ``match`` statement
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+
+.. The syntax definition looks like this, let's look in order
+
+Taste ``match`` statement 1/4
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 1-2
+
+* **Required**: a header starting with the soft keyword ``match``
+* One or more ``case_block``
+
+.. The rule match_stmt starts with the soft keyword ``match``, which is required.
+    There are one or more ``case_block``
+
+Taste ``match`` statement 2/4
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 1-2
+
+* Required: **NEWLINE** and **INDENT**
+* ``case`` block cannot be written on the ``match`` line (But e.g. ``if`` header and block may come on the same line)
+
+.. Since NEWLINE and INDENT are required,
+    we know that CASE cannot be written on the same line as the header of MATCH.
+
+Taste ``match`` statement 3/4 （``case_block``）
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 6-7
+
+* **Required**: a header starting with the soft keyword ``case``
+* ``block`` follows (It can be continued on the same line, separated by a semicolon, or indented on the next line)
+
+.. What is case_block?
+    A header that begins with the soft keyword ``case`` is required and must be followed by a ``block``.
+    and block can be written on the same line, or indented on a new line.
+
+Taste ``match`` statement 4/4 （``guard``）
+------------------------------------------------
+
+.. literalinclude:: grammar/match.gram
+    :language: peg
+    :lines: 6-8
+    :emphasize-lines: 2-3
+
+* Forms **part of the header** starting with ``case``.
+* But optional (``?``).
+
+.. There is a guard, which is optional.
+    but forms part of the header starting with ``case``.
+
+Example of ``guard``
+------------------------------------------------
+
+.. code-block:: python
+
+    >>> flag = False
+    >>> match (100, 200):
+    ...    case (100, 200) if flag:  # Match succeeds, but guard fails
+    ...        print("Case 2")
+    ...    case (100, y):  # Match! (200 is assigned to y)
+    ...        print(f"Case 3, y: {y}")
+    ...
+    Case 3, y: 200
+
+ref: `8.6. The match statement <https://docs.python.org/3/reference/compound_stmts.html#the-match-statement>`_
+
+.. Here is an example of a guard, and using FLAG as a guard.
+    When the tuple (100, 200) comes in, the first case block is not executed because the guard fails.
+    It matches the next case block, (100, y).
