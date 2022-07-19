@@ -1,0 +1,23 @@
+About nikkie myself
+============================================================
+
+* loves Python (& Anime, Japanese cartoons)
+* Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* PyCon JP: 2019〜2020 staff & 2021 chair
+
+.. Let me talk about myself a little.
+    I love Python and anime.
+    About Python Conference Japan, I was contributing as staff in 2019 and 2020.
+    Last year I was chair on PyCon Japan 2021.
+
+.. revealjs-break::
+
+* Data scientists at `株式会社ユーザベース <https://www.uzabase.com/jp/>`_ (NLP, Write Python)
+* We're hiring!! (Engineers, Data scientists, Researchers)
+
+.. image:: https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL
+
+Also talks 讓我聽見愛的歌聲 x 🐍
+--------------------------------------------------
+
+.. TOOD スライド埋め込む
