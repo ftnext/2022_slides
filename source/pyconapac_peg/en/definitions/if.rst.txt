@@ -1,0 +1,167 @@
+``if`` statement
+========================================
+
+    The if statement is used for conditional execution:
+
+`8.1. The if statement <https://docs.python.org/3/reference/compound_stmts.html#the-if-statement>`_
+
+.. The reference says that if statement is used for conditional execution,
+    and that is how we use it.
+
+How would you explain the syntax of an ``if`` statement (without PEG)?
+--------------------------------------------------------------------------------
+
+Think about it for a minute.
+
+.. Here's a question.
+    How would you explain the syntax of an ``if`` statement (without PEG)?
+    ＜少し間＞
+    After this, I will introduce what I would do and look at how it is actually defined in PEG.
+    ＜10秒程度＞
+    Have you settled on an idea?
+
+nikkie's choice: Enumerate cases
+------------------------------------------------
+
+* else presence / absence
+
+  * ``if ...``
+  * ``if ... else ...``
+
+.. I would thoroughly enumerate cases.
+    First of all, I divide the if only case and if else case
+    by the presence or absence of else.
+
+Hard to check for omissions in enumeration😫
+------------------------------------------------
+
+* Number of elif (0 / 1 / multiple)
+
+  * ``if ... elif ...``
+  * ``if ... elif ... elif ...``
+  * ``if ... elif ... else ...``
+  * ``if ... elif ... elif ... else ...``
+
+.. Next, I will divide the cases by elif, but it was hard to cover all the cases so that there are no omissions.
+    If there are zero ELIFs, we have already seen them.
+    I enumarate one elif case, two or more elifs case, one elif and an else case, and two or more elifs and an else case.
+
+Syntax of ``if`` statement by PEG
+------------------------------------------------
+
+.. literalinclude:: grammar/if.gram
+    :language: peg
+
+.. This is how it is described in the PEG.
+    Let's read through this together.
+    You will see the block several times.
+
+What is ``block``?
+------------------------------------------------
+
+.. code-block:: peg
+
+    block:
+        | NEWLINE INDENT statements DEDENT
+        | simple_stmts
+
+.. What is block in a nutshell?
+
+Elements of ``block``
+------------------------------------------------
+
+.. code-block:: peg
+
+    statements: statement+
+    statement: compound_stmt  | simple_stmts
+    # In brief, simple_stmts are multiple simple_stmt
+
+.. A block consists of statements, or one or more statements.
+    A statement consist of a compound statement or multiple simple statements
+
+``block`` (equivalent of suite)
+------------------------------------------------
+
+.. code-block:: peg
+    # indented multiple (simple or compound) statements with newline and dedent,
+    # OR multiple simple statements without newline
+    block:
+        | NEWLINE INDENT statements DEDENT
+        | simple_stmts
+
+.. So a block can be multiple statements with line breaks and indentation,
+    or it can be multiple simple statements that continue without line breaks.
+
+.. TODO block == suite 触れたい
+
+Taste ``if`` statement 1/2
+------------------------------------------------
+
+.. literalinclude:: grammar/if.gram
+    :language: peg
+    :lines: 1-3
+
+* **Required**: Clause with a header starting with the keyword ``if`` and following block
+* View point: **presence or absence of elif** after the ``if``
+
+.. First, looking at if_stmt, a clause consisting of a header starting with the keyword if and the following block is required
+    It takes care with presence or absence of elif after the ``if``
+
+Taste ``if`` statement 2/2
+------------------------------------------------
+
+.. literalinclude:: grammar/if.gram
+    :language: peg
+    :lines: 4-6
+
+* View point: presence or absence of ``elif`` after the ``elif``
+
+.. If you look at elif_stmt, it is defined as a header that starts with elif.
+    I think the point is that ``elif`` may or may not be followed by more
+
+``if`` statement expressed in PEG
+------------------------------------------------
+
+* ``if`` clause is required.
+* View point of **presence or absence of elif**!
+* ``else`` clause is optional (``[]``).
+* No omissions!
+
+.. In summary, if is required.
+    The elif is written down focusing on whether it is there or not, and
+    else is optional.
+    I was impressed by the simplicity and no omissions of this explanation,
+    comparing it with my own explanation of enumeration.
+
+wandering: ``named_expression``
+========================================
+
+``named_expression`` appears in the header of ``if`` and ``elif`` clauses.
+
+.. I wander here to named_expression.
+
+``named_expression``
+------------------------------------------------
+
+.. code-block:: peg
+
+    # Assignment expression OR (non-assignment) expression
+    named_expression:
+        | assignment_expression
+        | expression !':='
+
+    assignment_expression:
+        | NAME ':=' ~ expression
+
+.. named_expression is defined as an assignment expression or a non-assignment expression.
+    There is a negative anticipation..
+
+Read definition of ``named_expression``
+------------------------------------------------
+
+* Assignment expression ``:=`` was **big change**; It affected the syntax of the control flow.
+* Note: appears in ``while`` statement (not only in ``if`` statement)
+
+.. After reading the definition
+    I realized that the assignment expression was such a big change that it affected the syntax of the control flow!
+    Note that the rule named_expression also appears in the while statement
