@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <title>[ドラフト版] Pythonで実装する、『アイの歌声を聴かせて』の詩音</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides//.html">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>[ドラフト版] Pythonで実装する、『アイの歌声を聴かせて』の詩音</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PyCon APAC 2022</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/09/03 or 04 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>Python（とアニメ）大好き <strong>にっきー</strong> ／ Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>株式会社ユーザベースのデータサイエンティスト</p></li>
+<li><p>PyCon JP 2019〜2020 スタッフ ／ 2021 座長</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>アイの歌声を聴かせて</h2>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/9h8NqlENtI0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>
+<section >
+<h2>アイの歌声を聴かせて</h2>
+<ul class="simple">
+<li><p>2021/10公開のアニメ映画</p></li>
+<li><p>鍵となるキャラは、AIロボット（ヒューマノイド）の詩音</p></li>
+</ul>
+</section>
+<section >
+<h3>このトークでは</h3>
+<ul class="simple">
+<li><p>私のメイカープロジェクト「Pythonで詩音を実装」を共有します</p></li>
+<li><p>あなたのメイカープロジェクトに小さくてもインスピレーションがあれば嬉しいです</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>Pythonで詩音を実装する</h2>
+<ul class="simple">
+<li><p>詩音の「人と話せる」機能を実装する</p></li>
+<li><p>ソフトウェアだけ実装する</p></li>
+<li><p>小さく始める</p></li>
+</ul>
+</section>
+<section >
+<h3>詩音 v0.0.1 の定義</h3>
+<ul class="simple">
+<li><p>人と話せるプログラム</p></li>
+<li><p>スマートスピーカーのようなプログラム</p></li>
+</ul>
+</section>
+<section >
+<h3>デモ：詩音 v0.0.1</h3>
+<ul class="simple">
+<li><p>話した言葉をオウム返し</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>技術要件の整理</h2>
+<p>詩音 v0.0.1 を支える技術</p>
+</section>
+<section >
+<h3>詩音 v0.0.1 の定義</h3>
+<p>人が音声で入力</p>
+<ol class="arabic simple">
+<li><p>音声を認識してテキストに変換する</p></li>
+<li><p>テキストを処理して応答のテキストを作る</p></li>
+<li><p>応答テキストを読み上げる</p></li>
+</ol>
+</section>
+<section >
+<h3>主要な技術要素</h3>
+<ul class="simple">
+<li><p>入力：音声をテキストに変換</p></li>
+<li><p>出力：テキストを読み上げ</p></li>
+<li><p>本トークでは、テキストの処理は単純なオウム返し</p></li>
+</ul>
+</section>
+<section >
+<h3>検証と作り込み</h3>
+<ul class="simple">
+<li><p>詩音の実装に納得できるかは作ってみないと分からない</p></li>
+<li><p>初手：手早くアイデアを検証することを優先</p></li>
+<li><p>よさそうであれば、劇中の詩音に近づける</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>テキストを読み上げる技術</h2>
+<ul class="simple">
+<li><p><strong>音声合成</strong> と呼ばれる</p></li>
+<li><p>Text-To-Speech（<strong>TTS</strong>）</p></li>
+</ul>
+</section>
+<section >
+<h3>このトークで紹介する音声合成</h3>
+<ul class="simple">
+<li><p>初手：OSコマンド呼び出し</p></li>
+<li><p>より本格的に：機械学習モデル</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>音声をテキストに変える技術</h2>
+<ul class="simple">
+<li><p><strong>音声認識</strong> と呼ばれる</p></li>
+<li><p>Automatic Speech Recognition（<strong>ASR</strong>）</p></li>
+</ul>
+</section>
+<section >
+<h3>このトークで紹介する音声合成</h3>
+<ul class="simple">
+<li><p>初手：Web API利用</p></li>
+<li><p>より本格的に：機械学習モデル</p></li>
+</ul>
+</section>
+<section >
+<h3>紹介する技術ラインナップ</h3>
+<ul class="simple">
+<li><p><strong>TTS 初手</strong></p></li>
+<li><p>ASR 初手</p></li>
+<li><p>TTS 作り込み</p></li>
+<li><p>ASR 作り込み</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>TTS 初手：OSコマンド呼び出し</h2>
+</section>
+<section >
+<h3>TTS（音声合成）コマンド</h3>
+<ul class="simple">
+<li><p>macOS: <strong class="command">say</strong> コマンド（この後詳しく）</p></li>
+<li><p>LinuxやWindows: <a class="reference external" href="http://espeak.sourceforge.net/">espeak コマンド</a></p></li>
+</ul>
+</section>
+<section >
+<h3>macOSの <code class="docutils literal notranslate"><span class="pre">say</span></code> コマンド</h3>
+<pre data-id="macos-say"><code data-trim data-noescape class="shell">say -v Kyoko いま、幸せ？</code></pre>
+<ul class="simple">
+<li><p><strong class="command">say -v ?</strong> で言語ごとのvoiceを一覧できる</p>
+<ul>
+<li><p>ja_JP: Kyoko</p></li>
+<li><p>zh_TW: Mei-Jia</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+zh-TW is an IETF language tag for the Chinese language as used in Taiwan,
+https://en.wikipedia.org/wiki/Zh-TW</aside>
+</section>
+<section >
+<h3>sayコマンドをPythonから呼び出す</h3>
+<ul class="simple">
+<li><p>標準ライブラリの <code class="docutils literal notranslate"><span class="pre">subprocess</span></code></p></li>
+<li><p>ドキュメント中の例「<a class="reference external" href="https://docs.python.org/ja/3/howto/logging-cookbook.html#speaking-logging-messages">ロギングメッセージを喋る</a>」</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">subprocess.run</span></code></h3>
+<ul class="simple">
+<li><p>TTSに限らずコマンドを呼び出せる</p></li>
+<li><p>コマンドは <strong>引数のシーケンス</strong> として渡す</p></li>
+</ul>
+<pre data-id="subprocess-run"><code data-trim data-noescape class="python">&gt;&gt;&gt; import subprocess
+&gt;&gt;&gt; subprocess.run([&quot;ls&quot;, &quot;-l&quot;])  # ls -l を呼び出す</code></pre>
+<aside class="notes">
+「一般に、引数のシーケンスを渡す方が望ましいです。」
+https://docs.python.org/ja/3/library/subprocess.html#frequently-used-arguments</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">subprocess.run</span></code> を使ったTTS</h3>
+<pre data-id="subprocess-run-tts"><code data-trim data-noescape class="default">&gt;&gt;&gt; import subprocess
+&gt;&gt;&gt; subprocess.run([&quot;say&quot;, &quot;-v&quot;, &quot;Kyoko&quot;, &quot;いま、幸せ？&quot;])</code></pre>
+</section>
+<section >
+<h3>TTSサンプルスクリプト</h3>
+<pre data-id="id17"><code data-trim data-noescape class="python" data-line-numbers="6">import readline  # noqa: F401
+import subprocess
+
+
+def say(sentence: str):
+    subprocess.run([&quot;say&quot;, &quot;-v&quot;, &quot;Kyoko&quot;, sentence])
+
+
+if __name__ == &quot;__main__&quot;:
+    while True:
+        sentence = input(&quot;読み上げたい文を入力してください (qで終了): &quot;)
+        stripped = sentence.strip()
+        if not stripped:
+            continue
+        if stripped.lower() == &quot;q&quot;:
+            break
+
+        say(stripped)
+</code></pre>
+</section>
+<section >
+<h3>紹介する技術ラインナップ</h3>
+<ul class="simple">
+<li><p>TTS 初手</p></li>
+<li><p><strong>ASR 初手</strong></p></li>
+<li><p>TTS 作り込み</p></li>
+<li><p>ASR 作り込み</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>ASR 初手：Web API利用</h2>
+</section>
+<section >
+<h3>ASR（音声認識）Web API</h3>
+<ul class="simple">
+<li><p>Google Cloud Speech-to-Text API（👈今回利用）</p></li>
+<li><p>Microsoft Azure Speech</p></li>
+<li><p>IBM Speech to Text</p></li>
+<li><p>etc. etc.</p></li>
+</ul>
+</section>
+<section >
+<h3>ライブラリ <code class="docutils literal notranslate"><span class="pre">SpeechRecognition</span></code></h3>
+<ul class="simple">
+<li><p>音声認識（ASR）のライブラリ</p></li>
+<li><p>Web APIやエンジンをサポート</p></li>
+<li><p><a class="reference external" href="https://github.com/Uberi/speech_recognition">https://github.com/Uberi/speech_recognition</a></p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">SpeechRecognition</span></code> を使って実装する処理</h3>
+<ol class="arabic simple">
+<li><p>マイクから音声を取得</p></li>
+<li><p>音声をASR Web APIに送る</p></li>
+</ol>
+</section>
+<section >
+<h3>1.マイクから音声を取得</h3>
+<pre data-id="id21"><code data-trim data-noescape class="python">&gt;&gt;&gt; import speech_recognition as sr
+&gt;&gt;&gt; r = sr.Recognizer()
+&gt;&gt;&gt; with sr.Microphone(sample_rate=16_000) as source:
+...     print(&quot;なにか話してください&quot;)
+...     audio = r.listen(source)
+...     print(&quot;音声を取得しました&quot;)</code></pre>
+</section>
+<section >
+<h3>2.音声をASR Web APIに送る</h3>
+<p>Google Cloud Speech-to-Text APIを利用</p>
+<pre data-id="id22"><code data-trim data-noescape class="python">&gt;&gt;&gt; with open(&quot;path/to/service_account_key.json&quot;) as f:
+...     credentials = f.read()
+&gt;&gt;&gt; recognized_text = r.recognize_google_cloud(
+...     audio, credentials, language=&quot;ja-JP&quot;
+... )
+&gt;&gt;&gt; print(recognized_text.strip())</code></pre>
+</section>
+<section >
+<h3>ASRサンプルスクリプト</h3>
+<pre data-id="asr"><code data-trim data-noescape class="python" data-line-numbers="9,17,18,19,28,29,30,31">import argparse
+
+import speech_recognition as sr
+
+
+def input_from_microphone(recognizer: &quot;sr.Recognizer&quot;) -&gt; &quot;sr.AudioData&quot;:
+    with sr.Microphone(sample_rate=16_000) as source:
+        print(&quot;なにか話してください&quot;)
+        audio = recognizer.listen(source)
+        print(&quot;音声を取得しました&quot;)
+        return audio
+
+
+def recognize_speech(
+    recognizer: &quot;sr.Recognizer&quot;, audio: &quot;sr.AudioData&quot;, credentials: str
+) -&gt; str:
+    recognized_text = recognizer.recognize_google_cloud(
+        audio, credentials, language=&quot;ja-JP&quot;
+    )
+    return recognized_text.strip()
+
+
+if __name__ == &quot;__main__&quot;:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;credentials_path&quot;)
+    args = parser.parse_args()
+
+    with open(args.credentials_path) as f:
+        credentials = f.read()
+
+    r = sr.Recognizer()
+
+    while True:
+        audio = input_from_microphone(r)
+        text = recognize_speech(r, audio, credentials)
+        print(text)
+
+        character = input(&quot;ここで終了する場合はq、続ける場合はEnterを押してください: &quot;)
+        if character.strip().lower() == &quot;q&quot;:
+            break
+</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>詩音を作りたいというアイデアを実装</h2>
+<ul class="simple">
+<li><p><strong>手早く</strong> アイデアを <strong>検証</strong> することを優先</p></li>
+<li><p>TTS: <code class="docutils literal notranslate"><span class="pre">subprocess.run</span></code></p></li>
+<li><p>ASR: Web API</p></li>
+</ul>
+</section>
+<section >
+<h3>検証結果</h3>
+<ul class="simple">
+<li><p>LGTM👍（開発者の定性フィードバック）</p></li>
+<li><p>もっと詩音に近づけたい！</p></li>
+</ul>
+</section>
+<section >
+<h3>手早い実装の伸びしろ1</h3>
+<ul class="simple">
+<li><p><strong class="command">say</strong> コマンドはOS依存</p></li>
+<li><p>詩音はmacOSでは動いていなさそう</p></li>
+</ul>
+</section>
+<section >
+<h3>手早い実装の伸びしろ2</h3>
+<ul class="simple">
+<li><p>Web APIの利用はインターネットアクセスに依存</p></li>
+<li><p>詩音はスタンドアローン＝Web APIと通信しない</p></li>
+</ul>
+</section>
+<section >
+<h3>もっと詩音に近づける！</h3>
+<ul class="simple">
+<li><p>機械学習モデルを事前にダウンロード</p></li>
+<li><p>機械学習モデルでTTS &amp; ASR</p></li>
+</ul>
+</section>
+<section >
+<h3>紹介する技術ラインナップ</h3>
+<ul class="simple">
+<li><p>TTS 初手</p></li>
+<li><p>ASR 初手</p></li>
+<li><p><em>TTS 作り込み</em></p></li>
+<li><p><em>ASR 作り込み</em></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>TTS 作り込み：機械学習モデル利用</h2>
+</section>
+<section >
+<h3>ライブラリ <code class="docutils literal notranslate"><span class="pre">ttslearn</span></code></h3>
+<ul class="simple">
+<li><p>音声合成（TTS）のライブラリ（<strong>日本語</strong> 対応）</p></li>
+<li><p>『Pythonで学ぶ音声合成』</p></li>
+<li><p><a class="reference external" href="https://github.com/r9y9/ttslearn">https://github.com/r9y9/ttslearn</a></p></li>
+</ul>
+</section>
+<section >
+<h3>日本語音声合成のコード例</h3>
+<pre data-id="id30"><code data-trim data-noescape class="python">&gt;&gt;&gt; from ttslearn.dnntts import DNNTTS
+&gt;&gt;&gt; dnntts_engine = DNNTTS()
+&gt;&gt;&gt; audio_array, sampling_rate = dnntts_engine.tts(&quot;いま、幸せ？&quot;)</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">DNNTTS()</span></code></h3>
+<ul class="simple">
+<li><p>深層ニューラルネットワーク（DNN）を使った音声合成の実装</p></li>
+<li><p>事前訓練済みのモデルを（ダウンロードして）読み込んでいる</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tts</span></code> メソッドで音声データを表す <strong>NumPy array</strong> が返る</p></li>
+</ul>
+</section>
+<section >
+<h3>合成音声の再生 <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code></h3>
+<ul class="simple">
+<li><p>Pythonで音声を再生・録音するためのライブラリ</p></li>
+<li><p>音声データを表す <strong>NumPy arrayを再生</strong> するのに使う</p></li>
+<li><p><a class="reference external" href="https://github.com/spatialaudio/python-sounddevice/">https://github.com/spatialaudio/python-sounddevice/</a></p></li>
+</ul>
+</section>
+<section >
+<h3>TTSのコード例</h3>
+<pre data-id="id31"><code data-trim data-noescape class="python">&gt;&gt;&gt; audio_array, sampling_rate = dnntts_engine.tts(&quot;いま、幸せ？&quot;)
+&gt;&gt;&gt; import sounddevice as sd
+&gt;&gt;&gt; sd.play(audio_array, sampling_rate)
+&gt;&gt;&gt; sd.wait()</code></pre>
+</section>
+<section >
+<h3>作り込んだTTSサンプルスクリプト</h3>
+<pre data-id="id32"><code data-trim data-noescape class="python" data-line-numbers="6,10,11,12">import readline  # noqa: F401
+
+import sounddevice as sd
+from ttslearn.dnntts import DNNTTS
+
+dnntts_engine = DNNTTS()
+
+
+def say(sentence: str):
+    audio_array, sampling_rate = dnntts_engine.tts(sentence)
+    sd.play(audio_array, sampling_rate)
+    sd.wait()
+
+
+if __name__ == &quot;__main__&quot;:
+    while True:
+        sentence = input(&quot;読み上げたい文を入力してください (qで終了): &quot;)
+        stripped = sentence.strip()
+        if not stripped:
+            continue
+        if stripped.lower() == &quot;q&quot;:
+            break
+
+        say(stripped)
+</code></pre>
+</section>
+<section >
+<h3>紹介する技術ラインナップ</h3>
+<ul class="simple">
+<li><p>TTS 初手</p></li>
+<li><p>ASR 初手</p></li>
+<li><p>TTS 作り込み</p></li>
+<li><p><strong>ASR 作り込み</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>ASR 作り込み：機械学習モデル利用</h2>
+</section>
+<section >
+<h3>ライブラリ <code class="docutils literal notranslate"><span class="pre">ESPnet</span></code></h3>
+<ul class="simple">
+<li><p>エンドツーエンドの音声処理ツールキット</p></li>
+<li><p><strong>音声認識（ASR）を利用</strong> （TTSもサポート）</p></li>
+<li><p><a class="reference external" href="https://github.com/espnet/espnet">https://github.com/espnet/espnet</a></p></li>
+</ul>
+</section>
+<section >
+<h3>事前訓練済みモデルの利用</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://huggingface.co/espnet/kan-bayashi_csj_asr_train_asr_transformer_raw_char_sp_valid.acc.ave">Hugging Faceで公開されているモデル</a> を利用</p>
+<ul>
+<li><p>作成者により <strong>事前訓練済み</strong> （pre-trained）</p></li>
+</ul>
+</li>
+<li><p><strong class="command">pip install espnet-model-zoo</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>事前訓練済みモデルを利用するコード例</h3>
+<pre data-id="id36"><code data-trim data-noescape class="python">&gt;&gt;&gt; from espnet2.bin.asr_inference import Speech2Text
+&gt;&gt;&gt; speech2text = Speech2Text.from_pretrained(
+...     &quot;kan-bayashi/csj_asr_train_asr_transformer_raw_char_sp_valid.acc.ave&quot;
+... )</code></pre>
+</section>
+<section >
+<h3>Espnetの事前訓練済みモデルでASR作り込み</h3>
+<ol class="arabic simple">
+<li><p>First step: wavファイルのASR</p></li>
+<li><p>マイクから入力した音声のASR</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>First step: wavファイルのASR</h2>
+</section>
+<section >
+<h3>ライブラリ <code class="docutils literal notranslate"><span class="pre">SoundFile</span></code></h3>
+<ul>
+<li><p>音声のライブラリ</p>
+<blockquote>
+<div><p>an audio library based on libsndfile, CFFI and NumPy.</p>
+</div></blockquote>
+</li>
+<li><p><a class="reference external" href="https://github.com/bastibe/python-soundfile">https://github.com/bastibe/python-soundfile</a></p></li>
+</ul>
+</section>
+<section >
+<h3>wavファイルのASR</h3>
+<pre data-id="wavasr"><code data-trim data-noescape class="python">&gt;&gt;&gt; import soundfile as sf
+&gt;&gt;&gt; speech_array, sampling_rate = sf.read(&quot;sample.wav&quot;)
+&gt;&gt;&gt; nbests = speech2text(speech_array)
+&gt;&gt;&gt; text, tokens, *_ = nbests[0]
+&gt;&gt;&gt; print(text)
+今幸せ</code></pre>
+</section>
+<section >
+<h3>tips: <strong class="command">say</strong> コマンドでwavファイルを作れる！</h3>
+<pre data-id="tips-say-wav"><code data-trim data-noescape class="shell">$ say -v Kyoko いま、幸せ？ -o sample.wav --data-format=LEF32&#64;16000</code></pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&#64;</span></code> 以降がサンプリングレート（<strong class="command">man say</strong> 参照）</p></li>
+<li><p>今回のモデルはサンプリングレート16000Hzで訓練されているので <strong>合わせる</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>マイクから入力した音声のASR</h2>
+<ul class="simple">
+<li><p>マイクの操作には <code class="docutils literal notranslate"><span class="pre">SpeechRecognition</span></code> を使います</p></li>
+</ul>
+<pre data-id="id37"><code data-trim data-noescape class="python">&gt;&gt;&gt; r = sr.Recognizer()
+&gt;&gt;&gt; with sr.Microphone(sample_rate=16_000) as source:
+...     audio = r.listen(source)</code></pre>
+</section>
+<section >
+<h3>NumPy arrayに変換</h3>
+<pre data-id="numpy-array"><code data-trim data-noescape class="python">&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; frame_bytes = audio.get_raw_data()
+&gt;&gt;&gt; speech_array = np.frombuffer(frame_bytes, dtype=np.int16)</code></pre>
+</section>
+<section >
+<h3>落とし穴：arrayのdtype</h3>
+<ul class="simple">
+<li><p>wavファイルを <code class="docutils literal notranslate"><span class="pre">sounddevice</span></code> で読み込むと <code class="docutils literal notranslate"><span class="pre">dtype</span></code> は <strong>float64</strong></p></li>
+<li><p>マイクから入力した音声をarrayに変換したところ、 <code class="docutils literal notranslate"><span class="pre">dtype</span></code> は <em>int16</em></p></li>
+<li><p>訓練済みモデルは dtype=int16 のデータに対して実力を発揮しきれない</p></li>
+</ul>
+</section>
+<section >
+<h3>dtypeをint16からfloat64に変換</h3>
+<pre data-id="dtypeint16float64"><code data-trim data-noescape class="python">&gt;&gt;&gt; import tempfile
+&gt;&gt;&gt; from scipy.io import wavfile
+&gt;&gt;&gt; with tempfile.NamedTemporaryFile() as tempf:
+...     wavfile.write(tempf.name, audio.sample_rate, speech_array)
+...     audio_array, sampling_rate = sf.read(tempf.name)</code></pre>
+</section>
+<section >
+<h3>dtype float64のarrayについてASR</h3>
+<pre data-id="dtype-float64arrayasr"><code data-trim data-noescape class="python">&gt;&gt;&gt; nbests = speech2text(audio_array)
+&gt;&gt;&gt; text, tokens, *_ = nbests[0]
+&gt;&gt;&gt; print(text)</code></pre>
+</section>
+<section >
+<h3>作り込んだASRサンプルスクリプト</h3>
+<pre data-id="id38"><code data-trim data-noescape class="python">import tempfile
+
+import numpy as np
+import soundfile as sf
+import speech_recognition as sr
+from espnet2.bin.asr_inference import Speech2Text
+from scipy.io import wavfile
+
+speech2text = Speech2Text.from_pretrained(
+    &quot;kan-bayashi/csj_asr_train_asr_transformer_raw_char_sp_valid.acc.ave&quot;
+)
+
+
+def input_from_microphone(recognizer: &quot;sr.Recognizer&quot;) -&gt; &quot;sr.AudioData&quot;:
+    with sr.Microphone(sample_rate=16_000) as source:
+        print(&quot;なにか話してください&quot;)
+        audio = recognizer.listen(source)
+        print(&quot;音声を取得しました&quot;)
+        return audio
+
+
+def convert_to_array(audio: &quot;sr.AudioData&quot;) -&gt; &quot;np.array&quot;:
+    frame_bytes = audio.get_raw_data()
+    speech_array = np.frombuffer(frame_bytes, dtype=np.int16)
+    with tempfile.NamedTemporaryFile() as tempf:
+        wavfile.write(tempf.name, audio.sample_rate, speech_array)
+        audio_array, sampling_rate = sf.read(tempf.name)
+        return audio_array
+
+
+def recognize_speech(audio_array: &quot;np.array&quot;) -&gt; str:
+    nbests = speech2text(audio_array)
+    text, tokens, *_ = nbests[0]
+    return text
+
+
+if __name__ == &quot;__main__&quot;:
+    r = sr.Recognizer()
+
+    while True:
+        audio = input_from_microphone(r)
+        array = convert_to_array(audio)
+        text = recognize_speech(array)
+        print(text)
+
+        character = input(&quot;ここで終了する場合はq、続ける場合はEnterを押してください: &quot;)
+        if character.strip().lower() == &quot;q&quot;:
+            break
+</code></pre>
+</section>
+<section >
+<h3>こうして詩音 v0.0.1 は作り込まれた</h3>
+<ol class="arabic simple">
+<li><p>音声を認識してテキストに変換する（ASR）🙌</p></li>
+<li><p>テキストを処理して応答のテキストを作る</p></li>
+<li><p>応答テキストを読み上げる（TTS）🙌</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>テキストの処理</h2>
+<ul class="simple">
+<li><p>本トークでは、オウム返し🦜</p></li>
+<li><p>一番単純なテキスト処理</p></li>
+</ul>
+<pre data-id="id40"><code data-trim data-noescape class="python">def talk_with_chatbot(sentence: str) -&gt; str:
+    return sentence</code></pre>
+</section>
+<section >
+<h3>テキスト処理 future works</h3>
+<ul class="simple">
+<li><p>自然言語処理（NLP）のさまざまな技術が使えそう</p></li>
+<li><p>1案として ChatterBot ライブラリを使った応答（開発中）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>shion.pyに統合</h2>
+<ol class="arabic simple">
+<li><p>音声を認識してテキストに変換する（ASR）</p></li>
+<li><p>テキストを処理して応答のテキストを作る（オウム返し）</p></li>
+<li><p>応答テキストを読み上げる（TTS）</p></li>
+</ol>
+</section>
+<section >
+<h2>shion.pyに統合</h2>
+<pre data-id="shion-py"><code data-trim data-noescape class="python" data-line-numbers="62,63,64">import tempfile
+
+import numpy as np
+import sounddevice as sd
+import soundfile as sf
+import speech_recognition as sr
+from espnet2.bin.asr_inference import Speech2Text
+from scipy.io import wavfile
+from ttslearn.dnntts import DNNTTS
+
+speech2text = Speech2Text.from_pretrained(
+    &quot;kan-bayashi/csj_asr_train_asr_transformer_raw_char_sp_valid.acc.ave&quot;
+)
+
+
+def input_from_microphone(recognizer: &quot;sr.Recognizer&quot;) -&gt; &quot;sr.AudioData&quot;:
+    with sr.Microphone(sample_rate=16_000) as source:
+        print(&quot;なにか話してください&quot;)
+        audio = recognizer.listen(source)
+        print(&quot;音声を取得しました&quot;)
+        return audio
+
+
+def convert_to_array(audio: &quot;sr.AudioData&quot;) -&gt; &quot;np.array&quot;:
+    frame_bytes = audio.get_raw_data()
+    speech_array = np.frombuffer(frame_bytes, dtype=np.int16)
+    with tempfile.NamedTemporaryFile() as tempf:
+        wavfile.write(tempf.name, audio.sample_rate, speech_array)
+        audio_array, sampling_rate = sf.read(tempf.name)
+        return audio_array
+
+
+def recognize_speech(audio_array: &quot;np.array&quot;) -&gt; str:
+    nbests = speech2text(audio_array)
+    text, tokens, *_ = nbests[0]
+    return text
+
+
+def recognize_mircophone_input(recognizer: &quot;sr.Recognizer&quot;) -&gt; str:
+    audio = input_from_microphone(recognizer)
+    array = convert_to_array(audio)
+    return recognize_speech(array)
+
+
+def process_text(sentence: str) -&gt; str:
+    return sentence
+
+
+dnntts_engine = DNNTTS()
+
+
+def say(sentence: str):
+    audio_array, sampling_rate = dnntts_engine.tts(sentence)
+    sd.play(audio_array, sampling_rate)
+    sd.wait()
+
+
+if __name__ == &quot;__main__&quot;:
+    r = sr.Recognizer()
+
+    while True:
+        text = recognize_mircophone_input(r)
+        response = process_text(text)
+        say(response)
+
+        character = input(&quot;ここで終了する場合はq、続ける場合はEnterを押してください: &quot;)
+        if character.strip().lower() == &quot;q&quot;:
+            break
+</code></pre>
+</section>
+<section>
+<section >
+<h2>メイカープロジェクト「Pythonで詩音を実装」で学んだこと</h2>
+<ul class="simple">
+<li><p>手早く実装</p></li>
+<li><p>機械学習の利用（2点）</p></li>
+</ul>
+</section>
+<section >
+<h3>手早く実装</h3>
+<ul class="simple">
+<li><p>TTS（音声合成）とASR（音声認識）をまずは手早く実装することを優先</p></li>
+<li><p><strong>手早い実装をつないで</strong>、システム（詩音）を検証した</p>
+<ul>
+<li><p>曳光弾 『達人プログラマー』</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>機械学習の利用 1/2</h3>
+<ul class="simple">
+<li><p>ASRの <strong>Web API</strong> を使った（初手）</p></li>
+<li><p>私たち開発者には、機械学習のタスクに対してWeb APIを使う <strong>選択肢</strong> が常にある！</p></li>
+</ul>
+</section>
+<section >
+<h3>機械学習の利用 2/2</h3>
+<ul class="simple">
+<li><p>TTSとASRで、 <strong>訓練済み機械学習モデル</strong> を使った</p></li>
+<li><p>ライブラリを <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> するように、機械学習タスクに対しては訓練済みモデルを <strong>ダウンロードして利用</strong> できる！</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 Pythonで実装する、『アイの歌声を聴かせて』の詩音</h2>
+<ul class="simple">
+<li><p>詩音 v0.0.1を定義し、<code class="file docutils literal notranslate"><span class="pre">shion.py</span></code> として実装</p></li>
+<li><p>実装（Pythonで音声認識や音声合成）、実装しての学びを共有</p></li>
+</ul>
+</section>
+<section >
+<h3>詩音 v0.0.1の定義</h3>
+<ol class="arabic simple">
+<li><p>音声を認識してテキストに変換する（ASR）</p></li>
+<li><p>テキストを処理して応答のテキストを作る（オウム返し）</p></li>
+<li><p>応答テキストを読み上げる（TTS）</p></li>
+</ol>
+</section>
+<section >
+<h3>納得できるかは作ってみないと分からないに対して</h3>
+<ul class="simple">
+<li><p>初手：手早く実装して、アイデアを検証することを優先</p></li>
+<li><p>手早い実装をつないで、システム（詩音）を検証：曳光弾</p></li>
+<li><p>よさそうだったので、劇中の詩音に近づける作り込み</p></li>
+</ul>
+</section>
+<section >
+<h3>音声認識（ASR）</h3>
+<ul class="simple">
+<li><p>ASRのWeb APIを使う（手早い実装）</p></li>
+<li><p>事前訓練済み機械学習モデルを使う</p></li>
+</ul>
+</section>
+<section >
+<h3>音声合成（TTS）</h3>
+<ul class="simple">
+<li><p>OSのコマンドを呼び出す（手早い実装）</p></li>
+<li><p>事前訓練済み機械学習モデルを使う</p></li>
+</ul>
+</section>
+<section >
+<h3>詩音 v0.0.1を実装しての学び</h3>
+<ul class="simple">
+<li><p>作りたいものの一部を機械学習のタスクと捉えられる場合、以下のアプローチもできる</p>
+<ul>
+<li><p>Web APIを使う</p></li>
+<li><p><strong>事前訓練済みモデルを利用</strong> する</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました！</h3>
+<p>あなたのメイカープロジェクトに小さくてもインスピレーションがあれば嬉しいです</p>
+</section>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>
