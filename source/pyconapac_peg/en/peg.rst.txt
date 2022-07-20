@@ -93,7 +93,7 @@ literals & whitespace
 
 .. Next, pipe.
     ei pipe e2 matches e1 or e2
-    but ss a feature of PEG this is an ordered choice, left comes first.
+    but as a feature of PEG this is an ordered choice, left comes first.
 
 How to read ``|``
 ------------------------------------------------
@@ -183,7 +183,7 @@ Symbols used in PEG 2/2
 
 .. As an extension of plus, s.e+ matches one or more occurrences of e, separated by s.
     This is similar to Python's string's join method.
-    comma period e plus matches matches one or more occurrences of ``e``, separated by comma
+    comma period e plus matches one or more occurrences of ``e``, separated by comma
 
 lookahead
 ------------------------------------------------
@@ -193,7 +193,7 @@ lookahead
 * ``'a' 'b'`` (*b is lookahead*) matches 'a' 'b' ... and **next token is b**
 
 .. Then I introduce "lookahead."
-    Up to this point, like this a and b rule, we have been consuming tokens to see if they match.
+    Up to this point, like this rule a and b, we have been consuming tokens to see if they match.
     lookahead sees if token matches without consuming it.
     The rule a then lookahead of b matches the sequence a b and next token is b.
 
