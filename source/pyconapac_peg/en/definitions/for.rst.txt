@@ -23,7 +23,7 @@ Taste ``for`` statement (out of scope: ``async for``)
     :language: peg
     :lines: 1-2
 
-* **Required**: Clause with a header starting with the keyword ``for``and containing ``in``, and following block
+* **Required**: Clause with a header starting with the keyword ``for`` and containing ``in``, and following block
 * Optional: ``TYPE_COMMENT`` and ``else_block``
 
 .. Let async for be out of scope today.
