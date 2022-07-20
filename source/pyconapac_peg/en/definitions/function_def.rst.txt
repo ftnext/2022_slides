@@ -37,8 +37,7 @@ Taste function definitions 2/2 (out of scope: ``async def``)
 * ``params`` in ``()`` and type hint ``'->' expression`` are optional
 
 .. We will leave ``async def`` out of scope and look at function_def_raw.
-    A clause consisting of a header starting with the keyword while and containing function ``NAME`` and parenthesis, and the following block is required.
-    The else_block seen in if statement comes optionally.
+    A clause consisting of a header starting with the keyword def and containing function ``NAME`` and parenthesis, and the following block is required.
     parameters in parenthesis and return value's type hit are optional
 
 ``func_type_comment`` is also optional
