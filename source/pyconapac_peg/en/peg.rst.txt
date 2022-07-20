@@ -288,4 +288,4 @@ Short summary🥟: Define statements with PEG
 
 .. These are the parts that define the statements.
     I have introduced how to read, or meaning, of each symbol in the PEG.
-    Now you are ready to read the definitions of compound sentences!
+    Now you are ready to read the definitions of compound statements!

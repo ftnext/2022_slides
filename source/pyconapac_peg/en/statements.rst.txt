@@ -23,7 +23,7 @@ Focus on "compound statements"
 The Python Language Reference `8. Compound statements`_
 
 .. The reference includes simple statements and compound statements,
-    but we will focus on compound sentences this time.
+    but we will focus on compound statements this time.
     The reference says compound statements contain other statements.
 
 Example of compound statements: ``if`` statement

@@ -2,12 +2,12 @@ Summary🌯: Revisit Python from statements and PEG
 ============================================================
 
 * Focus on appearance of compound statements of Python (**concrete syntax**).
-* learn how to read PEG and tasted the syntax of compound sentences.
+* learn how to read PEG and tasted the syntax of compound statements.
 
 .. Wrap up!
     I focused on the appearance of compound statements of current Python,
     what is called concrete syntax.
-    We learned how to read PEG and tasted the syntax of compound sentences.
+    We learned how to read PEG and tasted the syntax of compound statements.
 
 .. revealjs-break::
 
