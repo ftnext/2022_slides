@@ -12,12 +12,17 @@ About nikkie myself
 
 .. revealjs-break::
 
-* Data scientists at `株式会社ユーザベース <https://www.uzabase.com/jp/>`_ (NLP, Write Python)
+* Data scientist at `Uzabase, Inc. <https://www.uzabase.com/en/>`_ (NLP, Write Python)
 * We're hiring!! (Engineers, Data scientists, Researchers)
+
+.. I'm working at Uzabase as a Data scientist. Do NLP with Python
+    We're hiring!!
 
 .. image:: https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL
 
 Also talks 讓我聽見愛的歌聲 x 🐍
 --------------------------------------------------
+
+.. I also talks implement SHion with Python on this PyCon APAC!
 
 .. TOOD スライド埋め込む
