@@ -23,7 +23,7 @@ High-level programming language / Machine language
     * - Humans 👩‍💻👨‍💻 read and write
       - Machines 🤖 read and write
 
-.. This slide shows the contrast between High-level programming language and Machine language.
+.. This slide shows the contrast.
     Humans read and write high-level languages, such as Python and other programming languages,
     while machines read and write machine languages.
 
@@ -186,13 +186,12 @@ Subject is **concrete syntax**
 
 .. revealjs-fragments::
 
-    * Machine (**parser** 🤖) reads whether tokens match concrete syntax or not
-    * (Key🗝 is *recursion*)
+    * Machine (**parser** 🤖) reads whether tokens match concrete syntax or not (Key🗝 is *recursion*)
 
 .. It is concrete syntax that I will be talking this time.
-    Let's dive deeply into the current look and feel of compound statements in Python.
-    Prior to making ASTs, the machine, called parser reads whether tokens match Python's concrete syntax or not
-    This talk will give you the viewpoint of parser which reads the programs according to the concrete syntax
+    Let's dive deeply into the current appearance of compound statements in Python.
+    Prior to making ASTs, the machine, called parser reads whether tokens match Python's concrete syntax or not.
+    This talk will give you the viewpoint of parser
 
 Revisit Python from statements and PEG
 ==================================================
@@ -200,7 +199,7 @@ Revisit Python from statements and PEG
 * Share the meaning of colons and indents
 * Read and taste PEG together
 
-.. In this talk, I will share the meaning of colons and indentation
+.. In this talk, I will share the meaning of colons and indents
     and we will read PEG and taste it together!
 
 .. revealjs-break::
