@@ -96,8 +96,7 @@ Elements of clause
 Header
 --------------------------------------------------
 
-    Each clause header begins with a uniquely identifying keyword and ends with a colon.
-    各節のヘッダは一意に識別するキーワードで始まり、コロンで終わります。（ `8. Compound statements`_）
+    Each clause header begins with a uniquely identifying keyword and ends with a colon. (`8. Compound statements`_)
 
 .. Headers begin with a uniquely identifying keyword and end with a colon.
 
@@ -133,7 +132,7 @@ Suite
 
     A suite can be [...], or it can be one or more indented statements on subsequent lines. (`8. Compound statements`_)
 
-.. So what is the suite? I referred to the reference.
+.. So what is the suite?
     Suite is one or more indented statements following the header.
 
 Suite is one or more indented statements
@@ -203,7 +202,7 @@ Short summary🥟: Statements in Python
     A compound statement consists of clauses, or headers and suites.
     When you forget colon or indent, you see syntax errors,
     but colons correspond to headers and indents corresponds to suites.
-    I was impressed that explanations of the reference matched the Python I usually write.
+    I was impressed that explanations of the reference matches the Python I usually write.
 
 .. ここまでで約4分
 
@@ -308,7 +307,7 @@ The function call in the following example is also a *statement* (written as a s
 
 .. This is the example we've been looking at all along.
     Note that an expression itself is a statement.
-    Lines 3 and 5 of are expressions because they are function calls.
+    Line 3 and 5 are expressions because they are function calls.
     And the expression is a statement, so each statement is a suite!
 
 .. 補足で2分半（Part Iは6分半）
