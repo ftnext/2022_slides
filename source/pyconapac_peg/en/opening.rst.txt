@@ -13,7 +13,7 @@ First question: Can you write in Python❔
 * function
 
 .. Can you write if and for and function in Python?
-    if you answered 'Of course' to the prior question, [続]
+    if you answered 'Of course', [続]
 
 About "Revisit Python from statements and PEG"
 --------------------------------------------------
@@ -32,7 +32,7 @@ Audience take away
 * How to read *PEG*
 
 .. You know the Components of Python statements.
-    You hear Explanation of the statement from different view point
+    You hear Explanation of the statement from different view point.
     We read together the PEG.
 
 Motivation: Python itself is interesting!
