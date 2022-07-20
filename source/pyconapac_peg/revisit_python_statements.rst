@@ -14,6 +14,8 @@ Revisit Python from statements and PEG
 
 .. include:: en/self_introduction.rst.txt
 
+.. ここまでで2分
+
 .. include:: en/introduction.rst.txt
 
 Menu: Revisit Python from statements and PEG
@@ -23,7 +25,7 @@ Menu: Revisit Python from statements and PEG
 2. Define statements with PEG
 3. Read PEG together
 
-.. I will talk about this in three major parts
+.. I will talk about this in three major parts（ここまでで5分。開始7分）
 
 .. include:: en/statements.rst.txt
 
@@ -33,6 +35,8 @@ Menu: Revisit Python from statements and PEG
 1. ✅ Statements in Python
 2. Define statements with PEG
 3. Read PEG together
+
+.. ここまでで7分（開始14分）
 
 .. include:: en/peg.rst.txt
 
@@ -45,6 +49,8 @@ Menu: Revisit Python from statements and PEG
 
 .. Read the definitions of compound statements together in the next part!
 
+.. ここまでで6分（開始20分）
+
 .. include:: en/syntax.rst.txt
 
 Menu: Revisit Python from statements and PEG
@@ -53,6 +59,8 @@ Menu: Revisit Python from statements and PEG
 1. ✅ Statements in Python
 2. ✅ Define statements with PEG
 3. ✅ Read PEG together
+
+.. ここまでで7分（開始27分）
 
 .. include:: en/wrapup.rst.txt
 
