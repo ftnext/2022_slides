@@ -24,7 +24,7 @@ Taste ``while`` statement
 * **Required**: Clause with a header starting with the keyword ``while`` and following block
 * Optional ``else_block``
 
-.. A clause consisting of a header starting with the keyword while and the following block is required
+.. A clause consisting of a header starting with the keyword while and the following block is required.
     The else_block seen in if statement comes optionally.
 
 ``while`` ``else``
