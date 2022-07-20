@@ -83,6 +83,7 @@ Elements of ``block``
 ------------------------------------------------
 
 .. code-block:: peg
+
     # indented multiple (simple or compound) statements with newline and dedent,
     # OR multiple simple statements without newline
     block:
