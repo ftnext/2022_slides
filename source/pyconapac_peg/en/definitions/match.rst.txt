@@ -22,7 +22,7 @@ Since Python 3.10 (2021/10 release)
         case _:
             <action_wildcard>
 
-`What's New In Python 3.10 <https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching>`_ より
+ref: `What's New In Python 3.10 <https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching>`_
 
 .. I brought this from What's New In Python 3.10.
     The soft keywords match and case have been introduced, which enables us to write pattern matching!
