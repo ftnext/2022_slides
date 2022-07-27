@@ -1,0 +1,228 @@
+リファクタリング with 達人
+============================================================
+
+.. literalinclude:: ../../samplecode/refactoring/before.py
+    :language: python
+    :linenos:
+
+初手： ``transform_letter`` 関数に引数追加
+--------------------------------------------------
+
+.. code-block:: diff
+
+    -        result += transform_letter(char_code)
+    +        result += transform_letter(character, char_code)
+
+    -def transform_letter(char_code: int) -> str:
+    +def transform_letter(letter: str, char_code: int) -> str:
+
+.. include:: tests_passed.rst.txt
+
+2手目： ``is_between`` 関数に引数追加
+--------------------------------------------------
+
+.. code-block:: diff
+
+    -    if is_between(char_code, "a", "m") or is_between(char_code, "A", "M"):
+    +    if is_between(letter, char_code, "a", "m") or is_between(letter, char_code, "A", "M"):
+
+    -    elif is_between(char_code, "n", "z") or is_between(char_code, "N", "Z"):
+    +    elif is_between(letter, char_code, "n", "z") or is_between(letter, char_code, "N", "Z"):
+
+    -def is_between(char_code: int, first_letter: str, last_letter: str) -> bool:
+    +def is_between(letter: str, char_code: int, first_letter: str, last_letter: str) -> bool:
+
+.. include:: tests_passed.rst.txt
+
+3手目： **文字の比較** に実装を変更（ ``is_between`` 関数）
+------------------------------------------------------------
+
+ついにリファクタリングのアイデアを実施
+
+.. code-block:: diff
+
+    -    return code_for(first_letter) <= char_code <= code_for(last_letter)
+    +    return first_letter <= letter <= last_letter
+
+.. include:: tests_passed.rst.txt
+
+4手目： 使わなくなった ``code_for`` 関数を削除
+--------------------------------------------------
+
+.. code-block:: diff
+
+    -def code_for(letter: str) -> int:
+    -    return ord(letter)
+
+.. include:: tests_passed.rst.txt
+
+5手目： ``is_between`` 関数をインライン化
+--------------------------------------------------
+
+いまの ``is_between`` 関数の本体は **名前と同じくらい分かりやすい**！
+
+.. code-block:: diff
+
+    -    if is_between(letter, char_code, "a", "m") or is_between(letter, char_code, "A", "M"):
+    +    if ("a" <= letter <= "m") or ("A" <= letter <= "M"):
+    -    elif is_between(letter, char_code, "n", "z") or is_between(letter, char_code, "N", "Z"):
+    +    elif ("n" <= letter <= "z") or ("N" <= letter <= "Z"):
+
+    -def is_between(letter: str, char_code: int, first_letter: str, last_letter: str) -> bool:
+    -    return first_letter <= letter <= last_letter
+
+.. include:: tests_passed.rst.txt
+
+6手目： ``transform_letter`` 関数で ``letter`` から ``char_code`` を作れる
+--------------------------------------------------------------------------------
+
+引数 ``char_code`` を消す前のステップ
+
+.. code-block:: diff
+
+    def transform_letter(letter: str, char_code: int) -> str:
+    +    char_code = ord(letter)
+
+.. include:: tests_passed.rst.txt
+
+7手目： ``char_code`` 引数削除
+--------------------------------------------------
+
+.. code-block:: diff
+
+    -        char_code = ord(character)
+    -        result += transform_letter(character, char_code)
+    +        result += transform_letter(character)
+
+    -def transform_letter(letter: str, char_code: int) -> str:
+    +def transform_letter(letter: str) -> str:
+
+.. include:: tests_passed.rst.txt
+
+この時点もだいぶスッキリ✨
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/refactoring/intermediate.py
+    :language: python
+    :linenos:
+
+さらなるアイデア
+============================================================
+
+* 正規表現 ``r"[A-Za-z]"`` にマッチする文字だけ置き換える
+* Pythonでは ``re.sub`` に関数を渡す（``transform_letter`` を渡す）
+
+https://docs.python.org/ja/3/library/re.html#re.sub
+
+.. code-block:: python
+
+    re.sub(r"[A-Za-z]", マッチした各文字を変換する関数, 対象文字列)
+
+正規表現導入
+--------------------------------------------------
+
+.. code-block:: diff
+
+    +import re
+
+    -    result = ""
+    -    for character in input_:
+    -        result += transform_letter(character)
+    -    return result
+    +    return re.sub(
+    +        r"[A-Za-z]",
+    +        lambda matchobj: transform_letter(matchobj.group(0)),
+    +        input_,
+    +    )
+
+.. include:: tests_passed.rst.txt
+
+``transform_letter`` のif文を単純に（WIP）
+--------------------------------------------------
+
+正規表現を使ったことで、 **A-Za-zでのみ** ``transform_letter`` 関数が呼び出される
+
+.. code-block:: diff
+
+    -    if ("a" <= letter <= "m") or ("A" <= letter <= "M"):
+    +    if letter.upper() <= "M":
+
+.. include:: tests_passed.rst.txt
+
+``transform_letter`` のif文を単純に
+--------------------------------------------------
+
+.. code-block:: diff
+
+    -    elif ("n" <= letter <= "z") or ("N" <= letter <= "Z"):
+    +    else:
+
+.. include:: tests_passed.rst.txt
+
+``transform_letter`` の処理に ``rotation`` 変数導入
+------------------------------------------------------------
+
+何文字だけ文字コードを変更するかを表す変数
+
+.. code-block:: diff
+
+         char_code = ord(letter)
+         if letter.upper() <= "M":
+             char_code += 13
+    +        rotation = 13
+         else:
+             char_code -= 13
+    +        rotation = -13
+
+.. include:: tests_passed.rst.txt
+
+``char_code`` 変数に再代入しない（ ``transform_letter`` 関数）
+----------------------------------------------------------------------
+
+.. code-block:: diff
+
+         char_code = ord(letter)
+         if letter.upper() <= "M":
+    -        char_code += 13
+             rotation = 13
+         else:
+    -        char_code -= 13
+             rotation = -13
+    -    return chr(char_code)
+    +    return chr(char_code + rotation)
+
+.. include:: tests_passed.rst.txt
+
+``char_code`` 変数のインライン化（ ``transform_letter`` 関数）
+----------------------------------------------------------------------
+
+.. code-block:: diff
+
+    -    char_code = ord(letter)
+
+    -    return chr(char_code + rotation)
+    +    return chr(ord(letter) + rotation)
+
+.. include:: tests_passed.rst.txt
+
+条件式を使って ``if`` 文を消す
+--------------------------------------------------
+
+Pythonに馴染みのない方へ、条件式は *三項演算子* だと思ってください
+
+.. code-block:: diff
+
+    -    if letter.upper() <= "M":
+    -        rotation = 13
+    -    else:
+    -        rotation = -13
+    +    rotation = 13 if letter.upper() <= "M" else -13
+
+.. include:: tests_passed.rst.txt
+
+小さいステップを積み重ねてリファクタリングできた！！🙌
+------------------------------------------------------------
+
+.. literalinclude:: ../../samplecode/refactoring/after.py
+    :language: python
+    :linenos:
