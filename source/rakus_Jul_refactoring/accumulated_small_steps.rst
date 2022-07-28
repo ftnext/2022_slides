@@ -10,7 +10,14 @@
 
 * Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
 * 株式会社ユーザベースでアジャイル開発するデータサイエンティスト（自称えぬえるぴーや😎）
-* ㊗️ `『アイの歌声を聴かせて』配信開始 <https://ainouta.jp/ondemand.html>`_ ！ 面白いからみんな観て🙏
+* イチオシアニメ『アイの歌声を聴かせて』 ㊗️ `配信開始 <https://ainouta.jp/ondemand.html>`_ ！
+
+面白いからみんな観て🙏（配信も！）
+--------------------------------------------------
+
+.. raw:: html
+
+    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/oS36ehQVPYU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ラクスさんのLT会、お世話になっております
 --------------------------------------------------
@@ -38,11 +45,13 @@
 * 「リファクタリングのステップ、 **小さっ！**」という衝撃を共有
 * 1個1個は小さいリファクタリング、それを **何回も何回も行う** ことでコードが良くなっていく！（と理解）
 
+.. _リファクタリング: https://www.ohmsha.co.jp/book/9784274224546/
+
 参考書籍
 --------------------------------------------------
 
 * 元ネタは『The Art of Agile Development Second edition』（James Shore）の `リファクタリングの章 <https://www.jamesshore.com/v2/books/aoad2/refactoring>`_
-* Martin Fowler『リファクタリング』第1章にも「小さい！」という感想を抱きました
+* Martin Fowler『`リファクタリング`_』第1章にも「小さい！」という感想を抱きました
 
 今回のサンプルコード
 ============================================================
@@ -181,6 +190,8 @@ Pythonに書き直しました（Python 3.10）
 
     OK
 
+https://github.com/ftnext/aoad2e-py/blob/start-refactoring/refactoring/test_rot13.py
+
 質問：皆さんはどこからリファクタリングしますか❓
 --------------------------------------------------
 
@@ -194,12 +205,29 @@ Pythonに書き直しました（Python 3.10）
 --------------------------------------------------
 
 * ``transform_letter`` 関数をいじっていく
-* 引数 ``char_code`` 消して、 ``letter`` 導入して、これを ``is_between`` に渡して（``is_between`` の引数も変えなきゃ）
-* **格闘の末**、テスト全部通った！できた🙌
+* 引数 ``char_code`` 消して、 ``letter`` 導入
 
 .. literalinclude:: ../../samplecode/refactoring/before.py
     :language: python
     :pyobject: transform_letter
+    :linenos:
+
+.. revealjs-break::
+
+* 導入したletter引数を渡す ``is_between`` 関数も変えて
+* あ、``char_code`` どうするんだ？
+* **格闘の末**、テスト全部通った！できた🙌
+
+.. code-block:: python
+    :linenos:
+    :emphasize-lines: 1,2,4
+
+    def transform_letter(letter: str) -> str:
+        if is_between(letter, "a", "m") or is_between(letter, "A", "M"):
+            char_code += 13
+        elif is_between(letter, "n", "z") or is_between(letter, "N", "Z"):
+            char_code -= 13
+        return chr(char_code)
 
 文字コードでなく文字で比較しよう（達人の場合）
 --------------------------------------------------
@@ -239,7 +267,7 @@ Pythonに書き直しました（Python 3.10）
 小さいステップでリファクタリングするには
 --------------------------------------------------
 
-* 『リファクタリング』にあるような知識（例：関数のインライン化）が必要
+* 『`リファクタリング`_』にあるような知識（例：関数のインライン化）が必要
 * **テクニックを知っているからこそ** 小さいステップに分解できる
 * テクニックを知る＝IDE操作を知るにもなりそう
 
@@ -251,12 +279,16 @@ Pythonに書き直しました（Python 3.10）
   * 出した例では正規表現を導入せずに止めてもいい
   * 今は時間がないけど、ここは設計変えていきたいから「 **一手目として変数追加だけ** やろう」もできるはず
 
-『レガシーコード改善ガイド』を思い出す
+.. _レガシーコード改善ガイド: https://www.shoeisha.co.jp/book/detail/9784798116839
+
+『`レガシーコード改善ガイド`_』を思い出す
 --------------------------------------------------
 
 * 小さなステップに分けて、 **いまできる手数だけ** リファクタリング
-* betterな設計に向けてチームが動き出すための足がかりを作るということ
+* betterな設計に向けてチームが動き出すための足がかりを作るということ🌱
 * 6章 スプラウトクラスやラップクラスに通じるかも
+
+.. _エクストリームプログラミング: https://www.ohmsha.co.jp/book/9784274217623/
 
 結びに：ケント・ベック言ってた！（『エクストリームプログラミング』 はじめに）
 --------------------------------------------------------------------------------
@@ -275,6 +307,7 @@ Pythonに書き直しました（Python 3.10）
 関連アウトプット
 ============================================================
 
+* Python写経コード https://github.com/ftnext/aoad2e-py/tree/main/refactoring
 * 事前アウトプット ブログ版 `え、待って！リファクタリングって1つ1つのステップそんなに小さく実施するの！？ （『The Art of Agile Development』読書録） <https://nikkie-ftnext.hatenablog.com/entry/art-of-agile-development-2nd-really-small-refactoring-steps>`_
 
 EOF
