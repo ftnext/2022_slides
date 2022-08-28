@@ -29,6 +29,9 @@ jobs:
           make revealjs
           touch build/revealjs/.nojekyll
           rm -r build/revealjs/_sources
+      - name: Copy PyCon APAC slide
+        run: |
+          cp source/pyconapac_maker/en/live_notebook.slides.html build/revealjs/pyconapac_maker/
       - name: Publish on GitHub Pages
         uses: ftnext/action-push-ghpages@v1.0.0
         with:
