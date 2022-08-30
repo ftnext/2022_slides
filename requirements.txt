@@ -1,0 +1,18 @@
+# for Binder (PyCon APAC 2022 presentation)
+
+# Speech-To-Text
+## first move
+SpeechRecognition
+pyaudio
+google-api-python-client
+google-cloud-speech
+oauth2client
+
+## refinement
+espnet-model-zoo
+
+# Text-to-Speech
+## refinement
+sounddevice
+torch<1.11
+ttslearn
