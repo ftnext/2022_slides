@@ -1,0 +1,6 @@
+name: my-shion-project-pyconapac-2022
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - rise
