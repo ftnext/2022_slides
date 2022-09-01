@@ -1,3 +1,8 @@
+:ogp_title: Revisit Python from statements and PEG
+:ogp_event_name: pyconapac_peg
+:ogp_slide_name: revisit_python_statements
+:ogp_description: PyCon APAC 2022 30 minutes talk slide (pre-recorded version)
+
 ============================================================
 Revisit Python from statements and PEG
 ============================================================
