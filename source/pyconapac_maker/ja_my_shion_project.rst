@@ -3,7 +3,7 @@
 ================================================================================
 
 :Event: PyCon APAC 2022
-:Presented: 2022/09/03 or 04 nikkie
+:Presented: 2022/07/20 (pre-recorded) nikkie
 
 .. include:: ja/introduction.rst.txt
 
