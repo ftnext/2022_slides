@@ -1,18 +1,19 @@
-import tempfile
+from io import BytesIO
 
 import numpy as np
 import soundfile as sf
 import speech_recognition as sr
 from espnet2.bin.asr_inference import Speech2Text
-from scipy.io import wavfile
 
 speech2text = Speech2Text.from_pretrained(
     "kan-bayashi/csj_asr_train_asr_transformer_raw_char_sp_valid.acc.ave"
 )
 
+SAMPLING_RATE_HZ = 16_000
+
 
 def input_from_microphone(recognizer: "sr.Recognizer") -> "sr.AudioData":
-    with sr.Microphone(sample_rate=16_000) as source:
+    with sr.Microphone(sample_rate=SAMPLING_RATE_HZ) as source:
         print("なにか話してください")
         audio = recognizer.listen(source)
         print("音声を取得しました")
@@ -20,12 +21,11 @@ def input_from_microphone(recognizer: "sr.Recognizer") -> "sr.AudioData":
 
 
 def convert_to_array(audio: "sr.AudioData") -> "np.array":
-    frame_bytes = audio.get_raw_data()
-    speech_array = np.frombuffer(frame_bytes, dtype=np.int16)
-    with tempfile.NamedTemporaryFile() as tempf:
-        wavfile.write(tempf.name, audio.sample_rate, speech_array)
-        audio_array, sampling_rate = sf.read(tempf.name)
-        return audio_array
+    wav_bytes = audio.get_wav_data()
+    wav_stream = BytesIO(wav_bytes)
+    audio_array, sampling_rate = sf.read(wav_stream)
+    assert sampling_rate == SAMPLING_RATE_HZ
+    return audio_array
 
 
 def recognize_speech(audio_array: "np.array") -> str:
