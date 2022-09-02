@@ -90,7 +90,7 @@ NumPy arrayに変換
 落とし穴：arrayのdtype
 --------------------------------------------------
 
-* wavファイルを ``sounddevice`` で読み込むと ``dtype`` は **float64**
+* wavファイルを ``SoundFile`` で読み込むと ``dtype`` は **float64**
 * マイクから入力した音声をarrayに変換したところ、 ``dtype`` は *int16*
 * 訓練済みモデルは dtype=int16 のデータに対して実力を発揮しきれない
 
