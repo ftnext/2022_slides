@@ -1,0 +1,28 @@
+References
+============================================================
+
+* `subprocess --- サブプロセス管理 <https://docs.python.org/ja/3/library/subprocess.html>`_
+* https://github.com/Uberi/speech_recognition/blob/3.8.1/examples/microphone_recognition.py
+
+.. revealjs-break::
+
+* 『`Pythonで学ぶ音声合成 <https://book.impress.co.jp/books/1120101073>`_』
+* `「Pythonで学ぶ音声合成」 Quick start DNN音声合成 <https://r9y9.github.io/ttslearn/latest/notebooks/ch00_Quick-start.html#DNN%E9%9F%B3%E5%A3%B0%E5%90%88%E6%88%90-(%E7%AC%AC5%E7%AB%A0%E3%83%BB%E7%AC%AC6%E7%AB%A0)>`_
+* sounddevice example: `Playing and Recording Sound in Python – Real Python <https://realpython.com/playing-and-recording-sound-python/#python-sounddevice>`_
+
+.. revealjs-break::
+
+* `ESPnet による音声認識入門 ～ESPnet Model Zoo 編～ <https://tech.retrieva.jp/entry/2020/12/23/170645>`_
+
+Blog outputs（初手の実装）
+--------------------------------------------------
+
+* TTS `「プログラムに読み上げてもらいたい！」というアイデアをPythonで手早く検証する <https://nikkie-ftnext.hatenablog.com/entry/tts-quickly-python-subprocess>`_
+* ASR `「喋った内容をプログラムに認識してもらいたい！」というアイデアをPythonで手早く検証する <https://nikkie-ftnext.hatenablog.com/entry/asr-quickly-python-speechrecognition>`_
+
+Blog outputs（作り込み）
+--------------------------------------------------
+
+* TTS `Pythonの読み上げを聴かせて <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-text-to-speech>`_
+* ASR `声をPythonに聴かせて（前編：wavファイルだと書き起こせるのに、マイクの入力はいまいち！？） <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part1>`_
+* ASR `声をPythonに聴かせて（後編：対処し、マイクの音声でも「変じゃないよ」） <https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part2>`_
