@@ -66,6 +66,7 @@ XPとnikkie
 
 * 書籍（この発表のメイン）
 * 社外の読書会（Special thanks `agile_devs <https://agiledevs.connpass.com/>`_ ）
+* 日々チームでの実践（Special thanks チームメンバー）
 
 思うに、誰しもアジャイルの **旅の途中** にいる
 --------------------------------------------------
@@ -134,7 +135,30 @@ XPとnikkie
 
 Enjoy your journey!❤️
 
-TODO: References が続きます
+References が続きます
+
+References 1/3
+============================================================
+
+* 『`エクストリームプログラミング（第2版） <https://www.ohmsha.co.jp/book/9784274217623/>`_』（2015）
+* 『`Clean Agile <https://www.kadokawa.co.jp/product/302007001102/>`_』（2020）
+* 『`アジャイルな見積りと計画づくり <https://book.mynavi.jp/ec/products/detail/id=22141>`_』（2009）
+
+References 2/3
+--------------------------------------------------
+
+* 『`The Art of Agile Development, 2nd Edition <https://www.jamesshore.com/v2/books/aoad2>`_』（2021）
+* 『`アート・オブ・アジャイル デベロップメント <https://www.oreilly.co.jp/books/9784873113951/>`_』（2009）
+* 『`アジャイルサムライ <https://www.ohmsha.co.jp/book/9784274068560/>`_』（2011）
+
+References 3/3
+--------------------------------------------------
+
+* `実践エクストリームプログラミング <https://speakerdeck.com/enk/extreme-programming-in-practice>`_
+
+  * アーカイブ `TechBase vol.1 <https://youtu.be/b6gSzGC1BF8?t=2215>`_
+
+* `そのプランニングに意思、乗せていますか？ <https://speakerdeck.com/jnuank/sofalsepuranninguniyi-si-cheng-seteimasuka>`_
 
 EOF
 ============================================================
