@@ -1,0 +1,245 @@
+.. _Effective Python 第2版: https://www.oreilly.co.jp/books/9784873119175/
+
+関数と ``*`` その1： *専用* 引数
+============================================================
+
+関数定義における *専用* 引数
+--------------------------------------------------
+
+* キーワード専用引数（``*``）
+* 位置専用引数（``/``）
+
+**関数の呼び出しの話から** 始めましょう
+
+Pythonの関数の引数
+--------------------------------------------------
+
+* 関数定義では *位置またはキーワード引数* （`Pythonチュートリアル 4.8.3.1. <https://docs.python.org/ja/3/tutorial/controlflow.html#positional-or-keyword-arguments>`_）
+* 値の渡し方には **位置** 引数と、キーワード引数（＝ **名前付き** 引数）の2通りがある
+
+関数の例
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> def calculate_bmi(height_m, weight_kg):
+    ...     return weight_kg / height_m / height_m
+
+呼び出し例（渡す値は同じです）
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(1.58, 46)
+    18.426534209261334
+    >>> # すべてキーワード引数で渡せば、順番を変えられます
+    >>> calculate_bmi(weight_kg=46, height_m=1.58)
+    18.426534209261334
+    >>> # 位置引数はキーワード引数より先に来ます
+    >>> calculate_bmi(1.58, weight_kg=46)
+    18.426534209261334
+
+値を位置引数として渡して呼び出す
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(1.58, 46)
+    18.426534209261334
+
+* 渡す値の **順序** が重要
+* 名前付けて値を渡すことに意味がない（付ける名前を知らなくても呼び出せる）
+
+値を名前付き引数で渡して呼び出す
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(weight_kg=46, height_m=1.58)
+    18.426534209261334
+
+* 渡す値の順序に制限なし（順序が重要でない）
+* 名前付きで値を渡すことに意味があり、 **より明確** に呼び出せる
+
+引数のデフォルト値
+--------------------------------------------------
+
+* デフォルト値を指定した関数定義（`Pythonチュートリアル 4.8.1. <https://docs.python.org/ja/3/tutorial/controlflow.html#default-argument-values>`_）
+* 必須の引数（デフォルト値なし）
+* **オプション** の引数（デフォルト値あり）
+
+デフォルト値を指定
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> def calculate_bmi(height_m, weight_kg=61.8):
+    ...     return weight_kg / height_m / height_m
+
+平均体重を指定
+
+.. https://www.e-stat.go.jp/dbview?sid=0003224177
+
+呼び出し例
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(1.58)  # 必須の引数だけを指定
+    24.75564813331197
+    >>> calculate_bmi(1.58, 46)  # オプションの引数に位置引数で値を渡す
+    18.426534209261334
+    >>> calculate_bmi(1.58, weight_kg=46)  # オプションの引数に名前付きで値を渡す
+    18.426534209261334
+
+.. doctestを通すための変数定義
+    >>> weight_diff, time_diff = 0.5, 3
+
+オプションの引数が複数あるとき
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> def flow_rate(weight_diff, time_diff, period=1, units_per_kg=1):
+    ...     ...
+
+    >>> flow_rate(weight_diff, time_diff, 3600, 2.2)
+
+* 位置引数で値を渡すと、値の意味が分かりづらい
+
+.. revealjs-break::
+
+.. code-block:: python
+
+    >>> flow_rate(weight_diff, time_diff, period=3600, units_per_kg=2.2)
+
+* **名前付き** で渡すと **分かりやすい**
+* Effective Python 第2版 `項目23のコード <https://github.com/bslatkin/effectivepython/blob/master/example_code/item_23.py#L147-L161>`_ より
+
+関数に **追加** する引数は **オプション引数**
+--------------------------------------------------
+
+『`Effective Python 第2版`_』項目23「キーワード引数にオプションの振る舞いを与える」
+
+* 必須引数として追加すると既存の呼び出しを壊してしまう
+* （すでに見たように）オプション引数は **名前付き** で渡すと分かりやすい
+
+💡位置引数で渡すか、名前付きで渡すかを指定できる！
+--------------------------------------------------
+
+関数定義のデフォルトの「位置またはキーワード引数」に代えて
+
+* キーワード専用引数（``*``）
+* 位置専用引数（``/``）
+
+キーワード専用引数
+============================================================
+
+* **名前付き** 引数で渡すのを **強制** する
+* 名前付きで渡すので、渡す順番は自由
+
+関数定義でキーワード専用にする
+--------------------------------------------------
+
+.. code-block:: python
+    :emphasize-lines: 2
+
+    >>> # 2つの引数をどちらもキーワード専用とした
+    >>> def calculate_bmi(*, height_m, weight_kg):
+    ...     return weight_kg / height_m / height_m
+
+引数リストの ``*`` 以降は、キーワード専用引数となる
+
+名前付き引数で呼び出す！
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(weight_kg=46, height_m=1.58)
+    18.426534209261334
+    >>> calculate_bmi(1.58, 46)
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: calculate_bmi() takes 0 positional arguments but 2 were given
+
+キーワード専用引数の使い所
+--------------------------------------------------
+
+* **関数呼び出しの意図を明確に** するために使う（『`Effective Python 第2版`_』項目25）
+* IMO： *オプション（＝デフォルト値あり）の引数* は、キーワード専用が望ましいのではないか
+
+  * オプション引数に位置引数で渡すのは分かりにくさを生むので、それをさせない
+
+組み込み関数におけるキーワード専用引数
+--------------------------------------------------
+
+`max <https://docs.python.org/ja/3/library/functions.html#max>`_ や `min <https://docs.python.org/ja/3/library/functions.html#min>`_ の ``key`` 引数
+
+.. code-block:: python
+
+    >>> fruits_prices = {"apple": 100, "banana": 50, "melon": 777}
+    >>> min(fruits_prices)  # keyが最小（アルファベット順で先頭）
+    'apple'
+    >>> min(fruits_prices.items())  # keyが最小（アルファベット順で先頭）
+    ('apple', 100)
+    >>> min(fruits_prices.items(), key=lambda pair: pair[1])
+    ('banana', 50)
+
+位置専用引数
+============================================================
+
+* **位置** 引数で渡すのを **強制** する
+* 名前付きでは渡せなくなる（**名前を知らずに使って** ほしい）
+
+関数定義で位置専用にする
+--------------------------------------------------
+
+.. code-block:: python
+    :emphasize-lines: 2
+
+    >>> # 2つの引数をどちらも位置専用とした
+    >>> def calculate_bmi(height_m, weight_kg, /):
+    ...     return weight_kg / height_m / height_m
+
+引数リストの ``/`` までは、位置専用引数となる
+
+位置引数で呼び出す！
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> calculate_bmi(1.58, 46)
+    18.426534209261334
+    >>> calculate_bmi(weight_kg=46, height_m=1.58)
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: calculate_bmi() got some positional-only arguments passed as keyword arguments: 'height_m, weight_kg'
+
+位置専用引数の使い所
+--------------------------------------------------
+
+* 将来、 **引数名を変更可能** にするために使う
+* 引数名が有用ではない場合にキーワード引数としての利用を排除する（`What's New In Python 3.8 <https://docs.python.org/ja/3.8/whatsnew/3.8.html#positional-only-parameters>`_）
+
+組み込み関数における位置専用引数
+--------------------------------------------------
+
+`sum <https://docs.python.org/ja/3/library/functions.html#sum>`_ の第1引数 ``iterable``
+
+.. code-block:: python
+
+    >>> sum(range(1, 11))
+    55
+
+IMO： ``iterable=`` と指定しないほうがスッキリ
+
+まとめ🥟：関数と ``*`` その1： 専用引数
+============================================================
+
+* ``*`` を使ってキーワード専用引数
+
+  * 位置引数で渡せないので、呼び出し意図が明確。オプション引数と相性よい
+
+* ``/`` を使って位置専用引数
+
+  * 名前付き引数で渡せないので、引数名が将来変えられる
