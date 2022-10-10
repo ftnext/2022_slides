@@ -1,7 +1,7 @@
 .. _6.7. 二項算術演算 (binary arithmetic operation): https://docs.python.org/ja/3/reference/expressions.html#binary-arithmetic-operations
 .. _6.5. べき乗演算 (power operator): https://docs.python.org/ja/3/reference/expressions.html#the-power-operator
 
-二項算術演算子としての ``*``, ``**``
+1️⃣二項算術演算子としての ``*``, ``**``
 ============================================================
 
 ``*`` は **乗算** （掛け算）
