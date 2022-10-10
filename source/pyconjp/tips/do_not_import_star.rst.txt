@@ -1,0 +1,21 @@
+閑話🍵： ``import`` 文と ``*``
+============================================================
+
+``from module_or_package import *`` はオススメしません🙅‍♂️
+------------------------------------------------------------
+
+``from module_or_package import *``
+--------------------------------------------------
+
+* packageやmoduleに ``__all__`` 属性（リスト）が定義されていれば、その名前をimport（`Pythonチュートリアル 6.4.1. <https://docs.python.org/ja/3/tutorial/modules.html#importing-from-a-package>`_）
+* 定義されていなければ、アンダースコアで始まるものを除いて **すべての名前** をインポート（`Pythonチュートリアル 6.1. <https://docs.python.org/ja/3/tutorial/modules.html#more-on-modules>`_）
+
+オススメしません🙅‍♂️
+--------------------------------------------------
+
+* `PEP 8 <https://peps.python.org/pep-0008/#imports>`_ で **避けるべき**
+
+    Wildcard imports should be avoided
+
+* コードを理解しにくくなる（『`Effective Python 第2版`_』項目85）
+* 使うとしても対話モードonly
