@@ -4,7 +4,13 @@
 1️⃣二項算術演算子としての ``*``, ``**``
 ============================================================
 
-``*`` は **乗算** （掛け算）
+二項算術演算子
+--------------------------------------------------
+
+* (A)乗算
+* (B)べき乗
+
+1️⃣-🅰️ ``*`` は **乗算** （掛け算）
 --------------------------------------------------
 
 .. code-block:: python
@@ -16,32 +22,10 @@
 
 `6.7. 二項算術演算 (binary arithmetic operation)`_
 
-``**`` は **べき乗** （パワー）
---------------------------------------------------
-
-.. code-block:: python
-
-    >>> 5 ** 3  # 5 * 5 * 5
-    125
-
-`6.5. べき乗演算 (power operator)`_
-
-べき乗演算子の優先順位
---------------------------------------------------
-
-.. code-block:: python
-
-    >>> -1 ** 2  # -(1 ** 2) 左側にある単項演算子 - より ** が先
-    -1
-    >>> (-1) ** 2
-    1
-
-`6.5. べき乗演算 (power operator)`_
-
 乗算を整理
 --------------------------------------------------
 
-* 数値どうし（例で見た）
+* 数値どうし（前頁で見た）
 * 整数と *シーケンス*
 
 `6.7. 二項算術演算 (binary arithmetic operation)`_
@@ -70,7 +54,29 @@
 
 **繰り返し** 操作
 
-二項算術演算子って **どう実装** されているんでしょう？
+1️⃣-🅱️ ``**`` は **べき乗** （パワー）
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> 5 ** 3  # 5 * 5 * 5
+    125
+
+`6.5. べき乗演算 (power operator)`_
+
+べき乗演算子の優先順位
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> -1 ** 2  # -(1 ** 2) 左側にある単項演算子 - より ** が先
+    -1
+    >>> (-1) ** 2
+    1
+
+`6.5. べき乗演算 (power operator)`_
+
+🔍二項算術演算子って **どう実装** されているんでしょう？
 ============================================================
 
 わたし、気になります！
@@ -87,6 +93,13 @@
 
     | この種類のメソッドは、メソッド名の最初と最後にアンダースコア 2 つがついています。
     | 特殊メソッドについては `特殊メソッド名 <https://docs.python.org/ja/3/reference/datamodel.html#specialnames>`_ で解説されています。
+
+補足🏃‍♂️：これらの用語は同じ意味
+--------------------------------------------------
+
+* 特殊メソッド（special method）
+* `マジックメソッド <https://docs.python.org/ja/3/glossary.html#term-magic-method>`_ *くだけた同義語*
+* ダンダーメソッド（ダンダー＝ **d** ouble **under** score `参照 <https://docs.python.org/ja/3/library/dataclasses.html#dataclasses.dataclass>`_）
 
 乗算の特殊メソッド ``__mul__``
 --------------------------------------------------
@@ -142,23 +155,26 @@
       File "<stdin>", line 1, in <module>
     TypeError: can't multiply sequence by non-int of type 'str'
 
+    >>> CouplableStr("ぽむ")  # doctest: +SKIP
+    'ぽむ'
     >>> CouplableStr("ゆう") * CouplableStr("ぽむ")  # doctest: +SKIP
     'ゆうぽむ'
 
-`実装例 <https://github.com/ftnext/2022_slides/blob/main/samplecode/superstar/customize_mul.py>`_ 🏃‍♂️
-
-補足：これらの用語は同じ意味
+オリジナルの乗算：文字列どうし 実装例🏃‍♂️
 --------------------------------------------------
 
-* 特殊メソッド（special method）
-* `マジックメソッド <https://docs.python.org/ja/3/glossary.html#term-magic-method>`_ *くだけた同義語*
-* ダンダーメソッド（ダンダー＝ **d** ouble **under** score `参照 <https://docs.python.org/ja/3/library/dataclasses.html#dataclasses.dataclass>`_）
+.. literalinclude:: ../../samplecode/superstar/customize_mul.py
+    :language: python
+    :linenos:
+    :lines: 6,21-24
+
+`ソースコード <https://github.com/ftnext/2022_slides/blob/main/samplecode/superstar/customize_mul.py>`_
 
 まとめ🥟：二項算術演算子としての ``*``, ``**``
 ============================================================
 
 * 乗算の ``*`` ・べき乗の ``**``
-* 裏にあるのは特殊メソッド
+* 裏にあるのは **特殊メソッド**
 
   * 乗算は ``__mul__``
   * べき乗は ``__pow__``
