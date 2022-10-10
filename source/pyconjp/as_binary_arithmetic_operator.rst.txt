@@ -133,7 +133,19 @@
 オリジナルの乗算：文字列どうし
 --------------------------------------------------
 
-TODO カップリングの掛け算 ``CouplableStr``
+「`掛け算 <https://dic.pixiv.net/a/%E6%8E%9B%E3%81%91%E7%AE%97#h2_1>`_」ができる文字列 ``CouplableStr``
+
+.. code-block:: python
+
+    >>> "ゆう" * "ぽむ"
+    Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+    TypeError: can't multiply sequence by non-int of type 'str'
+
+    >>> CouplableStr("ゆう") * CouplableStr("ぽむ")  # doctest: +SKIP
+    'ゆうぽむ'
+
+`実装例 <https://github.com/ftnext/2022_slides/blob/main/samplecode/superstar/customize_mul.py>`_ 🏃‍♂️
 
 補足：これらの用語は同じ意味
 --------------------------------------------------
@@ -166,7 +178,17 @@ TODO カップリングの掛け算 ``CouplableStr``
 
 * ``pow`` 関数が ``__pow__`` を呼び出すように、 ``len`` 関数は ``__len__`` を呼び出しているのです！（**Adapter** パターン）
 
-さら知り🏃‍♂️： `__rmul__` と `__rpow__`
---------------------------------------------------
+さら知り🏃‍♂️： `__rmul__ <https://docs.python.org/ja/3/reference/datamodel.html#object.__rmul__>`_
+--------------------------------------------------------------------------------------------------------------
 
-TODO
+* ``x * y`` で ``x.__mul__(y)`` が `NotImplemented <https://docs.python.org/ja/3/reference/datamodel.html#the-standard-type-hierarchy>`_ を返すとき、 ``y.__rmul__(x)`` が呼ばれる
+* ``x`` が ``__mul__`` メソッドを持っていないときも同様
+
+`__rpow__ <https://docs.python.org/ja/3/reference/datamodel.html#object.__rpow__>`_ もある
+
+さら知り🏃‍♂️： `__imul__ <https://docs.python.org/ja/3/reference/datamodel.html#object.__imul__>`_ もある
+--------------------------------------------------------------------------------------------------------------
+
+* **累算算術代入** （乗算の場合は ``*=`` ）の実装
+
+    特定のメソッドが定義されていない場合、その累算算術演算は通常のメソッドにフォールバックされます。
