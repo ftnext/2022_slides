@@ -1,3 +1,4 @@
+.. _Python実践入門: https://gihyo.jp/book/2020/978-4-297-11111-3
 .. _Effective Python 第2版: https://www.oreilly.co.jp/books/9784873119175/
 
 .. role:: strike
