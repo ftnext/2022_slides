@@ -258,3 +258,10 @@ f-stringの ``=`` 指定子（`What's New In Python 3.8 <https://docs.python.org
 * 関数定義で ``**`` を付けて、可変長キーワード引数
 
   * 辞書アンパック演算子 ``**`` で ``キー=値`` で全部渡せる
+
+さら知り🏃‍♂️：海外のPyConより
+--------------------------------------------------
+
+* nikkieが勝手にPythonのYodaと思っている、Reuven氏のトーク
+* `PyCon APAC 2022 「Function Dissection Lab」 <https://youtu.be/b8kYh1hJPR0>`_
+* 関数 **オブジェクト** で関数の仕組み（デフォルト値などなど）が明らかにされ、実に面白い🙌
