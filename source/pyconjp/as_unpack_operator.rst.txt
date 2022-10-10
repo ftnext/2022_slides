@@ -155,3 +155,19 @@
 * イテラブルアンパック演算子 ``*`` を使って新しいリストやタプルを作れる
 * 辞書アンパック演算子 ``**`` を使って新しい辞書を作れる
 * 複数使える！（PEP 448）
+
+さら知り🏃‍♂️：再びの『`Python実践入門`_』がオススメ
+------------------------------------------------------------
+
+* 4.9 そのほかの型を表す概念
+* シーケンスやイテラブルなど説明
+* Pythonの型を学ぶのにオススメのリソース知っている方はぜひ教えてください！🙏
+
+さら知り🏃‍♂️：過去のPyCon JPからのオススメトーク
+--------------------------------------------------
+
+* 2019年 `ListはIteratorですか？ <https://pycon.jp/2019/schedule/?sessionId=123>`_
+* 2020年 `Python Charity Talks in Japan <https://pyconjp.connpass.com/event/177586/>`_ にてnext版
+
+  * `スライド <https://docs.google.com/presentation/d/1SonSdULukN88gWnMZLnMhyHcp3OcFRb5hvXZV6IYTPo/edit?usp=sharing>`_
+  * `動画アーカイブ <https://youtu.be/o-UBokTvQjE?t=11600>`_
