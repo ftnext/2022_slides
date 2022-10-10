@@ -17,12 +17,17 @@
 
 ㊗️有明開催🌈（スタッフの方々、ありがとうございます！！👏❤️）
 
+聞きに来てくださり、誠にありがとうございます
+--------------------------------------------------
+
+*ヒトツダケナンテエラベナイヨー* なラインナップですよね！（全45本）
+
 お前、誰よ
 ============================================================
 
-* Python大好き、にっきー
+* **Python** 大好き、にっきー
 * Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
-* アニメも好きで、積極的に *アニメネタを仕込む* アウトプットスタイル
+* **アニメ** も好きで、積極的に *アニメネタを仕込む* アウトプットスタイル
 
 XPするデータサイエンティスト
 --------------------------------------------------
@@ -78,7 +83,7 @@ XPするデータサイエンティスト
 
 .. revealjs-break::
 
-* 毎月オンライン開催 `みんなのPython勉強会（Start Python Club） <https://startpython.connpass.com/>`_
+* 毎月オンライン開催 `みんなのPython勉強会（Start Python Club） <https://startpython.connpass.com/>`_ スタッフしてます
 
   * `初学者向けコンテンツ <https://2022.pycon.jp/contents/communities/stapy>`_ に掲載、ありがとうございます！
   * 11月は11/10(木)開催です（Django Congress JP関連コンテンツ）
