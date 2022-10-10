@@ -6,6 +6,8 @@ from collections import UserString
 class CouplableStr(UserString):
     """「掛け算」ができる文字列クラス
 
+    >>> CouplableStr("ぽむ")
+    'ぽむ'
     >>> CouplableStr("ゆう") * CouplableStr("ぽむ")
     'ゆうぽむ'
     >>> CouplableStr("🖤") * CouplableStr("🎀")
