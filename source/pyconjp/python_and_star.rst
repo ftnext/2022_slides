@@ -7,7 +7,7 @@
 [ドラフト版] Pythonとアスタリスク 🐍🌟💫🐍🌟💫
 ================================================================================
 
-TODO ここにハッシュタグ
+`#pyconjp <https://twitter.com/search?q=%23pyconjp>`_ `#pyconjp_4 <https://twitter.com/search?q=%23pyconjp_4>`_
 
 :Event: PyCon JP 2022
 :Presented: 2022/10/14 nikkie
