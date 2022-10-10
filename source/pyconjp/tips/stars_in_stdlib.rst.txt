@@ -1,0 +1,93 @@
+閑話🍵：標準ライブラリの ``*``, ``**``
+============================================================
+
+6つ紹介🏃‍♂️
+
+glob (1/6)
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> glob.glob("**/*.txt", recursive=True)  # doctest: +SKIP
+    ['2.txt', 'sub/3.txt']
+
+.. code-block:: txt
+
+    .
+    ├── 1.gif
+    ├── 2.txt
+    └── sub/
+        └── 3.txt
+
+.. https://tree.nathanfriend.io/ にて生成
+    1.gif
+    2.txt
+    card.gif
+    sub
+     3.txt
+
+`glob.glob <https://docs.python.org/ja/3/library/glob.html#glob.glob>`_
+----------------------------------------------------------------------------------------------------
+
+* ``"*"`` は「shell-style wildcards」
+
+    recursive が真の場合、パターン "**" はあらゆるファイルや0個以上のディレクトリ、サブディレクトリおよびディレクトリへのシンボリックリンクにマッチします。
+
+pathlib (2/6)
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> sorted(Path('.').glob('**/*.py'))  # doctest: +SKIP
+
+`Path.glob <https://docs.python.org/ja/3/library/pathlib.html#pathlib.Path.glob>`_
+
+fnmatch (3/6)
+--------------------------------------------------
+
+    Unix のシェル形式のワイルドカードに対応しています
+
+* ``"*"`` は「すべてにマッチ」
+* https://docs.python.org/ja/3/library/fnmatch.html
+
+re（正規表現の ``*``） (4/6)
+--------------------------------------------------
+
+    直前の正規表現を 0 回以上、できるだけ多く繰り返したものにマッチ
+
+* ``ab*`` は ``"a"``, ``"ab"``, ``"abbbb"`` などにマッチ
+* https://docs.python.org/ja/3/library/re.html#regular-expression-syntax
+
+sqlite3 (5/6)
+--------------------------------------------------
+
+.. code-block:: python
+
+    >>> for row in cur.execute("SELECT * FROM stocks ORDER BY price"):  # doctest: +SKIP
+    ...     print(row)
+
+https://docs.python.org/ja/3/library/sqlite3.html#tutorial
+
+dataclasses (6/6)
+--------------------------------------------------
+
+* Python 3.10から `KW_ONLY <https://docs.python.org/ja/3/library/dataclasses.html#dataclasses.KW_ONLY>`_ で **キーワード専用** フィールドができるように！（``*`` 相当）
+
+.. doctestを通す
+    >>> from dataclasses import dataclass, KW_ONLY
+
+.. code-block:: python
+
+    >>> @dataclass
+    ... class Point:
+    ...     x: float
+    ...     _: KW_ONLY
+    ...     y: float
+    ...     z: float
+    ...
+    >>> p = Point(0, y=1.5, z=2.0)
+
+目撃報告お待ちしています！
+--------------------------------------------------
+
+アスタリスクはまだまだ隠れていると思います
