@@ -10,3 +10,7 @@
 .reveal strong {
   color: #5ae08e;
 }
+
+.strike {
+  text-decoration: line-through;
+}
