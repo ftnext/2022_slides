@@ -1,3 +1,8 @@
+:ogp_title: [ドラフト版] Pythonとアスタリスク 🐍🌟💫🐍🌟💫
+:ogp_event_name: pyconjp
+:ogp_slide_name: python_and_star
+:ogp_description: 2022/10 PyCon JP 2022 トーク スライド ドラフト版
+
 .. _Python実践入門: https://gihyo.jp/book/2020/978-4-297-11111-3
 .. _Effective Python 第2版: https://www.oreilly.co.jp/books/9784873119175/
 
