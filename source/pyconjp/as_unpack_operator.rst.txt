@@ -83,7 +83,7 @@
       File "<stdin>", line 1
     SyntaxError: can't use starred expression here
 
-辞書をイテラブルアンパック演算子に渡すと
+辞書にイテラブルアンパック演算子を使うと
 ------------------------------------------------------------
 
 .. code-block:: python
