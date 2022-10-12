@@ -1,10 +1,16 @@
 閑話🍵： 辞書のマージ
 ============================================================
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 「2つの辞書をマージして新しい辞書を作りたい」
 
 Python 3.9からは ``|`` 演算子でできます
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 .. code-block:: python
 
@@ -21,8 +27,14 @@ Guido氏も忘れてた ``{**d1, **d2}``
 
 `PEP 584 – Add Union Operators To dict <https://peps.python.org/pep-0584/#d1-d2>`_ より
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 There should be one-- and preferably only one --obvious way to do it.
 ----------------------------------------------------------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 （IMO）辞書のマージは
 

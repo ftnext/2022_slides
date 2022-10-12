@@ -1,10 +1,16 @@
 閑話🍵：標準ライブラリの ``*``, ``**``
 ============================================================
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 6つ紹介🏃‍♂️
 
 glob (1/6)
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 .. code-block:: python
 
@@ -29,12 +35,18 @@ glob (1/6)
 `glob.glob <https://docs.python.org/ja/3/library/glob.html#glob.glob>`_
 ----------------------------------------------------------------------------------------------------
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 * ``"*"`` は「shell-style wildcards」
 
     recursive が真の場合、パターン "**" はあらゆるファイルや0個以上のディレクトリ、サブディレクトリおよびディレクトリへのシンボリックリンクにマッチします。
 
 pathlib (2/6)
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 .. code-block:: python
 
@@ -50,6 +62,9 @@ fnmatch (3/6)
 * ``"*"`` は「すべてにマッチ」
 * https://docs.python.org/ja/3/library/fnmatch.html
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 re（正規表現の ``*``） (4/6)
 --------------------------------------------------
 
@@ -58,8 +73,14 @@ re（正規表現の ``*``） (4/6)
 * ``ab*`` は ``"a"``, ``"ab"``, ``"abbbb"`` などにマッチ
 * https://docs.python.org/ja/3/library/re.html#regular-expression-syntax
 
+.. revealjs-section::
+    :data-background-color: #002b36
+
 sqlite3 (5/6)
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 .. code-block:: python
 
@@ -70,6 +91,9 @@ https://docs.python.org/ja/3/library/sqlite3.html#tutorial
 
 dataclasses (6/6)
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 * Python 3.10から `KW_ONLY <https://docs.python.org/ja/3/library/dataclasses.html#dataclasses.KW_ONLY>`_ で **キーワード専用** フィールドができるように！（``*`` 相当）
 
@@ -89,5 +113,8 @@ dataclasses (6/6)
 
 目撃報告お待ちしています！
 --------------------------------------------------
+
+.. revealjs-section::
+    :data-background-color: #002b36
 
 アスタリスクはまだまだ隠れていると思います
