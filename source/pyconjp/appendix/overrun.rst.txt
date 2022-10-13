@@ -1,0 +1,31 @@
+さらなる ``*``
+============================================================
+
+本編（プロポーザル）に盛り込みきれなかった ``*`` を紹介
+
+Exception Group
+--------------------------------------------------
+
+* Python **3.11** から登場する ``try except*``
+* `PEP 654 – Exception Groups and except* <https://peps.python.org/pep-0654/>`_
+* https://www.python.jp/news/wnpython311/except-grp.html 👀
+
+Python文法（Grammar）の ``*``
+--------------------------------------------------
+
+* 拡張BNF
+* PEG（Python 3.9〜）
+
+拡張BNFやPEGでの ``*``
+--------------------------------------------------
+
+* 0回以上の繰り返し
+* `拡張BNFについてPyCon Kyushu 2022 Kumamotoで発表 <https://ftnext.github.io/2022_slides/pyconk_kumamoto/revisit_python_from_statements.html#/20/3>`_ しました
+* `PEGについてPyCon APAC 2022で発表 <https://ftnext.github.io/2022_slides/pyconapac_peg/revisit_python_statements.html#/17/10>`_ しました
+
+CPythonに潜ったらもっと ``*`` と出会えるのでは🤩
+--------------------------------------------------
+
+例えば `Tokens <https://github.com/python/cpython/blob/v3.10.8/Grammar/Tokens#L18>`_ に ``STAR`` ！
+
+To Be Continued...
