@@ -207,5 +207,15 @@ Pythonとアスタリスク 🐍🌟💫🐍🌟💫 駆け抜けましたね⚡
 | May the Stars🌟 be with you
 | *星🌟は君の頭上に輝くよ*
 
+Appendix
+============================================================
+
+* References
+* Overrun contents（さらなる ``*``）
+
+.. include:: appendix/references.rst.txt
+
+.. include:: appendix/overrun.rst.txt
+
 EOF
 ==============================
