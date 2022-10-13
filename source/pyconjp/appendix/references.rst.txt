@@ -1,0 +1,36 @@
+References
+============================================================
+
+スライドになるべくリンクを載せていますが、特に参照したものをまとめます
+
+Pythonドキュメント
+--------------------------------------------------
+
+* `Python用語集 <https://docs.python.org/ja/3/glossary.html>`_
+* `Python チュートリアル 4. その他の制御フローツール <https://docs.python.org/ja/3/tutorial/controlflow.html>`_
+* `Python 言語リファレンス 3. データモデル <https://docs.python.org/ja/3/reference/datamodel.html>`_
+
+翻訳ありがとうございます❤️
+
+書籍
+--------------------------------------------------
+
+* 『`Effective Python 第2版`_』
+* 『`ゼロから作るDeep Learning ❸ <https://www.oreilly.co.jp/books/9784873119069/>`_』
+
+  * 特殊メソッド・アンパック演算子・可変長引数との出会いは実はこの本なのです
+
+元となったアウトプット（LT会に感謝❤️）
+--------------------------------------------------
+
+.. raw:: html
+
+    <iframe width="800" height="480" src="https://ftnext.github.io/2022_slides/rakus_May_pythontips/superstar.html"
+        title="*と**"></iframe>
+
+nikkieによる関連アウトプット
+--------------------------------------------------
+
+* `object活用ことはじめ 〜dataclassと特殊メソッド〜 <https://ftnext.github.io/2021_slides/tech_street_Apr/python_object_introduction.html>`_ （2021）
+* 2022/01 `1月の #stapy で挙がった2つの質問に回答します：キーワード専用引数はいつから？　位置専用引数の使い所は？ <https://nikkie-ftnext.hatenablog.com/entry/stapy77-positional-only-args-question>`_
+* 2022/10 `『Effective Python 第2版』項目23に感じたひっかかりを機に関数の引数を復習しました <https://nikkie-ftnext.hatenablog.com/entry/python-function-arguments-and-parameters-from-glossary>`_
