@@ -94,11 +94,29 @@ https://github.com/executablebooks/sphinx-design
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_cards_sphinx_ver.png
 
-Sphinxのデフォルトテーマ Alabastar
+Sphinxのデフォルトテーマ Alabaster
 ================================================================================
 
-Alabastarは簡単にスタイル変更できます！
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_default_alabaster.png
+
+Alabasterは **簡単にスタイル変更** できます！
 --------------------------------------------------
+
+.. code-block:: python
+    :caption: conf.py
+    :emphasize-lines: 2-6
+
+    html_theme = 'alabaster'
+    html_theme_options = {
+        "font_family": "sans-serif",
+        "font_size": "16px",
+        "link": "#4EBBE2",
+    }
+
+Alabasterと言われても気づかないのでは？
+--------------------------------------------------
+
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_set_options_alabaster.png
 
 細かいところに **自作Sphinx拡張**
 ================================================================================
