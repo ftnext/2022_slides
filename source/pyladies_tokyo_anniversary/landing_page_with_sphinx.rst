@@ -49,10 +49,12 @@ TODO 補足
 ボタン
 --------------------------------------------------
 
-TODO 画像
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_button_peraichi_ver.png
 
 カードの並び
 --------------------------------------------------
+
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_cards_peraichi_ver.png
 
 ``sphinx_design`` も使ってできます！
 ================================================================================
@@ -62,10 +64,35 @@ https://github.com/executablebooks/sphinx-design
 ボタンできます！
 --------------------------------------------------
 
-TODO 書き方と画像入れていく
+.. code-block:: rest
+
+    .. button-link:: https://docs.google.com/forms/d/1IANh21fievi_lyyQyL8II66RSxlVuHBdAhr05C1qv9c/viewform
+        :align: center
+        :class: sd-rounded-pill sd-px-4
+
+        問い合わせる
+
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_button_sphinx_ver.png
 
 カードの並びもできます！
 --------------------------------------------------
+
+.. code-block:: rest
+
+    .. grid:: 1 1 2 3
+
+        .. grid-item-card:: `@pyohei <https://github.com/pyohei>`_
+            :img-top: _static/impressions/pyohei.jpg
+            :class-header: sd-text-center
+            :class-title: sd-text-center sd-fs-3
+
+            運営スタッフ
+            ^^^
+            運営スタッフとしてPythonを学ぶ方たちのサポートができ、やりがいと充実感を感じました。
+
+.. revealjs-break::
+
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_cards_sphinx_ver.png
 
 Sphinxのデフォルトテーマ Alabastar
 ================================================================================
