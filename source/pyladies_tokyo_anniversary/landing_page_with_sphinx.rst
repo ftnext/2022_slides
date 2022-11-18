@@ -158,8 +158,77 @@ Alabasterと言われても気づかないのでは？
 h1, h2の中央寄せ
 ================================================================================
 
-誰でも更新できる、参加人数の表
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_centering_h1_h2.png
+
+拡張を自作（リポジトリ内にモジュールとして配置）
+--------------------------------------------------
+
+* Sphinxのイベントの1つ ``doctree-resolved``
+
+  * 入力したテキストファイルを **木** 構造に変えたタイミング
+
+* 木をたどって、HTMLでh1, h2にあたる要素に ``sd-text-center`` クラスを付与
+
+  * sphinx-designが提供する **中央揃え** のクラス
+
+容易に更新できる、参加人数の表
 ================================================================================
 
-外部へのリンクをブラウザの別のタブで開く
+.. figure:: ../_static/pyladies_tokyo_anniversary/202211_editable_participants_table.png
+
+要件：容易に表に行追加できる
+--------------------------------------------------
+
+* 時間とともにpycampの **開催数は増える**
+* 実装に精通していなくても、参加人数の表を **更新** できるよう容易にするべきと考えた
+
+  * nikkieに毎回更新を頼む形は避けたい
+
+現状：CSVファイルに列の追加だけしていただく
+--------------------------------------------------
+
+.. code-block:: csv
+    :caption: participants_count.csv
+
+    開催地,URL,参加人数
+    静岡県沼津市,https://pyconjp.connpass.com/event/251468/,一般参加8人、学生3人
+    新潟2nd,https://pyconjp.connpass.com/event/255600/,一般参加10人、学生5人
+
+`GitHubリポジトリに記載した手順 <https://github.com/pyconjp/pycamp.landing_page#%E9%81%8E%E5%8E%BB%E3%81%AE%E9%96%8B%E5%82%AC%E5%9B%9E%E3%81%A7%E9%9B%86%E3%81%BE%E3%81%A3%E3%81%9F%E4%BA%BA%E6%95%B0%E3%81%AE%E8%BF%BD%E5%8A%A0%E6%96%B9%E6%B3%95>`_
+
+CSVファイルを元に人数表を作るディレクティブを自作
+--------------------------------------------------
+
+.. code-block:: python
+
+    class EventHistoryCSVTable(CSVTable):
+        ...
+
+    def setup(app):
+        app.add_directive("event-history-csv-table", EventHistoryCSVTable)
+
+* 開催地とURLから **開催地をリンクに加工** した上で、参加人数と合わせて ``CSVTable`` に渡す実装
+* CSVファイルに「開催地,URL,参加人数」だけ追加しさえすれば、後はコードが責務を果たす
+
+外部へのリンクをブラウザの新しいタブで開く
 ================================================================================
+
+（少なくとも私は）ランディングページの説明とそこからのリンクを **タブを切り替えて行き来** したい
+
+.. _sphinx-new-tab-link: https://pypi.org/project/sphinx-new-tab-link/
+
+自作拡張 `sphinx-new-tab-link`_ （公開済み）
+--------------------------------------------------
+
+.. code-block:: shell
+
+    pip install sphinx-new-tab-link
+
+.. code-block:: python
+    :caption: conf.py
+
+    extensions = [
+        "sphinx_new_tab_link",
+    ]
+
+詳しくは `SphinxでビルドしたHTMLの中の外部リンクを、ブラウザの新しいタブで開くように設定する拡張 sphinx-new-tab-link を公開しました！🎉 <https://nikkie-ftnext.hatenablog.com/entry/release-sphinx-new-tab-link-v0.1.0>`_
