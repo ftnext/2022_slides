@@ -14,7 +14,7 @@ Sphinxで作るランディングページ
 ============================================================
 
 * **Python** 大好き、にっきー（`アスタリスク好き <https://2022.pycon.jp/timetable?id=LPYF7C>`_）
-* Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
+* :fab:`twitter` `@ftnext <https://twitter.com/ftnext>`_ ／ :fab:`github` `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
 * 株式会社ユーザベースでデータサイエンティスト（自然言語処理、XP）
 * 2018年 **4周年記念以来** の参加（`Django Girls Tutorial翻訳のLT <https://github.com/ftnext/2018_LTslides/blob/master/pyladies_Oct_Django_Girls/PITCHME.md>`_）
 
