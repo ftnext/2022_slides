@@ -8,12 +8,27 @@ Sphinxで作るランディングページ
 8周年、おめでとうございます！🎂🎂🎂🎂🎂🎂🎂🎂
 ================================================================================
 
+お祝い8つ持参しました（1️⃣〜8️⃣）
+
+お前、誰よ
+============================================================
+
+* **Python** 大好き、にっきー（`アスタリスク好き <https://2022.pycon.jp/timetable?id=LPYF7C>`_）
+* Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
+* 株式会社ユーザベースでデータサイエンティスト（自然言語処理、XP）
+* 2018年 **4周年記念以来** の参加（`Django Girls Tutorial翻訳のLT <https://github.com/ftnext/2018_LTslides/blob/master/pyladies_Oct_Django_Girls/PITCHME.md>`_）
+
 本編：この話をします
 ================================================================================
 
 .. raw:: html
 
-    <blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pyconjp?src=hash&amp;ref_src=twsrc%5Etfw">#pyconjp</a><br>Python Boot Campのページ（静的なHTML）は<br>実は今年にっきーがSphinxに移行しました✌️（GitHub Pagesでサーブ）<a href="https://t.co/0QTfwXGxBh">https://t.co/0QTfwXGxBh</a><br><br>📣なんとSphinxでLPが作れちゃうんです！</p>&mdash; nikkie にっきー 🎤10/1 XP祭り 10/14-15 PyCon JP (@ftnext) <a href="https://twitter.com/ftnext/status/1581201590957924353?ref_src=twsrc%5Etfw">October 15, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pyconjp?src=hash&amp;ref_src=twsrc%5Etfw">#pyconjp</a><br>Python Boot Campのページ（静的なHTML）は<br>実は今年にっきーがSphinxに移行しました✌️（GitHub Pagesでサーブ）<a href="https://t.co/0QTfwXGxBh">https://t.co/0QTfwXGxBh</a><br><br>📣なんとSphinxでLPが作れちゃうんです！</p>&mdash; nikkie にっきー 🎤10/1 XP祭り 10/14-15 PyCon JP (@ftnext) <a href="https://twitter.com/ftnext/status/1581201590957924353?ref_src=twsrc%5Etfw">October 15, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+お手元で触りながら聞くのがオススメです
+--------------------------------------------------
+
+https://pycamp-lp.pycon.jp/
 
 Python Boot Camp (#pycamp)
 ================================================================================
@@ -80,6 +95,8 @@ HTMLをWebに公開
 ランディングページのこの要素、Sphinxでもできるんですか？
 ================================================================================
 
+ランディングページにはあるけど、ドキュメントではあまり見かけないモノたち
+
 ボタン
 --------------------------------------------------
 
@@ -95,7 +112,7 @@ HTMLをWebに公開
 
 https://github.com/executablebooks/sphinx-design
 
-ボタンできます！
+1️⃣🎂ボタンできます！
 --------------------------------------------------
 
 .. code-block:: rest
@@ -108,7 +125,7 @@ https://github.com/executablebooks/sphinx-design
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_button_sphinx_ver.png
 
-カードの並びもできます！
+2️⃣🎂カードの並びもできます！
 --------------------------------------------------
 
 .. code-block:: rest
@@ -128,12 +145,12 @@ https://github.com/executablebooks/sphinx-design
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_cards_sphinx_ver.png
 
-Sphinxのデフォルトテーマ Alabaster
+Sphinxのデフォルトテーマ Alabaster、存在感ある
 ================================================================================
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_default_alabaster.png
 
-Alabasterは **簡単にスタイル変更** できます！
+3️⃣🎂Alabasterは **簡単にスタイル変更** できます！
 --------------------------------------------------
 
 .. code-block:: python
@@ -160,8 +177,8 @@ h1, h2の中央寄せ
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_centering_h1_h2.png
 
-拡張を自作（リポジトリ内にモジュールとして配置）
---------------------------------------------------
+4️⃣🎂拡張を自作（リポジトリ内にモジュールとして配置）
+------------------------------------------------------------
 
 * Sphinxのイベントの1つ ``doctree-resolved``
 
@@ -184,7 +201,7 @@ h1, h2の中央寄せ
 
   * nikkieに毎回更新を頼む形は避けたい
 
-現状：CSVファイルに列の追加だけしていただく
+現状： **CSVファイルに列の追加だけ** していただく
 --------------------------------------------------
 
 .. code-block:: csv
@@ -196,8 +213,8 @@ h1, h2の中央寄せ
 
 `GitHubリポジトリに記載した手順 <https://github.com/pyconjp/pycamp.landing_page#%E9%81%8E%E5%8E%BB%E3%81%AE%E9%96%8B%E5%82%AC%E5%9B%9E%E3%81%A7%E9%9B%86%E3%81%BE%E3%81%A3%E3%81%9F%E4%BA%BA%E6%95%B0%E3%81%AE%E8%BF%BD%E5%8A%A0%E6%96%B9%E6%B3%95>`_
 
-CSVファイルを元に人数表を作るディレクティブを自作
---------------------------------------------------
+5️⃣🎂CSVファイルを元に人数表を作るディレクティブを自作
+------------------------------------------------------------
 
 .. code-block:: python
 
@@ -217,8 +234,8 @@ CSVファイルを元に人数表を作るディレクティブを自作
 
 .. _sphinx-new-tab-link: https://pypi.org/project/sphinx-new-tab-link/
 
-自作拡張 `sphinx-new-tab-link`_ （公開済み）
---------------------------------------------------
+6️⃣🎂自作拡張 `sphinx-new-tab-link`_ （公開済み）
+------------------------------------------------------------
 
 .. code-block:: shell
 
@@ -232,3 +249,32 @@ CSVファイルを元に人数表を作るディレクティブを自作
     ]
 
 詳しくは `SphinxでビルドしたHTMLの中の外部リンクを、ブラウザの新しいタブで開くように設定する拡張 sphinx-new-tab-link を公開しました！🎉 <https://nikkie-ftnext.hatenablog.com/entry/release-sphinx-new-tab-link-v0.1.0>`_
+
+紹介しきれなかったもの（8つ紹介するのに5分はあまりにも短い）
+================================================================================
+
+* 7️⃣🎂 ``sphinx.ext.githubpages`` がGitHub Pagesでの公開をサポート（`こちらのブログ <https://nikkie-ftnext.hatenablog.com/entry/do-you-know-sphinx-ext-githubpages>`_）
+* 8️⃣🎂 ``make singlehtml`` 使ってます！
+
+Sphinxで作るランディングページ やってみての感想
+================================================================================
+
+* **技術的に少し挑戦** しつつコミュニティに **貢献** という今回のやり方はとても楽しかった🤟
+* 拡張が作れるようになるとSphinxは自在に使えるし、他の拡張の凄さも伺い知れる（Alabasterすごい！）
+* アスタリスク（星印）が好きなので、GitHubでスター🌟ください！(笑)
+
+まとめ🌯 Sphinxで作るランディングページ
+================================================================================
+
+* https://pycamp-lp.pycon.jp/ はSphinxとGitHub Pagesでできています
+* ランディングページに必要な要素（ボタンやカード）は **sphinx_design** で
+* **Sphinx拡張を自作** して、ランディングページの細かい要素を実現
+
+ご清聴ありがとうございました！
+--------------------------------------------------
+
+* 地方でPythonイベントを開催してみたい方、pycampいかがですか？（`コアスタッフの方のブログ <https://ryu22e.org/posts/2022/11/12/djangocongressjp2022/#%E6%9C%80%E5%BE%8C%E3%81%AB>`_）
+* 参考にランディングページ作りたい方、困ったらお気軽に `@ftnext <https://twitter.com/ftnext>`_ をお呼びください！
+
+EOF
+==============================
