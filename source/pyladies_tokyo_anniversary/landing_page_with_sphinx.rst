@@ -1,3 +1,8 @@
+:ogp_title: Sphinxで作るランディングページ
+:ogp_event_name: pyladies_tokyo_anniversary
+:ogp_slide_name: landing_page_with_sphinx
+:ogp_description: 2022/11 PyLadies Tokyo - 8周年記念オンラインパーティ LT スライド
+
 ================================================================================
 Sphinxで作るランディングページ
 ================================================================================
