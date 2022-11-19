@@ -30,6 +30,7 @@ author = 'nikkie'
 extensions = [
     "sphinx_revealjs",
     "sphinx.ext.githubpages",
+    "sphinx_design",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -88,5 +89,6 @@ revealjs_script_plugins = [
 
 revealjs_css_files = [
     "revealjs4/plugin/highlight/zenburn.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css",
     "css/common.css",
 ]
