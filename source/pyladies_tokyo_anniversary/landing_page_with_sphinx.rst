@@ -37,12 +37,12 @@ Python Boot Camp (#pycamp)
 * 詳しくは https://www.pycon.jp/support/bootcamp.html
 * 概要を伝える **ランディングページ** がある
 
-pycampのランディングページについての議論
+pycampのランディングページについて相談
 --------------------------------------------------
 
     ペライチの仕様が3月28日から変更になり、無料プランは累計10,000PVを超えると有料プランへの切り替えが必要になった（切り替えないとページが強制的に非公開になる）。
 
-2022/03 `一般社団法人PyCon JP Association運営会議#52 <https://www.pycon.jp/committee/meeting/minutes52.html#pycamp-ryu22e>`_ で相談
+2022/03 `一般社団法人PyCon JP Association運営会議#52 <https://www.pycon.jp/committee/meeting/minutes52.html#pycamp-ryu22e>`_
 
 手を挙げたnikkie氏🙋‍♂️「まかせて！」
 --------------------------------------------------
@@ -56,7 +56,7 @@ pycampのランディングページについての議論
 
     あるルールに従って記述されたテキストファイルを、HTMLやPDFなどの形式に変換する
 
-『`Sphinxをはじめよう 第3版`_』（1章）
+📖『`Sphinxをはじめよう 第3版`_』（1章）
 
 reSTで書いたテキストファイル
 --------------------------------------------------
@@ -82,6 +82,8 @@ reSTをHTMLに変換
 .. code-block:: shell
 
     $ make html
+
+ブラウザでHTMLを開く
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_sphinx_example.png
 
@@ -110,7 +112,7 @@ HTMLをWebに公開
 ``sphinx_design`` も使ってできます！
 ================================================================================
 
-https://github.com/executablebooks/sphinx-design
+:fab:`github` https://github.com/executablebooks/sphinx-design
 
 1️⃣🎂ボタンできます！
 --------------------------------------------------
@@ -124,6 +126,8 @@ https://github.com/executablebooks/sphinx-design
         問い合わせる
 
 .. figure:: ../_static/pyladies_tokyo_anniversary/202211_button_sphinx_ver.png
+
+https://sphinx-design.readthedocs.io/en/furo-theme/badges_buttons.html#buttons
 
 2️⃣🎂カードの並びもできます！
 --------------------------------------------------
@@ -140,6 +144,8 @@ https://github.com/executablebooks/sphinx-design
             運営スタッフ
             ^^^
             運営スタッフとしてPythonを学ぶ方たちのサポートができ、やりがいと充実感を感じました。
+
+https://sphinx-design.readthedocs.io/en/furo-theme/grids.html#placing-a-card-in-a-grid
 
 .. revealjs-break::
 
@@ -164,6 +170,8 @@ Sphinxのデフォルトテーマ Alabaster、存在感ある
         "link": "#4EBBE2",
     }
 
+https://alabaster.readthedocs.io/en/latest/customization.html#fonts
+
 Alabasterと言われても気づかないのでは？
 --------------------------------------------------
 
@@ -171,6 +179,8 @@ Alabasterと言われても気づかないのでは？
 
 細かいところに **自作Sphinx拡張**
 ================================================================================
+
+4️⃣〜6️⃣🎂
 
 h1, h2の中央寄せ
 ================================================================================
@@ -180,9 +190,9 @@ h1, h2の中央寄せ
 4️⃣🎂拡張を自作（リポジトリ内にモジュールとして配置）
 ------------------------------------------------------------
 
-* Sphinxのイベントの1つ ``doctree-resolved``
+* Sphinxのイベントの1つ ``doctree-resolved`` （`ドキュメント <https://www.sphinx-doc.org/ja/master/extdev/appapi.html#event-doctree-resolved>`_）
 
-  * 入力したテキストファイルを **木** 構造に変えたタイミング
+  * 入力したテキストファイルを **木** 構造(doctree)に変えたとき
 
 * 木をたどって、HTMLでh1, h2にあたる要素に ``sd-text-center`` クラスを付与
 
@@ -196,7 +206,7 @@ h1, h2の中央寄せ
 要件：容易に表に行追加できる
 --------------------------------------------------
 
-* 時間とともにpycampの **開催数は増える**
+* 時間とともにpycampの **開催数は増える** （`connpassのイベント一覧 <https://pyconjp.connpass.com/event/>`_）
 * 実装に精通していなくても、参加人数の表を **更新** できるよう容易にするべきと考えた
 
   * nikkieに毎回更新を頼む形は避けたい
@@ -224,7 +234,7 @@ h1, h2の中央寄せ
     def setup(app):
         app.add_directive("event-history-csv-table", EventHistoryCSVTable)
 
-* 開催地とURLから **開催地をリンクに加工** した上で、参加人数と合わせて ``CSVTable`` に渡す実装
+* **開催地にリンクのマークアップ** をした上で、参加人数と合わせて ``CSVTable`` に渡す実装（`CSVテーブルディレクティブ <https://sphinx-users.jp/gettingstarted/directives.html#csv>`_）
 * CSVファイルに「開催地,URL,参加人数」だけ追加しさえすれば、後はコードが責務を果たす
 
 外部へのリンクをブラウザの新しいタブで開く
