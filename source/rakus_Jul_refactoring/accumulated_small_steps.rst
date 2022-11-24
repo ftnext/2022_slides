@@ -13,7 +13,7 @@
 お前、誰よ（自己紹介）
 ============================================================
 
-* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 * 株式会社ユーザベースでアジャイル開発するデータサイエンティスト（自称えぬえるぴーや😎）
 * イチオシアニメ『アイの歌声を聴かせて』 ㊗️ `配信開始 <https://ainouta.jp/ondemand.html>`_ ！
 

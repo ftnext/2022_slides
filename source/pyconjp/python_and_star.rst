@@ -31,7 +31,7 @@ Pythonとアスタリスク 🐍🌟💫🐍🌟💫
 ============================================================
 
 * **Python** 大好き、にっきー
-* Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
+* Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
 * **アニメ** も好きで、積極的に *アニメネタを仕込む* アウトプットスタイル
 
 XPするデータサイエンティスト

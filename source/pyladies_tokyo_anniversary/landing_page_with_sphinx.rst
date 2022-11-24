@@ -19,7 +19,7 @@ Sphinxで作るランディングページ
 ============================================================
 
 * **Python** 大好き、にっきー（`アスタリスク好き <https://2022.pycon.jp/timetable?id=LPYF7C>`_）
-* :fab:`twitter` `@ftnext <https://twitter.com/ftnext>`_ ／ :fab:`github` `@ftnext <https://github.com/ftnext>`_ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
+* :fab:`twitter` `@ftnext <https://twitter.com/ftnext>`__ ／ :fab:`github` `@ftnext <https://github.com/ftnext>`__ ／ `はてなブログ <https://nikkie-ftnext.hatenablog.com/>`_
 * 株式会社ユーザベースでデータサイエンティスト（自然言語処理、XP）
 * 2018年 **4周年記念以来** の参加（`Django Girls Tutorial翻訳のLT <https://github.com/ftnext/2018_LTslides/blob/master/pyladies_Oct_Django_Girls/PITCHME.md>`_）
 
@@ -289,7 +289,7 @@ Sphinxで作るランディングページ やってみての感想
 --------------------------------------------------
 
 * 地方でPythonイベントを開催してみたい方、pycampいかがですか？（`コアスタッフの方のブログ <https://ryu22e.org/posts/2022/11/12/djangocongressjp2022/#%E6%9C%80%E5%BE%8C%E3%81%AB>`_）
-* 参考にランディングページ作りたい方、困ったらお気軽に `@ftnext <https://twitter.com/ftnext>`_ をお呼びください！
+* 参考にランディングページ作りたい方、困ったらお気軽に `@ftnext <https://twitter.com/ftnext>`__ をお呼びください！
 
 EOF
 ==============================

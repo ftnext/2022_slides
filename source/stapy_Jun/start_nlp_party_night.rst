@@ -20,7 +20,7 @@ BERT以後の自然言語処理入門を話します
 お前、誰よ
 ============================================================
 
-* **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 * えぬえるぴーや 4年生（株式会社ユーザベースのデータサイエンティスト）
 * Python大好き 6年生（みんなのPython勉強会のスタッフ）
 

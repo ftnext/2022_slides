@@ -13,7 +13,7 @@
 お前、誰よ（自己紹介）
 ============================================================
 
-* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 * 株式会社ユーザベースのデータサイエンティスト（自称えぬえるぴーや😎）
 * `ミノ駆動本_読書py <https://pythonista-books.connpass.com/event/250340/>`_ 主催の1人
 

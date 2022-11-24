@@ -16,7 +16,7 @@
 ============================================================
 
 * nikkie（にっきー）と申します
-* Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 * Pythonとアニメが好き
 
 Pythonとアニメが好き

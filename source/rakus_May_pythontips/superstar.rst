@@ -28,7 +28,7 @@
 * 「お前、誰よ」は自己紹介のエイリアス（Python界隈の慣習）
 * Python大好き **にっきー**
 
-  * Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+  * Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 
 * 株式会社ユーザベースのデータサイエンティスト（NLPer）
 

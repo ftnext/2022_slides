@@ -246,7 +246,7 @@ Effective Python 第2版 `項目23のコード <https://github.com/bslatkin/effe
 --------------------------------------------------
 
 * 将来、 **引数名を変更可能** にするために使う
-* 引数名が有用ではない場合にキーワード引数としての利用を排除する（`What's New In Python 3.8 <https://docs.python.org/ja/3.8/whatsnew/3.8.html#positional-only-parameters>`_）
+* 引数名が有用ではない場合にキーワード引数としての利用を排除する（`What's New In Python 3.8 <https://docs.python.org/ja/3.8/whatsnew/3.8.html#positional-only-parameters>`__）
 
 組み込み関数における位置専用引数🏃‍♂️
 --------------------------------------------------

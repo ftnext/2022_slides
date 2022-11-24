@@ -278,8 +278,8 @@ Appendix：語り残したこと
 
 * Python大好き **にっきー**
 
-  * Twitter `@ftnext <https://twitter.com/ftnext>`_
-  * GitHub `@ftnext <https://github.com/ftnext>`_
+  * Twitter `@ftnext <https://twitter.com/ftnext>`__
+  * GitHub `@ftnext <https://github.com/ftnext>`__
 
 * Python歴4年。株式会社ユーザベースのデータサイエンティスト（NLPer）
 

@@ -1,7 +1,7 @@
 お前、誰よ
 ============================================================
 
-* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`_ ／ GitHub `@ftnext <https://github.com/ftnext>`_
+* Python（とアニメ）大好き **にっきー** ／ Twitter `@ftnext <https://twitter.com/ftnext>`__ ／ GitHub `@ftnext <https://github.com/ftnext>`__
 * PyCon JP 2019〜2020 スタッフ ／ 2021 座長
 
 .. revealjs-break::

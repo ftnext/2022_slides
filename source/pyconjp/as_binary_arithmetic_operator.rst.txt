@@ -32,7 +32,7 @@
 
 `6.7. 二項算術演算 (binary arithmetic operation)`_
 
-シーケンスとは（`用語集 <https://docs.python.org/ja/3/glossary.html#term-sequence>`_ より）
+シーケンスとは（`用語集 <https://docs.python.org/ja/3/glossary.html#term-sequence>`__ より）
 ----------------------------------------------------------------------------------------------------
 
 * リスト
@@ -83,14 +83,14 @@
 
 わたし、気になります！
 
-特殊メソッド（`用語集 <https://docs.python.org/ja/3/glossary.html#term-special-method>`_）
+特殊メソッド（`用語集 <https://docs.python.org/ja/3/glossary.html#term-special-method>`__）
 ----------------------------------------------------------------------------------------------------
 
     ある型に特定の操作、例えば加算をするために Python から暗黙に呼び出されるメソッド。
 
 **乗算・べき乗の特殊メソッド** があるんです！
 
-特殊メソッド（`用語集 <https://docs.python.org/ja/3/glossary.html#term-special-method>`_）
+特殊メソッド（`用語集 <https://docs.python.org/ja/3/glossary.html#term-special-method>`__）
 ----------------------------------------------------------------------------------------------------
 
     | この種類のメソッドは、メソッド名の最初と最後にアンダースコア 2 つがついています。
