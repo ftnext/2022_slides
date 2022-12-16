@@ -15,6 +15,16 @@ class Strip(Normalizer):
         return text.strip()
 
 
+class Lowercase(Normalizer):
+    """
+    >>> Lowercase().normalize("NikkiE")
+    'nikkie'
+    """
+
+    def normalize(self, text: str) -> str:
+        return text.lower()
+
+
 class NFKC(Normalizer):
     """
     >>> # Return 0X30D7, 0X30ED

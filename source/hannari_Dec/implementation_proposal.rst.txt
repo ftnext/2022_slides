@@ -115,4 +115,4 @@ Normalizerたちをまとめ上げる ``Sequence``
 .. literalinclude:: ../../samplecode/normalizers/assembled.py
     :language: python
     :linenos:
-    :lines: 149-158
+    :lines: 159-168
