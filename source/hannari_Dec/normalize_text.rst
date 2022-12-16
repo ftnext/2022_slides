@@ -12,70 +12,9 @@ https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja
 
 かいつまんで紹介することになりそう
 
-先頭と末尾の半角スペースは削除
-
-.. code-block:: python
-
-    >>> "      テキストの前".strip()
-    'テキストの前'
-    >>> "テキストの後      ".strip()
-    'テキストの後'
-
-https://docs.python.org/ja/3/library/stdtypes.html#str.strip
-
-文字を置換して揃える
-
-* ハイフンマイナスっぽい文字
-* 長音記号っぽい文字
-* 1回以上連続する長音記号
-
-.. code-block:: python
-
-    >>> import re
-    >>> re.sub("[˗֊‐‑‒–⁃⁻₋−]+", "-", "o₋o")
-    'o-o'
-    >>> re.sub("[﹣－ｰ—―─━ー]+", "ー", "majika━")
-    'majikaー'
-    >>> re.sub("[﹣－ｰ—―─━ー]+", "ー", "スーパーーーー")
-    'スーパー'
-
-* チルダっぽい文字は削除
-
-.. code-block:: python
-
-    >>> re.sub("[~∼∾〜〰～]", "", "わ〰い")
-    'わい'
+.. include:: neologd_normalization.rst.txt
 
 全角・半角
-
-* 全角英数字は半角に置換
-* 半角カタカナは全角に置換
-
-.. code-block:: python
-
-    >>> import re
-    >>> import unicodedata
-    >>> pt = re.compile("([０-９Ａ-Ｚａ-ｚ｡-ﾟ]+)")  # 半角カタカナ含む
-    >>> "".join(
-    ...     unicodedata.normalize("NFKC", x) if pt.match(x) else x
-    ...     for x in re.split(pt, "０１２３４５６７８９")
-    ... )
-    '0123456789'
-    >>> "".join(
-    ...     unicodedata.normalize("NFKC", x) if pt.match(x) else x
-    ...     for x in re.split(pt, "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ")
-    ... )
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    >>> "".join(
-    ...     unicodedata.normalize("NFKC", x) if pt.match(x) else x
-    ...     for x in re.split(pt, "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ")
-    ... )
-    'abcdefghijklmnopqrstuvwxyz'
-    >>> "".join(
-    ...     unicodedata.normalize("NFKC", x) if pt.match(x) else x
-    ...     for x in re.split(pt, "ﾊﾝｶﾞｸ")
-    ... )
-    'ハンガク'
 
 * 全角であれば半角に置換する記号
 * 半角であれば全角に置換する記号
