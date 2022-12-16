@@ -51,10 +51,34 @@ Part 2️⃣ 真似して作る正規化処理
     :linenos:
     :pyobject: Normalizer
 
+.. doctestを通すためのsetUp
+    >>> from typing import Protocol, runtime_checkable
+    >>> @runtime_checkable
+    ... class Normalizer(Protocol):
+    ...     def normalize(self, text: str) -> str:
+    ...         ...
+
 補足情報🏃‍♂️
 --------------------------------------------------
 
 :code:`normalize` メソッドがあれば（継承していなくても）Normalizer
+
+.. code-block:: python
+
+    >>> class C:
+    ...   def normalize(self, text: str) -> str:
+    ...     return "spam"
+    >>> issubclass(C, Normalizer), isinstance(C(), Normalizer)
+    (True, True)
+    >>> class D:
+    ...   ...
+    >>> issubclass(D, Normalizer)
+    False
+    >>> class E:
+    ...   def normalize(self):  # シグネチャはプロトコルと一致しない
+    ...     return "e"
+    >>> issubclass(E, Normalizer), isinstance(E(), Normalizer)
+    (True, True)
 
 具体 Normalizer たち
 --------------------------------------------------
