@@ -1,7 +1,9 @@
-正規化処理 クローズアップ
+Part 1️⃣ 正規化処理 クローズアップ
 ================================================================================
 
-TODO：列挙
+* スペース削除
+* 置換
+* 全角・半角変換
 
 **先頭** と **末尾** の半角スペース削除
 ================================================================================
@@ -27,10 +29,8 @@ https://docs.python.org/ja/3/library/re.html#re.sub
 文字を置換して揃える
 --------------------------------------------------
 
-.. TODO unicodedataで辞書を引く
-
-* ハイフンマイナスっぽい文字は ``-`` に
-* 長音記号っぽい文字は ``ー`` に
+* ハイフンマイナスっぽい文字は ``-`` *HYPHEN-MINUS* に
+* 長音記号っぽい文字は ``ー`` *KATAKANA-HIRAGANA PROLONGED SOUND MARK* に
 
   * 1回以上連続する長音記号は1つにまとめる
 
@@ -141,6 +141,11 @@ https://docs.python.org/ja/3/library/unicodedata.html#unicodedata.normalize
 
     与えられた変換テーブルに基づいて文字列を構成する各文字をマッピングし、マッピング後の文字列のコピーを返します。
 
+https://docs.python.org/ja/3/library/stdtypes.html#str.translate
+
+:code:`str.translate(table)`
+--------------------------------------------------
+
     文字から文字への異なる形式のマッピングから変換マップを作成するために、 :code:`str.maketrans()` が使えます。
 
 https://docs.python.org/ja/3/library/stdtypes.html#str.translate
@@ -183,7 +188,7 @@ https://docs.python.org/ja/3/library/stdtypes.html#str.translate
     >>> pattern = re.compile("([！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝〜]+)")
     >>> "".join(
     ...     unicodedata.normalize("NFKC", x) if pattern.match(x) else x
-    ...     for x in re.split(pattern, "!｡#".translate(mapping))
+    ...     for x in re.split(pattern, "!｡＃".translate(mapping))
     ... )
     '!。#'
 
@@ -196,9 +201,9 @@ https://docs.python.org/ja/3/library/stdtypes.html#str.translate
     >>> unicodedata.normalize("NFKC", "”％’")
     '”%’'
     >>> # re.subで半角に戻す
-    >>> re.sub('[’]', "'", _)
+    >>> re.sub('[’]', "'", _)  # RIGHT SINGLE QUOTATION MARK
     "”%'"
-    >>> re.sub('[”]', '"', _)
+    >>> re.sub('[”]', '"', _)  # RIGHT DOUBLE QUOTATION MARK
     '"%\''
 
 スペースの削除
