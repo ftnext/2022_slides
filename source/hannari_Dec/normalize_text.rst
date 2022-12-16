@@ -70,6 +70,7 @@ mecab-ipadic-NEologd、学びをありがとう！
 Appendix 関連アウトプット
 ============================================================
 
+* :fab:`github` `提案実装 <https://github.com/ftnext/2022_slides/blob/main/samplecode/normalizers/assembled.py>`__
 * Part2と関連： `huggingface/tokenizersのNormalizer観察記 〜処理の部品化と統一されたインターフェース〜 <https://nikkie-ftnext.hatenablog.com/entry/observe-huggingface-tokenizers-normalizers>`__
 
 EOF
