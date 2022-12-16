@@ -29,3 +29,10 @@ jobs:
           python -m doctest minodriven_book_circle.rst -v
       - name: Doctest on PyCon JP 2022 slide
         run: python -m doctest source/pyconjp/*.rst.txt source/pyconjp/tips/*.rst.txt samplecode/superstar/customize_mul.py -v
+      - name: Doctest on Hannari Programming LT slide
+        run: |
+          cd samplecode/normalizers
+          python -m doctest assembled.py -v
+          cd ../..
+          cd source/hannari_Dec
+          python -m doctest neologd_normalization.rst.txt implementation_proposal.rst.txt -v
