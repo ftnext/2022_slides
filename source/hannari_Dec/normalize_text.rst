@@ -21,19 +21,4 @@ https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja
 .. >>> s  # 全角・半角は他の処理と合わせて
 .. 'ＰＲＭＬ副読本'
 
-写経パート
-
-* ここまでで動きは分かった
-* huggingface/tokenizers みたいなインターフェースにしたい
-* インターフェースの統一
-* 処理の部品化
-
-プロトコル
-
-* 型ヒントでダックタイピングを表せる
-* 抽象クラスとは別のアプローチを試したい
-
-Sequenceが肝
-
-* まとめられる・かつインターフェースが揃う
-* Sequenceもまとめられる
+.. include:: implementation_proposal.rst.txt

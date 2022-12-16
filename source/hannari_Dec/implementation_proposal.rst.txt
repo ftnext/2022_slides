@@ -1,0 +1,94 @@
+Part 2️⃣ 真似して作る正規化処理
+================================================================================
+
+**部品化** した処理を **組合せる** 実装を提案
+
+完全に理解した！
+--------------------------------------------------
+
+* 「解析前に行うことが望ましい文字列の正規化処理」が何をしているかは分かった
+* **自分だったらどう実装するか** を考えてみる
+* どんなAPIにしようか、OSSを観察
+
+🤗 tokenizers
+================================================================================
+
+* :fab:`github` https://github.com/huggingface/tokenizers
+* 正規化処理をする `Normalizers <https://huggingface.co/docs/tokenizers/api/normalizers>`__
+* Pythonで使える。ただし、Rust実装。`pyiファイル <https://github.com/huggingface/tokenizers/blob/v0.13.2/bindings/python/py_src/tokenizers/normalizers/__init__.pyi>`__ を **観察**
+
+🔍発見1：インターフェースの **統一**
+--------------------------------------------------
+
+* ベースクラス ``Normalizer``
+* :code:`normalize_str(text)` は text を正規化した文字列を返す
+
+🔍発見2：正規化処理の **部品化**
+--------------------------------------------------
+
+* ``NFKC`` ：Unicode正規化処理だけするNormalizer
+* ``Strip`` や ``Replace`` など
+* ``Normalizer`` クラスを継承しているので、どれも :code:`normalize_str` を呼び出せばよい
+
+``Sequence`` がにくい
+--------------------------------------------------
+
+* **いくつかの正規化処理をまとめた正規化処理** を表す
+* ``Normalizer`` を継承しているので :code:`normalize_str` を呼び出せばよい
+
+今回は **Protocol** で（素振り）
+================================================================================
+
+* :code:`typing.Protocol` https://docs.python.org/ja/3/library/typing.html#typing.Protocol
+* ダックタイピングを表せる型ヒント（という理解）
+* 抽象基底クラス :code:`abc.ABC` を使っても全然できると思います
+
+``Normalizer`` プロトコル
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :pyobject: Normalizer
+
+補足情報🏃‍♂️
+--------------------------------------------------
+
+:code:`normalize` メソッドがあれば（継承していなくても）Normalizer
+
+具体 Normalizer たち
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :pyobject: Strip
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :pyobject: Replace
+
+Normalizerたちをまとめ上げる ``Sequence``
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :pyobject: Sequence
+
+文字列中の半角スペースを削除するNormalizer
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :pyobject: RemoveExtraSpaces
+
+ふるまいは同じです！🙌
+--------------------------------------------------
+
+.. literalinclude:: ../../samplecode/normalizers/assembled.py
+    :language: python
+    :linenos:
+    :lines: 149-158
