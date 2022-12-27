@@ -1,3 +1,8 @@
+:ogp_title: Start Python Guide ver.202204
+:ogp_event_name: stapy_Apr
+:ogp_slide_name: python_start_guide
+:ogp_description: Pythonを始めるガイド 2022/04 みんなのPython勉強会#80 トークスライド
+
 ============================================================
 Start Python Guide ver.202204
 ============================================================
