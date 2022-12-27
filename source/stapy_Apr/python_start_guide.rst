@@ -17,6 +17,16 @@ Start Python Guide ver.202204
 
 Slidoでアンケート
 
+みんなのPython勉強会参加回数
+--------------------------------------------------
+
+.. figure:: ../_static/stapy_Apr/202204_poll_stapy_count.png
+
+プログラミング経験
+--------------------------------------------------
+
+.. figure:: ../_static/stapy_Apr/202204_poll_programming_experience.png
+
 お前、誰よ
 ============================================================
 
