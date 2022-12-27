@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>ユーザーストーリーについて</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/rakus_Jun_agile/user_stories.html">
+    <meta property="og:title" content="ユーザーストーリーについて">
+    <meta property="og:description" content="2022/06 アジャイルをゆるく語りたい！ LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/rakus_Jun_agile.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>ユーザーストーリーについて</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>アジャイルをゆるく語りたい！</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/06/16 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ（自己紹介）</h2>
+<ul class="simple">
+<li><p>Python（とアニメ）大好き <strong>にっきー</strong> ／ Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>株式会社ユーザベースのデータサイエンティスト（自称えぬえるぴーや😎）</p></li>
+<li><p><a class="reference external" href="https://pythonista-books.connpass.com/event/250340/">ミノ駆動本_読書py</a> 主催の1人</p></li>
+</ul>
+</section>
+<section >
+<h3>ラクスさんのLT会、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2022_slides/rakus_May_serverless/sing_a_bot_of_harmony.html"
+    title="「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します"></iframe></section>
+<section >
+<h3>アジャイルは <strong>旅の途中</strong> にいる</h3>
+<ul class="simple">
+<li><p>XP（エクストリームプログラミング）歴3年</p></li>
+<li><p>「私の知っている／実践しているアジャイル、これで本当に合ってる？」</p></li>
+<li><p>👉書籍からのインプットとアウトプットに取り組んでいます</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>原点📚ケント・ベック曰く</h2>
+<p>ストーリー（ユーザーストーリー）とは</p>
+<blockquote>
+<div><p>顧客に見える機能の単位を使って計画すること</p>
+</div></blockquote>
+<p>『エクストリームプログラミング（第2版）』7.6</p>
+</section>
+<section >
+<h3>えっと、つまりどういうことですか？</h3>
+<ul class="simple">
+<li><p>かつて「なるほど」</p></li>
+<li><p>今改めて「私の知っている・やっているストーリーのプラクティスと一致してるのかな？」</p></li>
+<li><p>👉 <strong>他の書籍</strong> にあたっていく</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>Uncle Bob『Clean Agile』📘</h2>
+</section>
+<section >
+<h3>Uncle Bob曰く</h3>
+<blockquote>
+<div><p>ユーザーストーリーとは、システムの機能をユーザーの視点から簡潔に記述したもの</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」</p>
+</section>
+<section >
+<h3>ここで注目：<strong>簡潔に記述</strong></h3>
+<blockquote>
+<div><p>詳細化を避けるのは鍛錬である。</p>
+</div></blockquote>
+<p>第3章「ATMのストーリー」</p>
+</section>
+<section >
+<h3>なぜ詳細化を避ける？</h3>
+<blockquote>
+<div><p>ストーリーをマネジメント可能、スケジュール可能、見積り可能にするためには、「一時的な詳細の欠如」が必要である</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」</p>
+</section>
+<section >
+<h3>ストーリーは <strong>会話のプレースホルダー</strong></h3>
+<ul class="simple">
+<li><p>Webページ作成中のLorem Ipsumや「ああああ」と同じということ</p></li>
+<li><p>実際のコンテンツは後から挿入される</p></li>
+</ul>
+</section>
+<section >
+<h3>タイトルタイトルタイトル</h3>
+<ul class="simple">
+<li><p>ああああ</p></li>
+<li><p>ああああ</p></li>
+<li><p>ああああ</p></li>
+</ul>
+<p>※プレースホルダーの例のスライドです</p>
+</section>
+<section >
+<h3>ストーリーは「あとで会話する」を表す</h3>
+<blockquote>
+<div><p>詳細な仕様を決めるのは、ストーリーを開発するときまで可能な限り遅らせたい。</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」</p>
+</section>
+<section >
+<h3>『Clean Agile』からユーザーストーリーについての学び</h3>
+<ul class="simple">
+<li><p>ストーリーは <strong>会話のプレースホルダー</strong></p></li>
+<li><p>💡プレースホルダーなので、詳細化はあまり効果的ではない（「ああああ」を「あいうえ」に凝っても・・・）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>もう1冊『The Art of Agile Development, 2nd Edition』📖</h2>
+<p>英語で読んでます</p>
+</section>
+<section >
+<h3>AoAD2eより</h3>
+<blockquote>
+<div><p>Stories are for planning. They’re the playing pieces of the planning game. That’s it!</p>
+</div></blockquote>
+<p>8.Planning &gt; Stories</p>
+</section>
+<section >
+<h3>AoAD2e ストーリーとはnikkie訳</h3>
+<blockquote>
+<div><p>ストーリーとは計画のためのものです。ストーリーは <strong>計画ゲームをプレーするための駒</strong> で、それだけです！</p>
+</div></blockquote>
+</section>
+<section >
+<h3>規模により分類できればいい</h3>
+<ul class="simple">
+<li><p>計画段階（プラクティス The planning game）においての話</p>
+<ul>
+<li><p>ちょうどいい大きさ・大きすぎる・小さすぎるが分かる状態</p></li>
+</ul>
+</li>
+<li><p>『Clean Agile』の <strong>詳細化を避けると重なる</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>計画とは別にストーリーをタスクに分解する</h3>
+<blockquote>
+<div><p>Use task planning to break the first few stories into development tasks.</p>
+</div></blockquote>
+<p>8.Planning &gt; Adaptive Planning &gt; How to Create Your Plan</p>
+</section>
+<section >
+<h3>『AoAD 2e』からユーザーストーリーについての学び</h3>
+<ul class="simple">
+<li><p>（やはり）ストーリーは詳細化しない</p></li>
+<li><p><strong>計画とは別にタスクに分解</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>ユーザーストーリーについての考察</h2>
+<p>小さな点でもフィードバック待ってます</p>
+<aside class="notes">
+https://hackmd.io/xIuztTjmSh246yIKnHBgzw</aside>
+</section>
+<section >
+<h3>IMO：状況によって詳細化の程度が変わる！</h3>
+<ul class="simple">
+<li><p>同じユーザーストーリーという言葉にも関わらず</p></li>
+<li><p><strong>詳細化を避けるタイミング</strong> と、詳細化する（タスクに変える）タイミングがある</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO：ユーザーストーリー×状況でチームで理解で捗りそう</h3>
+<ul class="simple">
+<li><p>「規模で分類できればいい」フェーズで詳細化しすぎる開発者（<em>過去の私</em>）がいたら？</p></li>
+<li><p><strong>どこまで詳細化するかチーム内の認識合わせ</strong> がポイントっぽい！</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 ユーザーストーリーについて</h2>
+<ul class="simple">
+<li><p>ユーザーストーリーは状況によって <strong>詳細化の程度が変わる</strong> 性質を持つ</p></li>
+<li><p>IMO：チームで状況と詳細化の程度を認識合わせしよう（そのためのこのスライド）</p></li>
+</ul>
+</section>
+<section >
+<h2>まとめ🌯 ユーザーストーリーについて</h2>
+<ul class="simple">
+<li><p>計画時点：プレースホルダーであり、詳細化は避ける</p></li>
+<li><p>計画とは別に詳細化する（タスク化）</p></li>
+</ul>
+</section>
+<section >
+<h3>再掲：ケント・ベック曰く</h3>
+<blockquote>
+<div><p>顧客に見える機能の単位を使って計画すること</p>
+</div></blockquote>
+<p>達人の教え、言葉を補って理解進みました！</p>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>Happy Agile!🙌</p>
+<p>Announcements / References が続きます</p>
+</section>
+</section>
+<section>
+<section >
+<h2>📣ご存知ですか？ XP祭り</h2>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">XP祭りのコンテンツ募集中。<br>XP祭りは、登壇の場、参加の場、運営の場を提供することをコンセプトのひとつにしています。<br>そのために、採択ルール(ほぼ全採択)、参加無料、書籍などの提供を行なっています。</p>&mdash; 小井土亨 (@koido1961) <a href="https://twitter.com/koido1961/status/1535442362465660929?ref_src=twsrc%5Etfw">June 11, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>📣The Art of Agile Development 読書会</h3>
+<ul class="simple">
+<li><p>拙ブログ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/join-art-of-agile-development-2nd-reading-meetup">近況報告：『The Art of Agile Development Second edition』の読書会に参加しています</a></p></li>
+<li><p>最近はYouTubeの動画（英語）を鑑賞して語り合っています</p></li>
+</ul>
+</section>
+<section >
+<h3>📣Uzabase Tech Blogのストーリーの記事</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://tech.uzabase.com/entry/2022/01/31/124104">ユーザーストーリーのすすめ</a></p></li>
+<li><p><a class="reference external" href="https://tech.uzabase.com/entry/2022/03/07/085809">ストーリーを小さくすること大きくすること</a></p></li>
+</ul>
+<p>同僚のアウトプットから気付きを得ています！</p>
+</section>
+<section >
+<h3>📣Agile Journeyはじまりました！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">アジャイルの実践を追求するメディア「Agile Journey」をオープンしました！🎉<br>アジャイル開発の進め方・実践につながる具体的な手法などの情報をユーザベース・株式会社はてな編集部でお届けします！👀<a href="https://t.co/M359OtMQ3j">https://t.co/M359OtMQ3j</a><a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB?src=hash&amp;ref_src=twsrc%5Etfw">#アジャイル</a> <a href="https://twitter.com/hashtag/AgileJourney?src=hash&amp;ref_src=twsrc%5Etfw">#AgileJourney</a></p>&mdash; Agile Journey (@agilejourney_ub) <a href="https://twitter.com/agilejourney_ub/status/1537249281471418374?ref_src=twsrc%5Etfw">June 16, 2022</a></blockquote></section>
+<section >
+<h3>📣6/24(金) <a class="reference external" href="https://uzabase-tech.connpass.com/event/249180/">TechBase vol.1</a></h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">＼オンラインイベント TechBase vol.1開催✨／<br><br>ゲストに<a href="https://twitter.com/kdmsnr?ref_src=twsrc%5Etfw">@kdmsnr</a> さんを迎えし、エクストリームプログラミングの哲学や理念についてお話頂きます。また当日はユーザベースの取り組みもご紹介させて頂きます！<br><br>皆さまのご参加、お待ちしております🎉<a href="https://twitter.com/hashtag/UZABASE?src=hash&amp;ref_src=twsrc%5Etfw">#UZABASE</a> <a href="https://twitter.com/hashtag/Techbase?src=hash&amp;ref_src=twsrc%5Etfw">#Techbase</a> <a href="https://twitter.com/hashtag/XP?src=hash&amp;ref_src=twsrc%5Etfw">#XP</a><a href="https://t.co/oNIgIkS1sH">https://t.co/oNIgIkS1sH</a></p>&mdash; Uzabase Tech (@Uzabase_Tech) <a href="https://twitter.com/Uzabase_Tech/status/1533693757597843456?ref_src=twsrc%5Etfw">June 6, 2022</a></blockquote></section>
+</section>
+<section >
+<h2>References</h2>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274217623/">エクストリームプログラミング</a>』(2015)</p></li>
+<li><p>『<a class="reference external" href="https://www.kadokawa.co.jp/product/302007001102/">Clean Agile</a>』(2020)</p></li>
+<li><p>『<a class="reference external" href="https://www.jamesshore.com/v2/books/aoad2">The Art of Agile Development Second edition</a>』(2021)</p></li>
+</ul>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

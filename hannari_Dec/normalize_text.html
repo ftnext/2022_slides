@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Norm@lizer（文字列の正規化処理について）</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/hannari_Dec/normalize_text.html">
+    <meta property="og:title" content="Norm@lizer（文字列の正規化処理について）">
+    <meta property="og:description" content="2022/12 はんなりプログラミングの会 ボーネンLT会 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/hannari_Dec.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>Norm&#64;lizer（文字列の正規化処理について）</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ボーネンLT会 はんなりプログラミングの会</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/12/16 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p><strong>Python</strong> 大好き、にっきー（<a class="reference external" href="https://2022.pycon.jp/timetable?id=LPYF7C">アスタリスク好き</a>）</p></li>
+<li><p><span class="fab fa-twitter"></span> <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ <span class="fab fa-github"></span> <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a> ／ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/">はてなブログ</a></p></li>
+<li><p>株式会社ユーザベースでデータサイエンティスト（自然言語処理、XP）</p></li>
+<li><p>近江彼方さん、おめでとう🎂🐑</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>本編：自然言語処理の話です</h2>
+<ul class="simple">
+<li><p>日本語は文の中の単語が区切られていない</p></li>
+<li><p><strong>形態素解析</strong> して</p>
+<ul>
+<li><p>単語分割＝分かち書き</p></li>
+<li><p>品詞付与</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>「オープンソース 形態素解析エンジン」MeCab</h3>
+<blockquote>
+<div><p>言語, 辞書,コーパスに依存しない汎用的な設計</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://taku910.github.io/mecab/">https://taku910.github.io/mecab/</a></p></li>
+</ul>
+</section>
+<section >
+<h3>形態素解析に使う辞書</h3>
+<ul class="simple">
+<li><p>MeCabの辞書の1つ mecab-ipadic-NEologd</p></li>
+<li><p><span class="fab fa-github"></span> <a class="reference external" href="https://github.com/neologd/mecab-ipadic-neologd">https://github.com/neologd/mecab-ipadic-neologd</a></p></li>
+</ul>
+</section>
+<section >
+<h3>mecab-ipadic-NEologd を作る上で</h3>
+<ul class="simple">
+<li><p><em>解析前に行うことが望ましい文字列の正規化処理</em></p></li>
+<li><p><a class="reference external" href="https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja">https://github.com/neologd/mecab-ipadic-neologd/wiki/Regexp.ja</a></p></li>
+<li><p>これを <strong>理解し、真似る</strong> のが今回のLTです</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>Part 1️⃣ 正規化処理 クローズアップ</h2>
+<ul class="simple">
+<li><p>スペース削除</p></li>
+<li><p>置換</p></li>
+<li><p>全角・半角変換</p></li>
+</ul>
+</section>
+<section >
+<h2><strong>先頭</strong> と <strong>末尾</strong> の半角スペース削除</h2>
+<pre data-id="id6"><code data-trim data-noescape class="python">&gt;&gt;&gt; &quot;      テキストの前&quot;.strip()
+'テキストの前'
+&gt;&gt;&gt; &quot;テキストの後      &quot;.strip()
+'テキストの後'</code></pre>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/stdtypes.html#str.strip">https://docs.python.org/ja/3/library/stdtypes.html#str.strip</a></p>
+</section>
+<section>
+<section >
+<h2>文字を置換 <code class="code docutils literal notranslate"><span class="pre">re.sub(pattern,</span> <span class="pre">repl,</span> <span class="pre">string)</span></code></h2>
+<blockquote>
+<div><p>string 中に出現する最も左の重複しない pattern を置換 repl で置換することで得られる文字列を返します。</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/re.html#re.sub">https://docs.python.org/ja/3/library/re.html#re.sub</a></p>
+<p>❗️replが関数のときは、動きがちょっと異なります</p>
+</section>
+<section >
+<h3>文字を置換して揃える</h3>
+<ul class="simple">
+<li><p>ハイフンマイナスっぽい文字は <code class="docutils literal notranslate"><span class="pre">-</span></code> <em>HYPHEN-MINUS</em> に</p></li>
+<li><p>長音記号っぽい文字は <code class="docutils literal notranslate"><span class="pre">ー</span></code> <em>KATAKANA-HIRAGANA PROLONGED SOUND MARK</em> に</p>
+<ul>
+<li><p>1回以上連続する長音記号は1つにまとめる</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>文字を置換して揃える</h3>
+<pre data-id="id7"><code data-trim data-noescape class="python">&gt;&gt;&gt; import re
+&gt;&gt;&gt; # ハイフンマイナスっぽい文字を揃える
+&gt;&gt;&gt; re.sub(&quot;[˗֊‐‑‒–⁃⁻₋−]+&quot;, &quot;-&quot;, &quot;o₋o&quot;)
+'o-o'
+&gt;&gt;&gt; # 長音記号っぽい文字を揃える
+&gt;&gt;&gt; # &amp; 1回以上連続する長音記号は1つにまとめる（replのーはpatternに含まれている）
+&gt;&gt;&gt; re.sub(&quot;[﹣－ｰ—―─━ー]+&quot;, &quot;ー&quot;, &quot;majika━&quot;)
+'majikaー'
+&gt;&gt;&gt; re.sub(&quot;[﹣－ｰ—―─━ー]+&quot;, &quot;ー&quot;, &quot;スーパーーーー&quot;)
+'スーパー'</code></pre>
+</section>
+<section >
+<h3>空文字列に置換（＝削除）</h3>
+<ul class="simple">
+<li><p>チルダっぽい文字は削除</p></li>
+</ul>
+<pre data-id="id8"><code data-trim data-noescape class="python">&gt;&gt;&gt; re.sub(&quot;[~∼∾〜〰～]&quot;, &quot;&quot;, &quot;わ〰い&quot;)
+'わい'</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>全角・半角変換 <code class="code docutils literal notranslate"><span class="pre">unicodedata.normalize(form,</span> <span class="pre">unistr)</span></code></h2>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Unicode 文字列 unistr の正規形 form を返します。</div>
+<div class="line">form の有効な値は、'NFC'、'NFKC'、'NFD'、'NFKD' です。</div>
+</div>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/unicodedata.html#unicodedata.normalize">https://docs.python.org/ja/3/library/unicodedata.html#unicodedata.normalize</a></p>
+</section>
+<section >
+<h3><strong>全角英数字を半角に</strong> 置換できる</h3>
+<pre data-id="id9"><code data-trim data-noescape class="python">&gt;&gt;&gt; import unicodedata
+&gt;&gt;&gt; unicodedata.normalize(&quot;NFKC&quot;, &quot;０１２ＡＢＣｘｙｚ&quot;)
+'012ABCxyz'</code></pre>
+</section>
+<section >
+<h3><strong>半角カタカナを全角に</strong> 置換できる</h3>
+<pre data-id="id10"><code data-trim data-noescape class="python">&gt;&gt;&gt; hankaku = &quot;ﾊﾝｶﾞｸ&quot;
+&gt;&gt;&gt; len(hankaku)
+5
+&gt;&gt;&gt; unicodedata.normalize(&quot;NFKC&quot;, hankaku)
+'ハンガク'
+&gt;&gt;&gt; len(_)
+4</code></pre>
+</section>
+<section >
+<h3>全角英数字と半角カタカナについて処理</h3>
+<pre data-id="id11"><code data-trim data-noescape class="python">&gt;&gt;&gt; import re
+&gt;&gt;&gt; import unicodedata
+&gt;&gt;&gt; # 全角英数字と半角カタカナを表す正規表現
+&gt;&gt;&gt; pattern = re.compile(&quot;([０-９Ａ-Ｚａ-ｚ｡-ﾟ]+)&quot;)
+&gt;&gt;&gt; &quot;&quot;.join(
+...     unicodedata.normalize(&quot;NFKC&quot;, x) if pattern.match(x) else x
+...     for x in re.split(pattern, &quot;０１２ＡＢＣｘｙｚはﾊﾝｶﾞｸ&quot;)
+... )
+'012ABCxyzはハンガク'</code></pre>
+</section>
+<section >
+<h3>補足情報🏃‍♂️</h3>
+<ul class="simple">
+<li><p>すべての文字をNFKCに正規化するアプローチもあります（『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274227264/">BERTによる自然言語処理入門</a>』）</p></li>
+<li><p>「NFKCとかNFKDとかってなんだ！？」👉『<a class="reference external" href="https://gihyo.jp/book/2019/978-4-297-10291-3">プログラマのための文字コード技術入門</a>』付録A.4</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>全角・半角変換 <strong>記号</strong> 編</h2>
+<ul class="simple">
+<li><p>半角に揃えたい記号</p></li>
+<li><p>全角に揃えたい記号</p></li>
+</ul>
+</section>
+<section >
+<h3>以下の変換ルールとする</h3>
+<ul class="simple">
+<li><p>以下の全角記号は半角に置換</p>
+<ul>
+<li><p>/！”＃＄％＆’（）＊＋，−．／：；＜＞？＠［￥］＾＿｀｛｜｝</p></li>
+</ul>
+</li>
+<li><p>以下の半角記号は全角に置換</p>
+<ul>
+<li><p>｡､･=｢｣</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>今回紹介する実装</h3>
+<ol class="arabic simple">
+<li><p>記号を <strong>全角に揃える</strong></p></li>
+<li><p>半角に置換する記号だけ置換する</p></li>
+</ol>
+</section>
+<section >
+<h3><code class="code docutils literal notranslate"><span class="pre">str.translate(table)</span></code></h3>
+<blockquote>
+<div><p>与えられた変換テーブルに基づいて文字列を構成する各文字をマッピングし、マッピング後の文字列のコピーを返します。</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/stdtypes.html#str.translate">https://docs.python.org/ja/3/library/stdtypes.html#str.translate</a></p>
+</section>
+<section >
+<h3><code class="code docutils literal notranslate"><span class="pre">str.translate(table)</span></code></h3>
+<blockquote>
+<div><p>文字から文字への異なる形式のマッピングから変換マップを作成するために、 <code class="code docutils literal notranslate"><span class="pre">str.maketrans()</span></code> が使えます。</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/stdtypes.html#str.translate">https://docs.python.org/ja/3/library/stdtypes.html#str.translate</a></p>
+</section>
+<section >
+<h3><code class="code docutils literal notranslate"><span class="pre">str.maketrans</span></code></h3>
+<pre data-id="str-maketrans"><code data-trim data-noescape class="python">&gt;&gt;&gt; mapping = str.maketrans(
+...     '!&quot;#$%&amp;\'()*+,-./:;&lt;=&gt;?&#64;[¥]^_`{|}~｡､･｢｣',
+...     &quot;！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」&quot;
+... )
+&gt;&gt;&gt; ord(&quot;#&quot;)
+35
+&gt;&gt;&gt; mapping[ord(&quot;#&quot;)]  # Unicodeコードポイント間の変換を表す
+65283
+&gt;&gt;&gt; chr(_)
+'＃'</code></pre>
+</section>
+<section >
+<h3>変換マップを使って <code class="code docutils literal notranslate"><span class="pre">str.translate</span></code></h3>
+<pre data-id="str-translate"><code data-trim data-noescape class="python">&gt;&gt;&gt; &quot;!#&quot;.translate(mapping)
+'！＃'</code></pre>
+<p>記号を全角に揃えられる！</p>
+</section>
+<section >
+<h3>半角に置換する記号だけ置換する</h3>
+<p>再度の <code class="code docutils literal notranslate"><span class="pre">unicodedata.normalize</span></code></p>
+<pre data-id="id18"><code data-trim data-noescape class="python">&gt;&gt;&gt; unicodedata.normalize(&quot;NFKC&quot;, &quot;！＃&quot;)  # 半角に戻る
+'!#'
+&gt;&gt;&gt; pattern = re.compile(&quot;([！”＃＄％＆’（）＊＋，－．／：；＜＞？＠［￥］＾＿｀｛｜｝〜]+)&quot;)
+&gt;&gt;&gt; &quot;&quot;.join(
+...     unicodedata.normalize(&quot;NFKC&quot;, x) if pattern.match(x) else x
+...     for x in re.split(pattern, &quot;!｡＃&quot;.translate(mapping))
+... )
+'!。#'</code></pre>
+</section>
+<section >
+<h3>クォートだけ注意</h3>
+<pre data-id="id19"><code data-trim data-noescape class="python">&gt;&gt;&gt; # 全角にしたクォートは半角に戻らない
+&gt;&gt;&gt; unicodedata.normalize(&quot;NFKC&quot;, &quot;”％’&quot;)
+'”%’'
+&gt;&gt;&gt; # re.subで半角に戻す
+&gt;&gt;&gt; re.sub('[’]', &quot;'&quot;, _)  # RIGHT SINGLE QUOTATION MARK
+&quot;”%'&quot;
+&gt;&gt;&gt; re.sub('[”]', '&quot;', _)  # RIGHT DOUBLE QUOTATION MARK
+'&quot;%\''</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>スペースの削除</h2>
+<p>先頭と末尾の半角スペース以外も</p>
+<ul class="simple">
+<li><p>全角スペースは半角スペースに置換</p></li>
+<li><p>1つ以上の半角スペースは、1つの半角スペースに置換</p></li>
+</ul>
+<pre data-id="id20"><code data-trim data-noescape class="python">s = re.sub('[ 　]+', ' ', s)</code></pre>
+</section>
+<section >
+<h3><strong>文字列中</strong> の半角スペースを削除！</h3>
+<ul class="simple">
+<li><p>「ひらがな・全角カタカナ・半角カタカナ・漢字・全角記号」間に含まれる場合</p>
+<ul>
+<li><p>消える例：「アイ の 歌声 を 聴か せ て」</p></li>
+</ul>
+</li>
+<li><p>「ひらがな・全角カタカナ・半角カタカナ・漢字・全角記号」と「半角英数字」の間に含まれる場合</p>
+<ul>
+<li><p>消える例：「アルゴリズム C」</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>正規表現で文字列中の半角スペース削除</h3>
+<pre data-id="id22"><code data-trim data-noescape class="python">&gt;&gt;&gt; basic_latin = &quot;\u0000-\u007F&quot;  # 半角英数字
+&gt;&gt;&gt; # 「ひらがな・全角カタカナ・半角カタカナ・漢字・全角記号」
+&gt;&gt;&gt; blocks = &quot;&quot;.join(
+...     (
+...         &quot;\u4E00-\u9FFF&quot;,  # CJK UNIFIED IDEOGRAPHS
+...         &quot;\u3040-\u309F&quot;,  # HIRAGANA
+...         &quot;\u30A0-\u30FF&quot;,  # KATAKANA
+...         &quot;\u3000-\u303F&quot;,  # CJK SYMBOLS AND PUNCTUATION
+...         &quot;\uFF00-\uFFEF&quot;,  # HALFWIDTH AND FULLWIDTH FORMS
+...     )
+... )</code></pre>
+</section>
+<section >
+<h3>正規表現の後方参照</h3>
+<pre data-id="id23"><code data-trim data-noescape class="python">&gt;&gt;&gt; pattern = re.compile(&quot;([{}]) ([{}])&quot;.format(blocks, basic_latin))
+&gt;&gt;&gt; m = pattern.search(&quot;アルゴリズム C&quot;)
+&gt;&gt;&gt; m.group(1)
+'ム'
+&gt;&gt;&gt; m.group(2)
+'C'
+&gt;&gt;&gt; # \1 は \g&lt;1&gt; と等価。グループ番号1がマッチした部分文字列
+&gt;&gt;&gt; pattern.sub(r&quot;\1\2&quot;, &quot;アルゴリズム C&quot;)  # 半角スペースを削除
+'アルゴリズムC'</code></pre>
+</section>
+<section >
+<h3>後方参照が見つかる限り、半角スペースを削除</h3>
+<pre data-id="id24"><code data-trim data-noescape class="python">&gt;&gt;&gt; pattern = re.compile(&quot;([{}]) ([{}])&quot;.format(blocks, blocks))
+&gt;&gt;&gt; s = &quot;アイ の 歌声 を 聴か せ て&quot;
+&gt;&gt;&gt; while pattern.search(s):
+...     s = pattern.sub(r&quot;\1\2&quot;, s)
+&gt;&gt;&gt; s
+'アイの歌声を聴かせて'</code></pre>
+<p>分かち書きが戻せた！</p>
+<aside class="notes">
+&gt;&gt;&gt; p = re.compile(&quot;([{}]) ([{}])&quot;.format(basic_latin, blocks))</aside>
+<aside class="notes">
+&gt;&gt;&gt; s = &quot;ＰＲＭＬ　　副　読　本&quot;  # 全角・半角と全角スペースの扱いがいる</aside>
+<aside class="notes">
+&gt;&gt;&gt; while p.search(s):</aside>
+<aside class="notes">
+...     s = p.sub(r&quot;\1\2&quot;, s)</aside>
+<aside class="notes">
+&gt;&gt;&gt; s  # 全角・半角は他の処理と合わせて</aside>
+<aside class="notes">
+'ＰＲＭＬ副読本'</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Part 2️⃣ 真似して作る正規化処理</h2>
+<p><strong>部品化</strong> した処理を <strong>組合せる</strong> 実装を提案</p>
+</section>
+<section >
+<h3>完全に理解した！</h3>
+<ul class="simple">
+<li><p>「解析前に行うことが望ましい文字列の正規化処理」が何をしているかは分かった</p></li>
+<li><p><strong>自分だったらどう実装するか</strong> を考えてみる</p></li>
+<li><p>どんなAPIにしようか、OSSを観察</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>🤗 tokenizers</h2>
+<ul class="simple">
+<li><p><span class="fab fa-github"></span> <a class="reference external" href="https://github.com/huggingface/tokenizers">https://github.com/huggingface/tokenizers</a></p></li>
+<li><p>正規化処理をする <a class="reference external" href="https://huggingface.co/docs/tokenizers/api/normalizers">Normalizers</a></p></li>
+<li><p>Pythonで使える。ただし、Rust実装。<a class="reference external" href="https://github.com/huggingface/tokenizers/blob/v0.13.2/bindings/python/py_src/tokenizers/normalizers/__init__.pyi">pyiファイル</a> を <strong>観察</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>🔍発見1：インターフェースの <strong>統一</strong></h3>
+<ul class="simple">
+<li><p>ベースクラス <code class="docutils literal notranslate"><span class="pre">Normalizer</span></code></p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">normalize_str(text)</span></code> は text を正規化した文字列を返す</p></li>
+</ul>
+</section>
+<section >
+<h3>🔍発見2：正規化処理の <strong>部品化</strong></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NFKC</span></code> ：Unicode正規化処理だけするNormalizer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Strip</span></code> や <code class="docutils literal notranslate"><span class="pre">Replace</span></code> など</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> クラスを継承しているので、どれも <code class="code docutils literal notranslate"><span class="pre">normalize_str</span></code> を呼び出せばよい</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">Sequence</span></code> がにくい</h3>
+<ul class="simple">
+<li><p><strong>いくつかの正規化処理をまとめた正規化処理</strong> を表す</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> を継承しているので <code class="code docutils literal notranslate"><span class="pre">normalize_str</span></code> を呼び出せばよい</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>今回は <strong>Protocol</strong> で（素振り）</h2>
+<ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">typing.Protocol</span></code> <a class="reference external" href="https://docs.python.org/ja/3/library/typing.html#typing.Protocol">https://docs.python.org/ja/3/library/typing.html#typing.Protocol</a></p></li>
+<li><p>ダックタイピングを表せる型ヒント（という理解）</p></li>
+<li><p>抽象基底クラス <code class="code docutils literal notranslate"><span class="pre">abc.ABC</span></code> を使っても全然できると思います</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">Normalizer</span></code> プロトコル</h3>
+<pre data-id="normalizer"><code data-trim data-noescape class="python">&#64;runtime_checkable
+class Normalizer(Protocol):
+    def normalize(self, text: str) -&gt; str:
+        ...
+</code></pre>
+<aside class="notes">
+doctestを通すためのsetUp
+&gt;&gt;&gt; from typing import Protocol, runtime_checkable
+&gt;&gt;&gt; &#64;runtime_checkable
+... class Normalizer(Protocol):
+...     def normalize(self, text: str) -&gt; str:
+...         ...</aside>
+</section>
+<section >
+<h3>補足情報🏃‍♂️</h3>
+<p><code class="code docutils literal notranslate"><span class="pre">normalize</span></code> メソッドがあれば（継承していなくても）Normalizer</p>
+<pre data-id="id28"><code data-trim data-noescape class="python">&gt;&gt;&gt; class C:
+...   def normalize(self, text: str) -&gt; str:
+...     return &quot;spam&quot;
+&gt;&gt;&gt; issubclass(C, Normalizer), isinstance(C(), Normalizer)
+(True, True)
+&gt;&gt;&gt; class D:
+...   ...
+&gt;&gt;&gt; issubclass(D, Normalizer)
+False
+&gt;&gt;&gt; class E:
+...   def normalize(self):  # シグネチャはプロトコルと一致しない
+...     return &quot;e&quot;
+&gt;&gt;&gt; issubclass(E, Normalizer), isinstance(E(), Normalizer)
+(True, True)</code></pre>
+</section>
+<section >
+<h3>具体 Normalizer たち</h3>
+<pre data-id="id29"><code data-trim data-noescape class="python">class Strip(Normalizer):
+    def normalize(self, text: str) -&gt; str:
+        return text.strip()
+</code></pre>
+<pre data-id="id29"><code data-trim data-noescape class="python">class Replace(Normalizer):
+    def __init__(self, pattern, repl) -&gt; None:
+        self.pattern = pattern
+        self.repl = repl
+
+    def normalize(self, text: str) -&gt; str:
+        return re.sub(self.pattern, self.repl, text)
+</code></pre>
+</section>
+<section >
+<h3>Normalizerたちをまとめ上げる <code class="docutils literal notranslate"><span class="pre">Sequence</span></code></h3>
+<pre data-id="normalizer-sequence"><code data-trim data-noescape class="python">class Sequence(Normalizer):
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; sut = Sequence([Lowercase(), NFKC()])
+    &gt;&gt;&gt; sut.normalize(&quot;NikkiE&quot;)
+    'nikkie'
+    &gt;&gt;&gt; sut.normalize(&quot;&quot;.join([chr(0X30D5), chr(0X309A), chr(0X30ED)]))
+    'プロ'
+    &quot;&quot;&quot;
+
+    def __init__(self, normalizers: AbcSequence[Normalizer]) -&gt; None:
+        self.normalizers = normalizers
+
+    def normalize(self, text: str) -&gt; str:
+        normalized = text
+        for normalizer in self.normalizers:
+            normalized = normalizer.normalize(normalized)
+        return normalized
+</code></pre>
+</section>
+<section >
+<h3>文字列中の半角スペースを削除するNormalizer</h3>
+<pre data-id="id30"><code data-trim data-noescape class="python">class RemoveExtraSpaces(Normalizer):
+    BLOCKS = &quot;&quot;.join(
+        (
+            &quot;\u4E00-\u9FFF&quot;,  # CJK UNIFIED IDEOGRAPHS
+            &quot;\u3040-\u309F&quot;,  # HIRAGANA
+            &quot;\u30A0-\u30FF&quot;,  # KATAKANA
+            &quot;\u3000-\u303F&quot;,  # CJK SYMBOLS AND PUNCTUATION
+            &quot;\uFF00-\uFFEF&quot;,  # HALFWIDTH AND FULLWIDTH FORMS
+        )
+    )
+    BASIC_LATIN = &quot;\u0000-\u007F&quot;
+
+    def __init__(self):
+        self.normalizer = Sequence(
+            [
+                Replace(&quot;[ 　]+&quot;, &quot; &quot;),
+                RemoveSpaceBetween(self.BLOCKS, self.BLOCKS),
+                RemoveSpaceBetween(self.BLOCKS, self.BASIC_LATIN),
+                RemoveSpaceBetween(self.BASIC_LATIN, self.BLOCKS),
+            ]
+        )
+
+    def normalize(self, text: str) -&gt; str:
+        return self.normalizer.normalize(text)
+</code></pre>
+</section>
+<section >
+<h3>ふるまいは同じです！🙌</h3>
+<pre data-id="id31"><code data-trim data-noescape class="python">def normalize_neologd(s):
+    normalizer = NeologdNormalizer()
+    return normalizer.normalize(s)
+
+
+if __name__ == &quot;__main__&quot;:
+    assert &quot;0123456789&quot; == normalize_neologd(&quot;０１２３４５６７８９&quot;)
+    assert &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot; == normalize_neologd(
+        &quot;ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ&quot;
+    )
+</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯： <code class="docutils literal notranslate"><span class="pre">Norm&#64;lizer</span></code></h2>
+<ul class="simple">
+<li><p>mecab-ipadic-NEologdの文字列の正規化処理を理解し、真似た</p></li>
+<li><p>正規表現や <code class="code docutils literal notranslate"><span class="pre">str.translate</span></code> を駆使して正規化している</p></li>
+<li><p>🤗/tokenizersを参考にし、処理を部品化した実装を提案</p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました！</h3>
+<p>さよなら2022年！！！🐯</p>
+<p>mecab-ipadic-NEologd、学びをありがとう！</p>
+</section>
+</section>
+<section >
+<h2>Appendix 関連アウトプット</h2>
+<ul class="simple">
+<li><p><span class="fab fa-github"></span> <a class="reference external" href="https://github.com/ftnext/2022_slides/blob/main/samplecode/normalizers/assembled.py">提案実装</a></p></li>
+<li><p>Part2と関連： <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/observe-huggingface-tokenizers-normalizers">huggingface/tokenizersのNormalizer観察記 〜処理の部品化と統一されたインターフェース〜</a></p></li>
+</ul>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

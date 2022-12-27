@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Start Python Guide ver.202204</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/stapy_Apr/python_start_guide.html">
+    <meta property="og:title" content="Start Python Guide ver.202204">
+    <meta property="og:description" content="Pythonを始めるガイド 2022/04 みんなのPython勉強会#80 トークスライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/stapy_Apr.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>Start Python Guide ver.202204</h1>
+<p>#stagy すたがい</p>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>みんなのPython勉強会</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/04/14 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>皆さんの声を聴かせて！</h2>
+<p>Slidoでアンケート</p>
+</section>
+<section >
+<h3>みんなのPython勉強会参加回数</h3>
+<figure class="align-default">
+<img alt="../_images/202204_poll_stapy_count.png" src="../_images/202204_poll_stapy_count.png" />
+</figure>
+</section>
+<section >
+<h3>プログラミング経験</h3>
+<figure class="align-default">
+<img alt="../_images/202204_poll_programming_experience.png" src="../_images/202204_poll_programming_experience.png" />
+</figure>
+</section>
+</section>
+<section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>Python大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>株式会社ユーザベースのデータサイエンティスト（NLPer）</p></li>
+<li><p>みんなのPython勉強会 4代目LT王子🤴 ・スタッフ</p></li>
+</ul>
+</section>
+<section >
+<h3>P(ython) &amp; I(=nikkie) 4年半</h3>
+<ul class="simple">
+<li><p>2017年秋、 <strong>趣味</strong> でPythonをスタート</p></li>
+<li><p>2019年からデータサイエンティスト（ <strong>仕事</strong> でもPython）</p></li>
+<li><p>国内外のPythonのカンファレンスで登壇多数</p></li>
+</ul>
+</section>
+<section >
+<h3>Start Python Guide お品書き</h3>
+<ul class="simple">
+<li><p>話題1：オススメのPython入門教材</p></li>
+<li><p>話題2-1：プログラミングを学ぶってどういうこと？</p></li>
+<li><p>話題2-2：プログラミングを学ぶ際のtips紹介</p></li>
+</ul>
+</section>
+<section >
+<h3>注意事項</h3>
+<ul class="simple">
+<li><p><strong>日本語</strong> で読める教材に絞って紹介します</p></li>
+<li><p><em>IMO</em> という表記は「<strong>nikkieの意見</strong>」です（in my opinion）</p></li>
+<li><p>皆さんの声を聴かせてください：「ここで困っている」「入門したときこれが助かった」（N=1のバイアス緩和したく）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>オススメのPython入門教材</h2>
+<p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/python-introductions-202204">ノミネート（本トークのプレビュー版）</a></p>
+</section>
+<section>
+<section >
+<h2>プログラミングが <strong>初めて</strong> で、かつ、Pythonを学んでみたい方向け</h2>
+<p><a class="reference external" href="https://idolmaster-official.jp/news/01_1472.html">何かを始めるのに、遅すぎるなんてことはない（by 香川照之）</a></p>
+</section>
+<section >
+<h3>python.jp ゼロからのPython入門講座</h3>
+<p><a class="reference external" href="https://www.python.jp/train/index.html">https://www.python.jp/train/index.html</a></p>
+</section>
+<section >
+<h3>python.jp ゼロからのPython入門講座</h3>
+<ul class="simple">
+<li><p>対象：プログラミング <strong>未経験者</strong> ・初心者</p></li>
+<li><p><strong>Google Colaboratory</strong> 使用（Googleアカウントがあれば準備OK）</p></li>
+<li><p>Pythonの基礎をチュートリアル形式で解説</p></li>
+</ul>
+</section>
+<section >
+<h3>ココが推し！ <strong>信頼でき、かつ、体験しやすい</strong></h3>
+<ul class="simple">
+<li><p>Python書籍も執筆されている、atsuoishimoto（石本 敦夫）さんによる入門講座</p></li>
+<li><p>Googleアカウントだけあれば、プログラミングを体験できる</p>
+<ul>
+<li><p>「思ってたのと違う」場合に引き返しやすい（Fail fast）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>入門してみてプログラミングを <strong>もっと学びたい</strong> と思えた場合</h2>
+</section>
+<section >
+<h3>より詳しい入門教材</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://mitani.cs.tsukuba.ac.jp/book_support/python/">『Python ゼロからはじめるプログラミング』サポートページ</a> の「Python学習用教材」</p></li>
+<li><p>東京大学 理学部の教材「 <a class="reference external" href="https://utokyo-ipp.github.io/">Pythonプログラミング入門</a> 」</p></li>
+</ul>
+</section>
+<section >
+<h3>入門書を読んでみてもいいと思います</h3>
+<ul class="simple">
+<li><p>『 <a class="reference external" href="https://gihyo.jp/book/2018/978-4-7741-9643-5">Pythonスタートブック［増補改訂版］</a> 』</p></li>
+<li><p>『 <a class="reference external" href="https://gihyo.jp/book/2020/978-4-297-11570-8">最短距離でゼロからしっかり学ぶ Python入門 必修編</a> 』</p></li>
+</ul>
+</section>
+<section >
+<h3>自分のPCに環境構築</h3>
+<ul class="simple">
+<li><p>書籍では環境構築方法もカバーされます</p></li>
+<li><p>python.jp にもあります： <a class="reference external" href="https://www.python.jp/install/install.html">Python環境構築ガイド</a></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>プログラミングは経験済みで、かつ、Pythonを学んでみたい方向け</h2>
+</section>
+<section >
+<h3>Pythonを知るなら『 <a class="reference external" href="https://gihyo.jp/book/2020/978-4-297-11111-3">Python実践入門</a> 』</h3>
+<ul class="simple">
+<li><p>──言語の力を引き出し、開発効率を高める</p></li>
+<li><p>著者は陶山さん（ <a class="reference external" href="https://twitter.com/rhoboro">rhoboro</a> さん）</p></li>
+<li><p>2020年1月発売</p></li>
+</ul>
+</section>
+<section >
+<h3>『Python実践入門』はじめに より</h3>
+<blockquote>
+<div><p>それら（※ライブラリ）の実力を最大限に活かすためには、まずPythonという言語の持つ特徴や機能を知り、使いこなしていく必要があります。</p>
+</div></blockquote>
+<p><strong>言語の特徴や機能がまとまっている</strong> ので、プログラミング経験者にはオススメです！</p>
+</section>
+</section>
+<section>
+<section >
+<h2>小まとめ：オススメのPython入門教材</h2>
+<ul class="simple">
+<li><p>プログラミング未経験なら <a class="reference external" href="https://www.python.jp/train/index.html">python.jp ゼロからのPython入門講座</a> で小さく体験できます</p></li>
+<li><p>経験してもっと学んでみたければ、より詳しい教材や入門書へ</p></li>
+<li><p>プログラミングは経験済みでPythonを知るなら『 <a class="reference external" href="https://gihyo.jp/book/2020/978-4-297-11111-3">Python実践入門</a> 』</p></li>
+</ul>
+</section>
+<section >
+<h3>Start Python Guide お品書き</h3>
+<ul class="simple">
+<li><p>話題1：オススメのPython入門教材</p></li>
+<li><p><strong>話題2-1：プログラミングを学ぶってどういうこと？</strong></p></li>
+<li><p>話題2-2：プログラミングを学ぶ際のtips紹介</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>プログラミングを学ぶって何？</h2>
+<ul class="simple">
+<li><p>（Pythonに限らず） <em>プログラミングを学ぶ</em> ってどういうことなんでしょう？</p></li>
+<li><p>対象: プログラミングを学びたいと思っている方 〜</p></li>
+</ul>
+</section>
+<section >
+<h3>先人の知恵：『<a class="reference external" href="https://gihyo.jp/book/2018/978-4-7741-9876-7">エンジニアの知的生産術</a>』</h3>
+<ul class="simple">
+<li><p>参考「<a class="reference external" href="https://scrapbox.io/nishio/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E8%A1%93_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AF%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%AD%A6%E3%81%B6%E3%81%8B">はじめに プログラミングはどうやって学ぶか</a>」</p></li>
+<li><p>「はじめに」自体は公開されています（ぜひお読みください！）</p></li>
+</ul>
+</section>
+<section >
+<h3>プログラミングの学びのプロセス</h3>
+<ul class="simple">
+<li><p>情報収集</p></li>
+<li><p>モデル化</p></li>
+<li><p>検証</p></li>
+</ul>
+<p><a class="reference external" href="https://scrapbox.io/nishio/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E8%A1%93_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AF%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%AD%A6%E3%81%B6%E3%81%8B">はじめに プログラミングはどうやって学ぶか</a> より</p>
+</section>
+<section >
+<h3>この3つを <strong>繰り返す</strong> 🔁</h3>
+<a class="reference internal image-reference" href="../_images/202204_learn_programming_cycle.png"><img alt="../_images/202204_learn_programming_cycle.png" src="../_images/202204_learn_programming_cycle.png" style="width: 505.6px; height: 414.40000000000003px;" /></a>
+<p><a class="reference external" href="https://scrapbox.io/nishio/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%81%AE%E7%9F%A5%E7%9A%84%E7%94%9F%E7%94%A3%E8%A1%93_%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%AF%E3%81%A9%E3%81%86%E3%82%84%E3%81%A3%E3%81%A6%E5%AD%A6%E3%81%B6%E3%81%8B">はじめに プログラミングはどうやって学ぶか</a> より</p>
+</section>
+</section>
+<section>
+<section >
+<h2>具体例で見てみましょう</h2>
+<ul class="simple">
+<li><p>情報収集</p></li>
+<li><p>➡️モデル化</p></li>
+<li><p>➡️検証</p></li>
+<li><p>➡️情報収集</p></li>
+<li><p>:</p></li>
+</ul>
+</section>
+<section >
+<h3>情報収集</h3>
+<ul class="simple">
+<li><p>他の人が書いたプログラムを <strong>読む</strong> （入門教材）</p></li>
+<li><p><strong>写経</strong> （＝プログラムをまねて入力）</p></li>
+</ul>
+<pre data-id="id30"><code data-trim data-noescape class="python">&gt;&gt;&gt; print(&quot;こんにちは、プログラミング&quot;)
+こんにちは、プログラミング</code></pre>
+</section>
+<section >
+<h3>抽象化</h3>
+<ul class="simple">
+<li><p><strong>共通するパターン</strong> を見いだす</p></li>
+<li><p>助けになるのが、 <em>複数のものを見比べ、共通点を見いだす</em> こと</p></li>
+</ul>
+<pre data-id="id31"><code data-trim data-noescape class="python"># 見出したパターン
+print(&quot;きっとここに書いたものが表示される&quot;)</code></pre>
+</section>
+<section >
+<h3>表示する文字列を変えたい</h3>
+<ul class="simple">
+<li><p>「たーのしー！プログラミング」と表示したい場合はどうする？</p></li>
+<li><p>今知っている： <cite>print(&quot;きっとここに書いたものが表示される&quot;)</cite></p></li>
+</ul>
+<pre data-id="id32"><code data-trim data-noescape class="python"># こう書けばいいのではないか（思い付いた）
+print(&quot;たーのしー！プログラミング&quot;)</code></pre>
+</section>
+<section >
+<h3>検証</h3>
+<ul class="simple">
+<li><p>思い付いた <strong>仮説を検証</strong> する</p></li>
+<li><p>試してみて、「たーのしー！プログラミング」と表示できるか</p></li>
+</ul>
+<pre data-id="id33"><code data-trim data-noescape class="python">&gt;&gt;&gt; print(&quot;たーのしー！プログラミング&quot;)
+たーのしー！プログラミング</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>表示する文字列をもっと変えたい</h2>
+<ul class="simple">
+<li><p>「たーのしー！（改行）プログラミング」と表示したい</p></li>
+</ul>
+<pre data-id="id34"><code data-trim data-noescape class="txt">たーのしー！
+プログラミング</code></pre>
+</section>
+<section >
+<h3>思い付いた仮説</h3>
+<ul class="simple">
+<li><p><cite>print(&quot;きっとここに書いたものが表示される&quot;)</cite> のだから、「たーのしー！（改行）プログラミング」と書いてみる</p></li>
+</ul>
+<pre data-id="id35"><code data-trim data-noescape class="python">print(&quot;たーのしー！
+プログラミング&quot;)</code></pre>
+</section>
+<section >
+<h3>仮説の検証</h3>
+<pre data-id="id36"><code data-trim data-noescape class="python">&gt;&gt;&gt; print(&quot;たーのしー！  
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    print(&quot;たーのしー！
+          ^
+SyntaxError: unterminated string literal (detected at line 1)</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">SyntaxError</span></code> ！😱</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/tutorial/errors.html#syntax-errors">構文エラー</a></p></li>
+<li><p>Pythonの文法に沿わない書き方をしている</p></li>
+</ul>
+</section>
+<section >
+<h3>エラーのとらえ方</h3>
+<ul class="simple">
+<li><p>📣エラーは失敗ではない</p></li>
+<li><p>仮説を検証したところ、単に改行したのでは <strong>うまくいかないことが分かった</strong></p></li>
+</ul>
+<aside class="notes">
+エジソン うまくいかない方法を10000回？見つけた</aside>
+</section>
+<section >
+<h3>『<a class="reference external" href="https://gihyo.jp/book/2018/978-4-7741-9876-7">エンジニアの知的生産術</a>』より</h3>
+<blockquote>
+<div><div class="line-block">
+<div class="line">「この方法ではうまくいかない」という具体的情報を発見したのです。</div>
+<div class="line">これは学びのチャンスです。</div>
+<div class="line">「どうして思ったように動かないのか？」──こう考えることで、あなたは理解を深めていくことができます。</div>
+</div>
+</div></blockquote>
+</section>
+<section >
+<h3>単に改行したのではうまくいかない</h3>
+<ul class="simple">
+<li><p><strong>情報収集➡️モデル化➡️検証</strong> を繰り返す</p></li>
+<li><p>まずは情報収集</p></li>
+</ul>
+</section>
+<section >
+<h3>改行を表示するために情報収集</h3>
+<ul class="simple">
+<li><p>例：Google検索「Python 改行 print」</p></li>
+<li><p>役に立ちそうな情報を含んだ <strong>サンプルコード</strong> が見つかる</p></li>
+</ul>
+</section>
+<section >
+<h3>集めた情報からモデル化</h3>
+<ul class="simple">
+<li><p>新しいサンプルコードを、今までに集めた情報と比較し、パターンを見いだす（<strong>パターンを更新する</strong>）</p></li>
+<li><p>「こうすれば改行を表示できるはず」新たな仮説</p></li>
+</ul>
+</section>
+<section >
+<h3>新たな仮説を検証</h3>
+<ul class="simple">
+<li><p>改行を表示できたら目的達成！（<strong>次のやりたいことへ</strong>）</p></li>
+<li><p>別のエラーなどで目的を達成できなかったら、 <strong>再度</strong> 情報収集➡️モデル化➡️検証 を回す</p></li>
+</ul>
+</section>
+<section >
+<h3><em>IMO</em> 検証のために書こう！</h3>
+<ul class="simple">
+<li><p>教材を読んで・視聴して理解</p></li>
+<li><p>加えて、理解したコードを書いて、 <strong>理解＝仮説を検証</strong> しよう（理解を深める第一歩）</p></li>
+</ul>
+<aside class="notes">
+元ネタを紹介してもいいかも</aside>
+</section>
+</section>
+<section>
+<section >
+<h2><em>IMO</em> つまり、プログラミングを学ぶとは</h2>
+<ul class="simple">
+<li><p>情報収集し、</p></li>
+<li><p>パターンを見出し、</p></li>
+<li><p>「こうすればいいのでは」という仮説を検証する</p></li>
+</ul>
+<p><strong>この（際限のない）繰り返し</strong></p>
+</section>
+<section >
+<h3><em>IMO</em> プログラミングするということ</h3>
+<ul class="simple">
+<li><p>すでに知っていることはそれを利用すればよい</p></li>
+<li><p><em>知らない・分からないこと</em> は必ず出てくる（全ては知り尽くせない）</p>
+<ul>
+<li><p>情報収集➡️モデル化➡️検証 で <strong>学んで対応</strong> する</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Start Python Guide お品書き</h3>
+<ul class="simple">
+<li><p>話題1：オススメのPython入門教材</p></li>
+<li><p>話題2-1：プログラミングを学ぶってどういうこと？</p></li>
+<li><p><strong>話題2-2：プログラミングを学ぶ際のtips紹介</strong></p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>サイクルを回すために</h2>
+<ul class="simple">
+<li><p>情報収集➡️モデル化➡️検証というプログラミング学習サイクルを回すための <strong>tips</strong> を <strong>3つ</strong> 紹介</p></li>
+<li><p>プログラミングを学んでいる方向け（これから学ぶ方にはピンとこないかも）</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>1. 写経しながら <strong>考える</strong></h2>
+<ul class="simple">
+<li><p>写経＝プログラムをまねて入力＝書き写す</p></li>
+<li><p>情報収集の方法の1つ</p></li>
+</ul>
+</section>
+<section >
+<h3>『<a class="reference external" href="https://gihyo.jp/book/2018/978-4-7741-9876-7">エンジニアの知的生産術</a>』より（第1章）</h3>
+<blockquote>
+<div><p>書き写しながら、「あれ、これ前にも出てきたな」とか「いつものパターンに似ているけどちょっと違うな」とか考えることが大事です</p>
+</div></blockquote>
+</section>
+<section >
+<h3>写経しながら考える：nikkieの場合</h3>
+<ul class="simple">
+<li><p>「<strong>こんな書き方できるのか！</strong>」という気付き🤩</p></li>
+<li><p>モデル（自分の理解）の更新につながる（誤解していた、少し深く分かった）</p></li>
+</ul>
+</section>
+<section >
+<h3>『<a class="reference external" href="https://gihyo.jp/book/2018/978-4-7741-9876-7">エンジニアの知的生産術</a>』第1章 参考</h3>
+<ul class="simple">
+<li><p>なぜこうなっている？ こう書き換えたら？ 写経しながら控えておく</p></li>
+<li><p>分からないことも書き出しましょう</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>「（写経はせずに）コピペでよくない？」</h2>
+<p>Google検索などして見つけたサンプルコードをコピー &amp; ペースト</p>
+</section>
+<section >
+<h3>nikkieとコピペ</h3>
+<ul class="simple">
+<li><p>コピペすればサンプルコードは動く</p></li>
+<li><p>ぶっちゃけ、入門時はよくやっていました</p></li>
+<li><p>サンプルコードを複数組合せたら動かなくなったぞ！？</p></li>
+</ul>
+</section>
+<section >
+<h3><em>IMO</em> コピペはオススメしません</h3>
+<ul class="simple">
+<li><p>情報収集➡️モデル化➡️検証のサイクルから <strong>遠ざかる</strong> 感覚</p></li>
+<li><p>コピペはモデル化（共通パターンの発見）をスキップする</p></li>
+<li><p>そのため、動かない時に仮説が出せず、直しづらい（デメリットもご認識を！）</p></li>
+</ul>
+</section>
+<section >
+<h3>nikkie コピペ封印</h3>
+<ul class="simple">
+<li><p>「自力で書けない箇所はコピペしない」</p></li>
+<li><p>（＝書けるところだけコピペしてよい）</p></li>
+<li><p>参考 <a class="reference external" href="https://github.com/ftnext/2019_slides/blob/master/django_girls_Nov_copy_paste/PITCHME.md">https://github.com/ftnext/2019_slides/blob/master/django_girls_Nov_copy_paste/PITCHME.md</a></p></li>
+</ul>
+</section>
+<section >
+<h3><em>IMO</em> コピペしないを増やしていきましょう</h3>
+<ul class="simple">
+<li><p>コピペをすると早く解決できるが、モデル化が薄くなりがち</p></li>
+<li><p>コピペしないと <strong>時間はかかるが、理解が深まる</strong></p>
+<ul>
+<li><p>得たモデルは次の同様のケースに活きる</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+https://github.com/ftnext/2019_slides/blob/master/django_girls_Nov_copy_paste/PITCHME.md</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>2. 一歩一歩</h2>
+<ul class="simple">
+<li><p>「写経とかコピペしないとか、プログラミングって泥臭くない？」</p></li>
+<li><p><em>IMO</em> <strong>着実に一歩一歩</strong> 積み上げていきましょう</p></li>
+</ul>
+</section>
+<section >
+<h3>学習曲線は直線ではない（<a class="reference external" href="https://commons.wikimedia.org/wiki/File:Alanf777_Lcd_fig07.png">画像引用元</a>）</h3>
+<img alt="../_images/202204_wiki_learning_curve.png" src="../_images/202204_wiki_learning_curve.png" />
+</section>
+<section >
+<h3>私たちのイメージとのギャップ</h3>
+<img alt="../_images/202204_edited_learning_curve.drawio.png" src="../_images/202204_edited_learning_curve.drawio.png" />
+<aside class="notes">
+https://en.wikipedia.org/wiki/Learning_curve</aside>
+</section>
+<section >
+<h3>学習曲線、期待と実際のギャップ</h3>
+<ul class="simple">
+<li><p>経験に比例して直線で学習が進むと考えがちだが、実際は横軸に張り付く（全然進まない感覚）</p></li>
+<li><p>（プログラミングに限らず）何かを身につけるのは <em>簡単な道のりではない</em> と思っています</p></li>
+</ul>
+</section>
+<section >
+<h3>オススメの考え方：過去の自分と比較しよう</h3>
+<ul class="simple">
+<li><p>例：今日は改行を含んだprintができるようになったぞ！🙌</p></li>
+<li><p>情報収集➡️モデル化➡️検証を繰り返し、モデルをちょっとずつじわじわと更新していく</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>3. ひとつの教材を極め抜け</h2>
+<ul class="simple">
+<li><p>一歩一歩進む以上、時間はかかるもの</p></li>
+<li><p>紹介した教材、あれもこれもは現実的でない</p></li>
+</ul>
+</section>
+<section >
+<h3>1つの教材に絞ろう</h3>
+<ul class="simple">
+<li><p>入門教材を1つ選んで絞ろう</p></li>
+<li><p>ただし、最初から極め抜こうとはしない（わからないところは飛ばそう）</p></li>
+<li><p>最初はさーっと <strong>全体感</strong> をつかもう</p></li>
+</ul>
+</section>
+<section >
+<h3>何周もして極め抜け</h3>
+<ul class="simple">
+<li><p>1回では全ては理解できないもの。何周もしよう</p></li>
+<li><p>最初は分からないところ、繰り返したときに分かる瞬間が訪れます（未来で待ってる）</p></li>
+<li><p>参考 <a class="reference external" href="https://github.com/ftnext/2018_LTslides/blob/master/django_girls_Nov_for_beginners/PITCHME.md">https://github.com/ftnext/2018_LTslides/blob/master/django_girls_Nov_for_beginners/PITCHME.md</a></p></li>
+</ul>
+<aside class="notes">
+1.01の365乗の話（校長講話らしい。三木谷社長？）</aside>
+</section>
+<section >
+<h3>先の話：ひとつの教材を極め抜いたら</h3>
+<ul class="simple">
+<li><p>全てを網羅した教材はない</p></li>
+<li><p>極め抜いた核に、他の教材を <strong>つまみ読みして補完</strong> していく</p></li>
+<li><p>読み込んだ1教材 &amp; たくさんの教材の必要に応じたつまみ読み</p></li>
+</ul>
+<aside class="notes">
+元ネタを紹介してもいいかも</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>One more thing: stapyで学んだこと</h2>
+<p>みんなのPython勉強会 代表 阿久津さん提唱 <strong>Python学習のTIPs</strong></p>
+</section>
+<section >
+<h3>stapy発 <a class="reference external" href="https://www.slideshare.net/TakeshiAkutsu/python-in-3-intro/14">Python学習のTIPs</a></h3>
+<ul class="simple">
+<li><p>Textbook：書籍</p></li>
+<li><p>Internet：インターネット上のリソース</p></li>
+<li><p>People： <strong>コミュニティ</strong> 、勉強会</p></li>
+</ul>
+</section>
+<section >
+<h3>People!!</h3>
+<ul class="simple">
+<li><p>このトークではTextbookやInternetをいくつか紹介</p></li>
+<li><p>Peopleという側面もある！</p>
+<ul>
+<li><p>Pythonをきっかけに人とつながれる</p></li>
+<li><p>知見を共有したり、互いに学べる</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section >
+<h2>小まとめ：サイクルを回すためのtips</h2>
+<ol class="arabic simple">
+<li><p>写経しながら考える</p></li>
+<li><p>一歩一歩</p></li>
+<li><p>ひとつの教材を極め抜け</p></li>
+<li><p>Python学習のTIPs（特にPeople）</p></li>
+</ol>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 Start Python Guide ver.202204</h2>
+<ul class="simple">
+<li><p>いくつかの教材を紹介</p></li>
+<li><p>プログラミングを学ぶ＝ <strong>情報収集➡️モデル化➡️検証サイクルの繰り返し</strong></p></li>
+<li><p>サイクルを回すためのtipsを紹介。よさそうなものあれば試してみてください</p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

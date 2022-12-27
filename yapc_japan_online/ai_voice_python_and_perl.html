@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Perlの力も使って聴かせるAIの声</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/yapc_japan_online/ai_voice_python_and_perl.html">
+    <meta property="og:title" content="Perlの力も使って聴かせるAIの声">
+    <meta property="og:description" content="2022/03 YAPC::Japan::Online 2022 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/yapc_japan_online.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>Perlの力も使って聴かせるAIの声</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>YAPC::Japan::Online 2022 LT</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/03/05 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<figure class="align-default">
+<img alt="../_images/202203_yapc_senryu_poem_as_lt_title.png" src="../_images/202203_yapc_senryu_poem_as_lt_title.png" />
+</figure>
+</section>
+<section >
+<h2>にっきーと申します📛</h2>
+<ul class="simple">
+<li><p><strong>Pythonチホー</strong> から来ました🐍</p>
+<ul>
+<li><p>PyCon JP 2021座長</p></li>
+<li><p>データサイエンティスト at 株式会社ユーザベース</p></li>
+</ul>
+</li>
+<li><p>アニメが好きです</p></li>
+</ul>
+</section>
+<section >
+<h2>にっきーと申します📛</h2>
+<ul class="simple">
+<li><p>Pythonチホーから来ました🐍</p>
+<ul>
+<li><p>PyCon JP 2021座長</p></li>
+<li><p>データサイエンティスト at 株式会社ユーザベース</p></li>
+</ul>
+</li>
+<li><p><strong>アニメが好き</strong> です</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>映画『<a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a>』🤖🎤🎼</h2>
+<iframe width="640" height="480" src="https://ainouta.jp/" title="アイの歌声を聴かせて 公式サイト"></iframe></section>
+<section >
+<h3><a class="reference external" href="https://www.japan-academy-prize.jp/prizes/45.html#title02">第45回 日本アカデミー賞 優秀アニメーション作品賞</a> 🏆</h3>
+<ul class="simple">
+<li><p><strong>アイの歌声を聴かせて</strong></p></li>
+<li><p>漁港の肉子ちゃん</p></li>
+<li><p>劇場版 呪術廻戦０</p></li>
+<li><p>シン・エヴァンゲリオン劇場版</p></li>
+<li><p>竜とそばかすの姫</p></li>
+</ul>
+</section>
+<section >
+<h3>めちゃめちゃハマってます！😍😍😍</h3>
+<figure class="align-default">
+<img alt="../_images/202203_yapc_japan_ainouta_watch_log.png" src="../_images/202203_yapc_japan_ainouta_watch_log.png" />
+</figure>
+<p>鑑賞回数、30回超え</p>
+</section>
+</section>
+<section>
+<section >
+<h2>AI シオン🤖🎤🎼</h2>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">／<br> サトミ！<br> 私が幸せに<br> してあげる！<br> ＼<br> <br> シオン（cv.<a href="https://twitter.com/hashtag/%E5%9C%9F%E5%B1%8B%E5%A4%AA%E9%B3%B3?src=hash&amp;ref_src=twsrc%5Etfw">#土屋太鳳</a> ）<br> ───────────<br> 歌うの大好き！<br> ちょっとポンコツなAI🔌🎶<br> <br> <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%86%E3%81%9F?src=hash&amp;ref_src=twsrc%5Etfw">#アイうた</a>🎬絶賛上映中！ <a href="https://t.co/Zxqr7SKpEY">pic.twitter.com/Zxqr7SKpEY</a></p>&mdash; 映画『アイの歌声を聴かせて』 絶賛上映中！ (@ainouta_movie) <a href="https://twitter.com/ainouta_movie/status/1459355340886085634?ref_src=twsrc%5Etfw">November 13, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>作ろう、シオン🛠</h3>
+<ul class="simple">
+<li><p>アイうたが好き！　応援したい！</p></li>
+<li><p>私にできるファン活動？</p></li>
+<li><p>👉 <strong>ITの力で再現実装</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>小さく始める、作ろうシオン🛠</h3>
+<ul class="simple">
+<li><p>一部機能にフォーカス</p></li>
+<li><p><strong>音声対話</strong> 機能</p></li>
+<li><p>（要は、Alexaみたいなものを作っています）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>シオン v0.0.1を定義</h2>
+<ol class="arabic simple">
+<li><p>日本語を聞き取る</p></li>
+<li><p>テキスト処理</p></li>
+<li><p>日本語を喋って返す</p></li>
+</ol>
+</section>
+<section >
+<h3>シオン v0.0.1をPython🐍で実装(中)</h3>
+<ol class="arabic simple">
+<li><p>日本語を <strong>聞き取る</strong> （ASR）</p></li>
+<li><p>テキスト処理（オウム返し）</p></li>
+<li><p>日本語を <strong>喋って</strong> 返す（TTS）</p></li>
+</ol>
+</section>
+<section >
+<h3>シオン v0.0.1 powered by <strong>Perl</strong> 🐪</h3>
+<ol class="arabic simple">
+<li><p>日本語を聞き取る（ASR） 🐍</p></li>
+<li><p><strong>テキスト処理</strong></p></li>
+<li><p>日本語を喋って返す（TTS） 🐍</p></li>
+</ol>
+<p>🐪と🐍をシェルスクリプトで繋ぎます</p>
+</section>
+</section>
+<section>
+<section >
+<h2>シオン v0.0.1のテキスト処理 🐪</h2>
+<ul class="simple">
+<li><p><strong>天気が訊ける</strong> 機能 ☀️🌤⛅️☁️🌧</p></li>
+<li><p>今回のYAPC Japan LT駆動で、Perlに入門🔰（Perl入学式を参照）</p></li>
+</ul>
+</section>
+<section >
+<h3>シオン v0.0.1のテキスト処理部分（Perlで実装）🐪🔰</h3>
+<p>聞き取ったテキストに</p>
+<ol class="arabic simple">
+<li><p>「天気」を含んでいたら、東京の天気を取得（例：天気教えて）</p></li>
+<li><p>「天気」を含んでいなければ、オウム返し（例：カンファレンス楽しい）</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>Demo! AIの声を聴かせます</h2>
+<ol class="arabic simple">
+<li><p>「天気」を含まない例</p></li>
+<li><p>「天気」を含む例</p></li>
+</ol>
+<p>※処理が遅いのは生暖かい目で見守ってください（愛すべきポンコツAIなのです）</p>
+</section>
+<section >
+<h3><strong>追記</strong> デモ1実行時のログ（オウム返し）</h3>
+<pre data-id="id10"><code data-trim data-noescape class="bash">$ ./connect_services.sh
+start ASR by 🐍
+2022-03-05 18:21:09,895 - my_first_shion.asr - INFO - ASR model load: start
+2022-03-05 18:21:17,706 - my_first_shion.asr - INFO - ASR model load: end
+なにか話してください
+応答中...
+end ASR
+認識した文: カンファレンス楽しい
+
+start text processing by 🐪
+end text processing
+返答する文: カンファレンス楽しい
+
+start TTS by 🐍
+2022-03-05 18:21:27,100 - my_first_shion.tts - INFO - TTS model load: start
+2022-03-05 18:21:27,157 - my_first_shion.tts - INFO - TTS model load: end
+end TTS</code></pre>
+</section>
+<section >
+<h3><strong>追記</strong> デモ2実行時のログ（天気を取得して返す）</h3>
+<pre data-id="id11"><code data-trim data-noescape class="bash">$ ./connect_services.sh
+start ASR by 🐍
+2022-03-05 18:21:40,275 - my_first_shion.asr - INFO - ASR model load: start
+2022-03-05 18:21:46,475 - my_first_shion.asr - INFO - ASR model load: end
+なにか話してください
+応答中...
+end ASR
+認識した文: 天気を教えて
+
+start text processing by 🐪
+end text processing
+返答する文: 東京地方は、晴れています。
+
+start TTS by 🐍
+2022-03-05 18:21:53,976 - my_first_shion.tts - INFO - TTS model load: start
+2022-03-05 18:21:54,026 - my_first_shion.tts - INFO - TTS model load: end
+end TTS</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>LT駆動Perl入門の感想🔰</h2>
+<ul class="simple">
+<li><p><strong>Perl入学式のテキスト最高！</strong>　本当にありがとうございます！！❤️</p></li>
+<li><p>Linuxコマンドから始めて、Web APIの呼び出しまで <strong>幅広く</strong> カバー</p></li>
+<li><p><strong>日本語</strong> で大きくハマらなかった（テキスト無しだとハマっていたはず）</p></li>
+</ul>
+</section>
+<section >
+<h3>シオン v0.0.1 powered by Perlの感想🤖</h3>
+<ul class="simple">
+<li><p>追加した機能：天気が訊ける</p></li>
+<li><p>私「なんか違う🤔」</p></li>
+<li><p>（これはAlexaであって、シオンじゃないかも・・）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯：Perlの力も使って聴かせるAIの声</h2>
+<ul class="simple">
+<li><p>『アイの歌声を聴かせて』のAIシオンの <strong>音声対話機能</strong> を実装</p></li>
+<li><p>Pythonで音声を扱い、 <strong>Perlでテキスト処理と分担</strong> してみた</p></li>
+<li><p><strong>好き</strong> なものをコードを書く題材にするの、とても楽しい😆</p></li>
+</ul>
+</section>
+<section >
+<h3>One more: 秘密はね、最後に明かされるんだよ</h3>
+<ul class="simple">
+<li><p>本日15:30くらいに届いた <strong>ピザ</strong> 🍕</p></li>
+<li><p>2021/10 PyCon JP ➡️ 2021/12 イベント振り返り ➡️ 2022/03 YAPC Japan</p></li>
+<li><p>皆さんのピザのツイート見てとても嬉しかったです（関係者の皆さま、ありがとうございました）</p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<ul class="simple">
+<li><p>運営スタッフの皆さま、LTの機会をありがとうございました❤️</p></li>
+<li><p>『アイの歌声を聴かせて』、面白いからみんな観て！（配信始まります。続くAppendixへ）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>Appendix：語り残したこと</h2>
+<ul class="simple">
+<li><p>アイの歌声を聴かせてについて</p></li>
+<li><p>シオン v0.0.1実装について</p></li>
+<li><p>自己紹介詳細版</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>アイの歌声を聴かせて</h2>
+<ul class="simple">
+<li><p>3/11から期間限定 <strong>配信</strong> ！！ <a class="reference external" href="https://ainouta.jp/ondemand.html">https://ainouta.jp/ondemand.html</a></p></li>
+<li><p>劇場で観たい方： <a class="reference external" href="https://eigakan.org/theaterpage/schedule.php?t=ainouta">関東や関西、佐渡島で上映中</a> ！！</p></li>
+</ul>
+</section>
+<section >
+<h3>あのエンジニアからもオススメの声！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">こにふぁーさんとも話したのですが「アイの歌声を聴かせて」、とにかく周囲のエンジニアの評判が高い。徹底したエンタメとしての面白さが突き抜けていますが、それに加えて「とにかく練られている」「全てが丁寧」「神が細部に宿る」的なプロの仕事としてみんな尊敬＆大好きな印象。</p>&mdash; GO (@go0517go) <a href="https://twitter.com/go0517go/status/1483463918563790849?ref_src=twsrc%5Etfw">January 18, 2022</a></blockquote></section>
+<section >
+<h3>あのエンジニアからもオススメの声！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">「アイの歌声を聴かせて」観てきた。<br>最高だった。最高レベルのSF作品だった。<br>「すぐ隣にいる近未来」っていう世界観だけでも大好きなのに、もうなんというか上手く言い表わせない。<br>とにかくテクノロジーが健気なんだ。俺が言いたいのはそれだけだ。<br><br>本当に素晴らしいのに上映数が少ないのが謎。</p>&mdash; ミノ駆動 (@MinoDriven) <a href="https://twitter.com/MinoDriven/status/1467453679179800576?ref_src=twsrc%5Etfw">December 5, 2021</a></blockquote></section>
+<section >
+<h3>全人類向け！ 面白いからみんな観て！</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/ainouta/recommend_as_best.html"
+    title="アイうたはいいぞ"></iframe></section>
+</section>
+<section>
+<section >
+<h2>シオン v0.0.1実装</h2>
+<ul class="simple">
+<li><p>ブログで発信中</p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/archive/category/%E3%82%B7%E3%82%AA%E3%83%B3%E3%83%BB%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88">「シオン・プロジェクト」カテゴリ</a></p></li>
+</ul>
+</section>
+<section >
+<h3>音声の聞き取り・喋る仕組み</h3>
+<p>どちらも <strong>公開されている機械学習のモデル</strong> を読み込んで実現しています</p>
+</section>
+<section >
+<h3>音声の聞き取り（ASR）</h3>
+<ul class="simple">
+<li><p>音声認識 Automatic speech recognition）</p></li>
+<li><p>声をPythonに聴かせて</p>
+<ul>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part1">前編</a></p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-speech-recognition-part2">後編</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>喋る（TTS）</h3>
+<ul class="simple">
+<li><p>音声合成 Text-To-Speech</p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/my-first-shion-python-text-to-speech">Pythonの読み上げを聴かせて</a></p></li>
+</ul>
+</section>
+<section >
+<h3>ソースコード</h3>
+<ul class="simple">
+<li><p>今年に入ってから、プライベートリポジトリで開発してきました</p></li>
+<li><p>そろそろアルファ版として公開します💪</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>お前、誰よ（自己紹介詳細版）</h2>
+<ul class="simple">
+<li><p>Python大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>Python歴4年。株式会社ユーザベースのデータサイエンティスト（NLPer）</p></li>
+</ul>
+</section>
+<section >
+<h2>お前、誰よ（自己紹介詳細版）</h2>
+<ul class="simple">
+<li><p><strong>Py</strong> thon <strong>Con</strong> ference JP スタッフ 2019年から（2022は未定）</p></li>
+<li><p>2021年は座長（＝開催に責任を持つ人）</p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/pyconjp2021-portfolio">技術で(も)支えたPyCon JP 2021</a></p></li>
+</ul>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

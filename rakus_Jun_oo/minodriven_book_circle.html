@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/rakus_Jun_oo/minodriven_book_circle.html">
+    <meta property="og:title" content="1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向">
+    <meta property="og:description" content="2022/06 オブジェクト指向LT会 vol.4 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/rakus_Jun_oo.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>オブジェクト指向LT会 vol.4</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/06/29 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ（自己紹介）</h2>
+<ul class="simple">
+<li><p>Python（とアニメ）大好き <strong>にっきー</strong> ／ Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>株式会社ユーザベースのデータサイエンティスト（自称えぬえるぴーや😎）</p></li>
+<li><p><a class="reference external" href="https://youtu.be/B79JyC1xflI">『アイの歌声を聴かせて』冒頭17分公開</a> ！ 面白いからみんな観て🙏</p></li>
+</ul>
+</section>
+<section >
+<h3>ラクスさんのLT会、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2022_slides/rakus_Jun_agile/user_stories.html"
+    title="ユーザーストーリーについて"></iframe><aside class="notes">
+カット Python マルチパラダイムと伝える</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>オブジェクト指向界隈の <strong>今</strong></h2>
+<p>ここから本題</p>
+</section>
+<section >
+<h3><strong>#ミノ駆動本</strong></h3>
+<p>N=1（個人の意見です）</p>
+</section>
+<section >
+<h3>ミノ駆動本って、何よ</h3>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://gihyo.jp/book/2022/978-4-297-12783-1">良いコード／悪いコードで学ぶ設計入門</a>』</p></li>
+<li><p>副題： <strong>保守しやすい</strong> 成長し続けるコードの書き方</p></li>
+<li><p>技術書だが、<strong>和書全体</strong> のランキング入り（大快挙だ！🎉）</p></li>
+</ul>
+</section>
+<section >
+<h3>ミノ駆動本って、何よ</h3>
+<ul class="simple">
+<li><p>IMO： <strong>オブジェクト指向のクラスの入門書</strong> でもある</p></li>
+<li><p>拙ブログ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/minodriven-book-chapter2-class">#ミノ駆動本 2章を読んで、クラスの使い所がようやく分かった気がします</a></p></li>
+<li><p>プログラミング言語のクラス（という文法）に入門した後に、ミノ駆動本2章オススメ</p></li>
+</ul>
+<aside class="notes">
+https://twitter.com/ftnext/status/1532200432957014016</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>ミノ駆動本、学びたくさん</h2>
+</section>
+<section >
+<h3>例：ストラテジパターン</h3>
+<ul class="simple">
+<li><p><strong>インターフェース</strong> による条件分岐の実装（6章）</p></li>
+<li><p>IMO：ミノ駆動本で一番の学び（現時点）</p></li>
+<li><p>（本日既出ですね😃）</p></li>
+</ul>
+</section>
+<section >
+<h3><strong>Pythonでやるなら</strong> こうかな</h3>
+<p>ミノ駆動本、読みながら考える</p>
+</section>
+<section >
+<h3>アウトプットしたい！</h3>
+<ul class="simple">
+<li><p>Pythonでの実装をアウトプットする場</p></li>
+<li><p><strong>フィードバック</strong> がほしい</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>そうだ、読書会開こう📖</h2>
+</section>
+<section >
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">「なければ主催すればいいんだし」ってことで読書会のグループ作りました<a href="https://t.co/oY7eAybj7s">https://t.co/oY7eAybj7s</a><br>直近では <a href="https://twitter.com/hashtag/%E3%83%9F%E3%83%8E%E9%A7%86%E5%8B%95%E6%9C%AC?src=hash&amp;ref_src=twsrc%5Etfw">#ミノ駆動本</a> をPythonでどう適用するかを考える読書会を予定しています。近日公開！<br><br>やりたいと発信したら、「私も」と手を挙げていただいた方がいて2人teamになり、とてもありがたいです😃 <a href="https://t.co/spRs6TSYjo">https://t.co/spRs6TSYjo</a></p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1527687434946744320?ref_src=twsrc%5Etfw">May 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>ミノ駆動本_読書py</h3>
+<ul class="simple">
+<li><p>主催：nikkie、Yumihikiさん</p></li>
+<li><p>6月に2回開催</p></li>
+<li><p>次回は <a class="reference external" href="https://pythonista-books.connpass.com/event/251790/">7/1(金) ストラテジパターンのところ</a> （ウェルカムカモーン）</p></li>
+</ul>
+</section>
+<section >
+<h3>Based on <a class="reference external" href="https://agiledevs.connpass.com/event/240227/">アートオブアジャイルデベロップメント読書会</a></h3>
+<ul class="simple">
+<li><p><strong>アウトプットメイン</strong> な別の読書会のやり方を参考に</p></li>
+<li><p>事前に読んでくる（直前もくもく会あり）</p></li>
+<li><p>読書会では「ここがわからん」「ここはわかった」をボイスチャット&amp;テキストチャット</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>ミノ駆動本_読書pyでの学びの共有</h2>
+<p><strong>2つ</strong> 共有</p>
+</section>
+<section>
+<section >
+<h2>1.「データクラス」は #増田本 にもありますよ</h2>
+<p>読書会で出会った言葉</p>
+</section>
+<section >
+<h3>「データクラス」in #ミノ駆動本</h3>
+<ul class="simple">
+<li><p>1.3 さまざまな悪魔を招きやすいデータクラス</p>
+<ul>
+<li><p>「悪魔」＝ <strong>設計や実装上の問題</strong> （はじめに）😈</p></li>
+</ul>
+</li>
+<li><p>3章 クラス設計では、データクラスの悪魔を退治していく（成熟したクラスへ）</p></li>
+</ul>
+</section>
+<section >
+<h3>教えていただいた #増田本</h3>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://gihyo.jp/book/2017/978-4-7741-9087-7">現場で役立つシステム設計の原則</a>』(2017)</p></li>
+<li><p>副題：変更を楽で安全にするオブジェクト指向の実践技法</p></li>
+</ul>
+</section>
+<section >
+<h3>#増田本 3章</h3>
+<blockquote>
+<div><p>データとロジックを別のクラスに分けることがわかりにくさを生む</p>
+</div></blockquote>
+<p>3章の中のタイトル</p>
+</section>
+<section >
+<h3>アンチパターン「データクラス」の解像度が上がった</h3>
+<ul class="simple">
+<li><p>データだけを持ち、ロジックを持たないクラス</p></li>
+<li><p>プログラミング言語の文法的には誤っていない</p></li>
+<li><p><strong>オブジェクト指向のクラスの使い方として誤り</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>読書会で #増田本 とのつながりに気づけたから書けました 🏃‍♂️(= <cite>&#64;skip</cite>)</h3>
+<ul class="simple">
+<li><p>Pythonの標準ライブラリには <cite>dataclasses</cite> があるんです</p></li>
+<li><p>拙ブログ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/dataclass-decorator-is-anti-pattern-or-not">dataclassデコレータを使ったクラスが #ミノ駆動本 でいう「データクラス」になるかは、プログラマ次第</a></p></li>
+</ul>
+</section>
+<section >
+<h3>明日です！ ミノ駆動さん × 増田さん 🏃‍♂️</h3>
+<ul class="simple">
+<li><p>6/30 <a class="reference external" href="https://bpstudy.connpass.com/event/250694/">BPStudy#178〜成長し続け、変更を楽に安全にできるソフトウェア設計とは</a></p></li>
+<li><p>相性のいい2冊の本、著者が共演！！</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>2.不変がないPythonで値オブジェクトどうすればいいんだ？</h2>
+<p>読書会で深まった理解</p>
+</section>
+<section >
+<h3>値オブジェクト</h3>
+<ul class="simple">
+<li><p>「値を <strong>クラス（型）として表現</strong> する設計パターン」（#ミノ駆動本 3章 p.77）</p></li>
+<li><p>「値を扱うための専用クラスを作るやり方」（#増田本 1章 Kindle の位置No.687）</p>
+<ul>
+<li><p>「値オブジェクトを <strong>不変</strong> にする」（#増田本 1章 Kindle の位置No.727）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Pythonで実装例：金額を表すクラス</h3>
+<pre data-id="id24"><code data-trim data-noescape class="python">&#64;dataclass(frozen=True)
+class Money:
+    amount: int
+    currency: str
+
+    def __post_init__(self):
+        if self.amount &lt; 0:
+            raise ValueError(&quot;金額が0以上でありません。&quot;)
+
+    def __add__(self, other: Money) -&gt; Money:
+        if not isinstance(other, Money):
+            return NotImplemented
+        if self.currency != other.currency:
+            raise ValueError(&quot;通貨単位が違います。&quot;)
+        added = self.amount + other.amount
+        return self.__class__(added, self.currency)</code></pre>
+<p>#ミノ駆動本 3章を参考にしました（<a class="reference external" href="https://github.com/ftnext/exile-of-the-wicked-py/blob/92a81a564ec01bba7d0e67da447848a86c83d2d5/chapter3/dataclass_version.py">ソースコード</a>）</p>
+<aside class="notes">
+doctestを通すためのコード
+&gt;&gt;&gt; from dataclasses import dataclass
+&gt;&gt;&gt; &#64;dataclass(frozen=True)
+... class Money:
+...     amount: int
+...     currency: str
+...     def __post_init__(self):
+...         if self.amount &lt; 0:
+...             raise ValueError(&quot;金額が0以上でありません。&quot;)
+...     def __add__(self, other):
+...         if not isinstance(other, Money):
+...             return NotImplemented
+...         if self.currency != other.currency:
+...             raise ValueError(&quot;通貨単位が違います。&quot;)
+...         added = self.amount + other.amount
+...         return self.__class__(added, self.currency)</aside>
+</section>
+<section >
+<h3>不変です💰</h3>
+<pre data-id="id26"><code data-trim data-noescape class="python">&gt;&gt;&gt; yukichi = Money(10_000, &quot;¥&quot;)
+&gt;&gt;&gt; yukichi.amount = 1_000_000
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;&lt;string&gt;&quot;, line 4, in __setattr__
+dataclasses.FrozenInstanceError: cannot assign to field 'amount'</code></pre>
+<p>属性に再代入できません</p>
+</section>
+<section >
+<h3>あれ、不変じゃない😱</h3>
+<pre data-id="id27"><code data-trim data-noescape class="python">&gt;&gt;&gt; object.__setattr__(yukichi, &quot;amount&quot;, -1_000_000)
+&gt;&gt;&gt; yukichi
+Money(amount=-1000000, currency='¥')</code></pre>
+<p>マイナス百万円爆誕！！💥</p>
+</section>
+<section >
+<h3>IMO：実装 and <strong>コミュニケーション</strong></h3>
+<ul class="simple">
+<li><p>Pythonには不変はない（みたい） 例： <cite>object.__setattr__</cite></p></li>
+<li><p>「不変が前提の値オブジェクトを変更したい」と考えるということは、 <strong>何かがうまくいっていない</strong> のでは？</p></li>
+<li><p>大元の問題を特定し解決するために、コミュニケーションを取ろう</p></li>
+</ul>
+<aside class="notes">
+ref: https://twitter.com/ftnext/status/1537780337559818240</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向</h2>
+<ul class="simple">
+<li><p>ミノ駆動本の読書会（Python使い視点）を開いてます（次回は <a class="reference external" href="https://pythonista-books.connpass.com/event/251790/">7/1(金) 条件分岐</a>）</p></li>
+<li><p>読もう、ミノ駆動本 &amp; 開いてみよう、読書会</p></li>
+</ul>
+</section>
+<section >
+<h3>読書会で得た学びを共有</h3>
+<ul class="simple">
+<li><p>アウトプットして学ぶ &amp; 他の方のアウトプットがインプットとなって学ぶ</p></li>
+<li><p>#ミノ駆動本 × #増田本 、 <strong>合わせ読み</strong> で理解深まる</p></li>
+<li><p>Pythonに不変はないが、値オブジェクトはできる 👉 思うに鍵はコードの外の <strong>コミュニケーション</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>これまでの読書py参加者の皆さまに感謝申し上げます</p>
+<p>今後ともよろしくお願いします（ウェルカムカモーン）</p>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

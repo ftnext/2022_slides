@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>PyCon Kyushu 2022 Kumamoto レポート</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/stapy_Jan/pycon_kyushu_report.html">
+    <meta property="og:title" content="PyCon Kyushu 2022 Kumamoto レポート">
+    <meta property="og:description" content="2022/01 みんなのPython勉強会 #77 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/stapy_Jan.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>PyCon Kyushu 2022 Kumamoto レポート</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>みんなのPython勉強会 #77 LT</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/01/27 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>nikkie（にっきー）</p></li>
+<li><p>Python歴4年（いまPythonの見た目が面白い！）</p></li>
+<li><p>みんなのPython勉強会 4代目LT王子、スタッフ</p></li>
+<li><p>PyCon JP 2021座長</p></li>
+</ul>
+</section>
+<section >
+<h3>最近のnikkie</h3>
+<figure class="align-default">
+<img alt="../_images/202201_stapy_ainouta_watch_log.png" src="../_images/202201_stapy_ainouta_watch_log.png" />
+</figure>
+</section>
+<section >
+<h3>映画『<a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a>』🤖🎤🎼 はいいぞ！</h3>
+<ul class="simple">
+<li><p>㊗️ 日本アカデミー賞 優秀アニメーション作品賞 👏</p></li>
+<li><p>ほんとによくて、2021年10月の公開から <strong>20回以上</strong> 観てます</p></li>
+<li><p>ブログ「好きな映画の鑑賞ログをGitHubのContributionのような形式で表示する」 <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution1-cal-heatmap">前編</a> ・ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution2-cors-error">後編</a></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>PyCon Kyushu 2022 Kumamoto</h2>
+<iframe width="640" height="480" src="https://kyushu.pycon.jp/2022/" title="PyCon Kyushu 2022 Kumamoto Webサイト"></iframe></section>
+<section >
+<h3>Python Conference as PyCon</h3>
+<ul class="simple">
+<li><p>世界中の国や地域でPyConが開かれています</p></li>
+<li><p>「PyCon Kyushuは、プログラミング言語 Python のユーザが集う九州地区で開催される技術カンファレンスです」（前スライドで紹介したサイトより）</p></li>
+</ul>
+</section>
+<section >
+<h3>PyCon Kyushu 2022 Kumamoto</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">datetime.date(2022,</span> <span class="pre">1,</span> <span class="pre">22)</span></code> (土)開催 at 熊本城ホール</p></li>
+<li><p>テーマ「Grow with Covid-19」</p></li>
+<li><p>スピーカーは一部オンライン登壇</p></li>
+</ul>
+</section>
+<section >
+<h3>発表風景</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pycon9kuA?src=hash&amp;ref_src=twsrc%5Etfw">#pycon9kuA</a> 使ってみよう、パターンマッチング！ <a href="https://t.co/1a599v6xkR">pic.twitter.com/1a599v6xkR</a></p>&mdash; nikkie にっきー (@ftnext) <a href="https://twitter.com/ftnext/status/1484751274222702593?ref_src=twsrc%5Etfw">January 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+</section>
+<section>
+<section >
+<h2>トークのラインナップ（全12本）</h2>
+<ul class="simple">
+<li><p>Pythonでできること紹介（ライブラリ紹介）</p></li>
+<li><p>Pythonを使った開発について</p></li>
+<li><p>Python自体に関するトーク</p></li>
+</ul>
+</section>
+<section >
+<h3>Pythonでできること紹介のトーク 1/2</h3>
+<ul class="simple">
+<li><p>クールなデータアプリが作れるWebフレームワーク <strong>Dash</strong> と <strong>Streamlit</strong> をもっと理解しよう</p></li>
+<li><p>Cloud DataFlow / Pythonで 大規模データ処理</p></li>
+<li><p>FHIR on Python （補足： <strong>医療</strong> 情報！）</p></li>
+</ul>
+</section>
+<section >
+<h3>Pythonでできること紹介のトーク 2/2</h3>
+<ul class="simple">
+<li><p>Pythonで <strong>gRPC</strong> 入門 ~web chatを実装してみるハンズオン~</p></li>
+<li><p>「視線」を科学する。- MediaPipeを用いた視線計測の手法について -</p></li>
+</ul>
+</section>
+<section >
+<h3>Pythonを使った開発について</h3>
+<ul class="simple">
+<li><p><strong>静的コード解析</strong> から見出す一人前Pythonistaへの道</p>
+<ul>
+<li><p>flake8, black, mypy</p></li>
+</ul>
+</li>
+<li><p>Python環境の今 2022</p></li>
+</ul>
+</section>
+<section >
+<h3>Python自体に関するトーク 1/2</h3>
+<ul class="simple">
+<li><p><strong>CPythonのソース</strong> を読んでみよう</p></li>
+<li><p>async await の向こう側</p>
+<ul>
+<li><p><strong>generator</strong> を使った <strong>非同期IO</strong> の実装方法（<code class="docutils literal notranslate"><span class="pre">asyncio</span></code>）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Python自体に関するトーク 2/2</h3>
+<ul class="simple">
+<li><p>print(&quot;Hello World&quot;)を実行する - <strong>Pythonコードからスタック型仮想マシンまで</strong> -</p></li>
+<li><p>Introduction to Structural <strong>Pattern Matching</strong></p></li>
+<li><p><strong>文</strong> に立ち返ってPython再入門（👈我）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>キーノートは <strong>清水川さん</strong> ！</h2>
+<ul class="simple">
+<li><p>『独学プログラマー』『エキスパートPythonプログラミング』などでおなじみ</p></li>
+<li><p>2021年のstapyでもたびたび話していただきました！</p></li>
+</ul>
+</section>
+<section >
+<h3>「Growにつながる3つのこと」の1つ</h3>
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/sTysLknbjnekJj?startSlide=24" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/shimizukawa/20220122-hello-programmer-at-pycon-kyushu-2022" title="プログラマーとの出会い - Hello, Programmer! at PyCon Kyushu 2022" target="_blank">プログラマーとの出会い - Hello, Programmer! at PyCon Kyushu 2022</a> </strong> from <strong><a href="//www.slideshare.net/shimizukawa" target="_blank">Takayuki Shimizukawa</a></strong> </div></section>
+<section >
+<h3>みんなで実践「疑問があれば、どんどん質問しよう」</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pycon9ku?src=hash&amp;ref_src=twsrc%5Etfw">#pycon9ku</a><br>自分に合ったアウトプットを見つける<a href="https://t.co/8JikvWXsEg">https://t.co/8JikvWXsEg</a><br>完成させなくてもいい<br><br>+5分だけやる</p>&mdash; nikkie にっきー (@ftnext) <a href="https://twitter.com/ftnext/status/1484701187262021635?ref_src=twsrc%5Etfw">January 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>久々の質問する／される🙌</h3>
+<ul class="simple">
+<li><p>参加者が質問し、その <strong>回答から学べた</strong> （先のスライドは一例）</p></li>
+<li><p>「print(&quot;Hello World&quot;)を実行する」のローランドさんに質問し、メーリスを知る</p></li>
+<li><p>自分のトークへの質問で、文という題材でもっと話せると気付いた（具体的にはPEG）</p></li>
+</ul>
+</section>
+<section >
+<h3>楽しい1日でした！！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pycon9ku?src=hash&amp;ref_src=twsrc%5Etfw">#pycon9ku</a> 全日程おしまい！<br>Pythonについてのトークで1日インプットできてめちゃくちゃ楽しかったです。<br><br>参加者の皆さま、そしてとても尽力してくださったであろうスタッフの皆さま、ありがとうございました！</p>&mdash; nikkie にっきー (@ftnext) <a href="https://twitter.com/ftnext/status/1484801934364385283?ref_src=twsrc%5Etfw">January 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+</section>
+<section>
+<section >
+<h2>まとめ：PyCon Kyushu 2022 Kumamoto レポート</h2>
+<ul class="simple">
+<li><p>Python自体に関するトーク充実！（アーカイブを期待しましょう）</p></li>
+<li><p>キーノートに背中を押され「疑問があれば、どんどん <strong>質問</strong>」した1日</p></li>
+<li><p>空間を共有しての質問する／される、久々！そして楽しい！！😃</p></li>
+</ul>
+</section>
+<section >
+<h3>One more thing: 2/4(金)のPyCon JP TVでも</h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hpSWkcgYsnI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>会場で録音したインタビューがあるみたいですよ〜</p>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>スタッフの皆さま、運営だんだんな〜（ありがとうございました）👏</p>
+</section>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

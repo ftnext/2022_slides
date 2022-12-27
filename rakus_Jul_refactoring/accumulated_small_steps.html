@@ -1,0 +1,808 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>達人の驚くほど小さいリファクタリング</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/rakus_Jul_refactoring/accumulated_small_steps.html">
+    <meta property="og:title" content="達人の驚くほど小さいリファクタリング">
+    <meta property="og:description" content="2022/07 リファクタリングLT スライド（発表後IMO明示版）">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/rakus_Jul_refactoring.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>達人の驚くほど小さいリファクタリング</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>リファクタリングLT</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/07/28 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ（自己紹介）</h2>
+<ul class="simple">
+<li><p>Python（とアニメ）大好き <strong>にっきー</strong> ／ Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>株式会社ユーザベースでアジャイル開発するデータサイエンティスト（自称えぬえるぴーや😎）</p></li>
+<li><p>イチオシアニメ『アイの歌声を聴かせて』 ㊗️ <a class="reference external" href="https://ainouta.jp/ondemand.html">配信開始</a> ！</p></li>
+</ul>
+</section>
+<section >
+<h3>面白いからみんな観て🙏（配信も！）</h3>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/oS36ehQVPYU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>
+<section >
+<h3>ラクスさんのLT会、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2022_slides/rakus_Jun_oo/minodriven_book_circle.html"
+    title="1人で、みんなで、ミノ駆動本で学ぶオブジェクト指向"></iframe></section>
+<section >
+<h3>ミノ駆動本_読書py 共催しています</h3>
+<ul class="simple">
+<li><p>ミノ駆動さんの『<a class="reference external" href="https://gihyo.jp/book/2022/978-4-297-12783-1">良いコード／悪いコードで学ぶ設計入門</a>』をPython使いの視点で読む読書会</p></li>
+<li><p>主催：nikkie、Yumihikiさん</p></li>
+<li><p>次回 <a class="reference external" href="https://pythonista-books.connpass.com/event/254917/">7/29(金) 10章 名前設計の前半</a>！（〜10.3）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>達人の驚くほど小さいリファクタリングについて話します</h2>
+<p>ここから本題</p>
+</section>
+<section >
+<h3>このLTで伝えたいこと</h3>
+<ul class="simple">
+<li><p>「リファクタリングのステップ、 <strong>小さっ！</strong>」という衝撃を共有</p></li>
+<li><p>1個1個は小さいリファクタリング、それを <strong>何回も何回も行う</strong> ことでコードが良くなっていく！（と理解）</p></li>
+</ul>
+</section>
+<section >
+<h3>参考書籍</h3>
+<ul class="simple">
+<li><p>元ネタは『The Art of Agile Development Second edition』（James Shore）の <a class="reference external" href="https://www.jamesshore.com/v2/books/aoad2/refactoring">リファクタリングの章</a></p>
+<ul>
+<li><p>書籍で紹介されたリファクタリングをPythonに書き換えています（リファクタリング方針についてのフィードバックはJamesさん・Pythonのコードについてはnikkieへ）</p></li>
+</ul>
+</li>
+<li><p>Martin Fowler『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274224546/">リファクタリング</a>』第1章にも「小さい！」という感想を抱きました</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>今回のサンプルコード</h2>
+<p>アルファベットを13文字入れ替える</p>
+<pre data-id="id12"><code data-trim data-noescape class="python">&gt;&gt;&gt; transform(&quot;a&quot;)  # 13文字先のnに変える（小文字のまま）
+'n'
+&gt;&gt;&gt; transform(&quot;N&quot;)  # 13文字前のAに変える（大文字のまま）
+'A'</code></pre>
+</section>
+<section >
+<h3>変換表</h3>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>a</p></td>
+<td><p>b</p></td>
+<td><p>c</p></td>
+<td><p>d</p></td>
+<td><p>e</p></td>
+<td><p>f</p></td>
+<td><p>g</p></td>
+<td><p>h</p></td>
+<td><p>i</p></td>
+<td><p>j</p></td>
+<td><p>k</p></td>
+<td><p>l</p></td>
+<td><p>m</p></td>
+</tr>
+<tr class="row-even"><td><p>n</p></td>
+<td><p>o</p></td>
+<td><p>p</p></td>
+<td><p>q</p></td>
+<td><p>r</p></td>
+<td><p>s</p></td>
+<td><p>t</p></td>
+<td><p>u</p></td>
+<td><p>v</p></td>
+<td><p>w</p></td>
+<td><p>x</p></td>
+<td><p>y</p></td>
+<td><p>z</p></td>
+</tr>
+</tbody>
+</table>
+<pre data-id="id13"><code data-trim data-noescape class="python">&gt;&gt;&gt; transform(&quot;NIKKIE&quot;)
+'AVXXVR'
+&gt;&gt;&gt; transform(&quot;satomi&quot;)
+'fngbzv'</code></pre>
+</section>
+<section >
+<h3>アルファベットでないなら変換しません</h3>
+<pre data-id="id14"><code data-trim data-noescape class="python">&gt;&gt;&gt; transform(&quot;satomi1231&quot;)  # 数字は変換されない
+'fngbzv1231'
+&gt;&gt;&gt; transform(&quot;🤗&quot;)  # emojiも変換されない
+'🤗'</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>リファクタリング前の実装</h2>
+<pre data-id="id15"><code data-trim data-noescape class="python">def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    result = &quot;&quot;
+    for character in input_:
+        char_code = ord(character)
+        result += transform_letter(char_code)
+    return result
+
+
+def transform_letter(char_code: int) -&gt; str:
+    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+
+
+def is_between(char_code: int, first_letter: str, last_letter: str) -&gt; bool:
+    return code_for(first_letter) &lt;= char_code &lt;= code_for(last_letter)
+
+
+def code_for(letter: str) -&gt; int:
+    return ord(letter)
+</code></pre>
+<p>Pythonに書き直しました（Python 3.10）</p>
+</section>
+<section >
+<h3>変換戦略</h3>
+<ul class="simple">
+<li><p>関数 <code class="docutils literal notranslate"><span class="pre">transform</span></code> は、受け取った文字列の1文字ごとに <em>文字コードに変換して</em> <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数を呼び出す</p></li>
+</ul>
+<pre data-id="id16"><code data-trim data-noescape class="python" data-line-numbers="6,7,8">def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    result = &quot;&quot;
+    for character in input_:
+        char_code = ord(character)
+        result += transform_letter(char_code)
+    return result
+</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数</h3>
+<ul class="simple">
+<li><p>文字コードを受け取り、文字列を返す</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">A-Ma-m</span></code> の場合と <code class="docutils literal notranslate"><span class="pre">N-Zn-z</span></code> の場合で分岐（判定に <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数を使用）</p></li>
+</ul>
+<pre data-id="transform-letter"><code data-trim data-noescape class="python">def transform_letter(char_code: int) -&gt; str:
+    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数</h3>
+<ul class="simple">
+<li><p>文字コードと範囲の開始・終了の文字を受け取る</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">code_for</span></code> 関数で文字コードに変換して、範囲に含まれるか返す</p></li>
+</ul>
+<pre data-id="is-between"><code data-trim data-noescape class="python">def is_between(char_code: int, first_letter: str, last_letter: str) -&gt; bool:
+    return code_for(first_letter) &lt;= char_code &lt;= code_for(last_letter)
+</code></pre>
+<pre data-id="is-between"><code data-trim data-noescape class="python">def code_for(letter: str) -&gt; int:
+    return ord(letter)
+</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>今回のリファクタリングのアイデア</h2>
+<p>文字コードにせずに <strong>文字のまま</strong> でも比較できる！</p>
+<pre data-id="id17"><code data-trim data-noescape class="python">&gt;&gt;&gt; ord(&quot;a&quot;) &lt;= ord(&quot;c&quot;) &lt;= ord(&quot;m&quot;)
+True
+&gt;&gt;&gt; &quot;a&quot; &lt;= &quot;c&quot; &lt;= &quot;m&quot;
+True</code></pre>
+</section>
+<section >
+<h3>リファクタリング後の実装</h3>
+<pre data-id="id18"><code data-trim data-noescape class="python">import re
+
+
+def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    return re.sub(
+        r&quot;[A-Za-z]&quot;,
+        lambda matchobj: transform_letter(matchobj.group(0)),
+        input_,
+    )
+
+
+def transform_letter(letter: str) -&gt; str:
+    rotation = 13 if letter.upper() &lt;= &quot;M&quot; else -13
+    return chr(ord(letter) + rotation)
+</code></pre>
+<p>すごーくスッキリ！✨</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">transform</span></code> の単体テストコードはあります</h3>
+<pre data-id="transform"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+<p><a class="reference external" href="https://github.com/ftnext/aoad2e-py/blob/start-refactoring/refactoring/test_rot13.py">https://github.com/ftnext/aoad2e-py/blob/start-refactoring/refactoring/test_rot13.py</a></p>
+</section>
+<section >
+<h3>質問：皆さんはどこからリファクタリングしますか❓</h3>
+<p>💡文字コードでなく文字で比較する</p>
+<pre data-id="id19"><code data-trim data-noescape class="python">def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    result = &quot;&quot;
+    for character in input_:
+        char_code = ord(character)
+        result += transform_letter(char_code)
+    return result
+
+
+def transform_letter(char_code: int) -&gt; str:
+    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+
+
+def is_between(char_code: int, first_letter: str, last_letter: str) -&gt; bool:
+    return code_for(first_letter) &lt;= char_code &lt;= code_for(last_letter)
+
+
+def code_for(letter: str) -&gt; int:
+    return ord(letter)
+</code></pre>
+</section>
+<section >
+<h3>文字コードでなく文字で比較しよう（nikkieの場合）</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数をいじっていく</p></li>
+<li><p>引数 <code class="docutils literal notranslate"><span class="pre">char_code</span></code> 消して、 <code class="docutils literal notranslate"><span class="pre">letter</span></code> 導入</p></li>
+</ul>
+<pre data-id="nikkie"><code data-trim data-noescape class="python">def transform_letter(char_code: int) -&gt; str:
+    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+</code></pre>
+</section>
+<section >
+<h3>文字コードでなく文字で比較しよう（nikkieの場合）</h3>
+<ul class="simple">
+<li><p>導入したletter引数を渡す <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数も変えて</p></li>
+<li><p>あ、<code class="docutils literal notranslate"><span class="pre">char_code</span></code> どうするんだ？</p></li>
+<li><p><strong>格闘の末</strong>、テスト全部通った！できた🙌</p></li>
+</ul>
+<pre data-id="nikkie"><code data-trim data-noescape class="python" data-line-numbers="1,2,4">def transform_letter(letter: str) -&gt; str:
+    if is_between(letter, &quot;a&quot;, &quot;m&quot;) or is_between(letter, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(letter, &quot;n&quot;, &quot;z&quot;) or is_between(letter, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)</code></pre>
+</section>
+<section >
+<h3>文字コードでなく文字で比較しよう（達人の場合）</h3>
+<ul class="simple">
+<li><p><strong>まずは</strong> <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数に <strong>引数を追加するだけ</strong></p></li>
+<li><p>テストを全部通ることを確認（間違えていない😎）</p></li>
+</ul>
+<pre data-id="id20"><code data-trim data-noescape class="diff">-        result += transform_letter(char_code)
++        result += transform_letter(character, char_code)
+
+-def transform_letter(char_code: int) -&gt; str:
++def transform_letter(letter: str, char_code: int) -&gt; str:</code></pre>
+</section>
+<section >
+<h3>衝撃の「引数追加するだけ」</h3>
+<ul class="simple">
+<li><p>2手目3手目を続ける前提で初手は引数追加だけ</p></li>
+<li><p><strong>動きをいきなり変えない</strong> のか！！</p></li>
+<li><p>達人がどのようにリファクタリングするか一緒に見ていきましょう（10分に収まらない量なので、時間の許す限り）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>リファクタリング with 達人</h2>
+<pre data-id="with"><code data-trim data-noescape class="python">def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    result = &quot;&quot;
+    for character in input_:
+        char_code = ord(character)
+        result += transform_letter(char_code)
+    return result
+
+
+def transform_letter(char_code: int) -&gt; str:
+    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
+        char_code += 13
+    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+
+
+def is_between(char_code: int, first_letter: str, last_letter: str) -&gt; bool:
+    return code_for(first_letter) &lt;= char_code &lt;= code_for(last_letter)
+
+
+def code_for(letter: str) -&gt; int:
+    return ord(letter)
+</code></pre>
+</section>
+<section >
+<h3>初手： <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数に引数追加</h3>
+<pre data-id="id22"><code data-trim data-noescape class="diff">-        result += transform_letter(char_code)
++        result += transform_letter(character, char_code)
+
+-def transform_letter(char_code: int) -&gt; str:
++def transform_letter(letter: str, char_code: int) -&gt; str:</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="tests-passed"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>2手目： <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数に引数追加</h3>
+<pre data-id="id23"><code data-trim data-noescape class="diff">-    if is_between(char_code, &quot;a&quot;, &quot;m&quot;) or is_between(char_code, &quot;A&quot;, &quot;M&quot;):
++    if is_between(letter, char_code, &quot;a&quot;, &quot;m&quot;) or is_between(letter, char_code, &quot;A&quot;, &quot;M&quot;):
+
+-    elif is_between(char_code, &quot;n&quot;, &quot;z&quot;) or is_between(char_code, &quot;N&quot;, &quot;Z&quot;):
++    elif is_between(letter, char_code, &quot;n&quot;, &quot;z&quot;) or is_between(letter, char_code, &quot;N&quot;, &quot;Z&quot;):
+
+-def is_between(char_code: int, first_letter: str, last_letter: str) -&gt; bool:
++def is_between(letter: str, char_code: int, first_letter: str, last_letter: str) -&gt; bool:</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id24"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>3手目： <strong>文字の比較</strong> に実装を変更（ <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数）</h3>
+<p>ついにリファクタリングのアイデアを実施</p>
+<pre data-id="id25"><code data-trim data-noescape class="diff">-    return code_for(first_letter) &lt;= char_code &lt;= code_for(last_letter)
++    return first_letter &lt;= letter &lt;= last_letter</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id26"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>4手目： 使わなくなった <code class="docutils literal notranslate"><span class="pre">code_for</span></code> 関数を削除</h3>
+<pre data-id="code-for"><code data-trim data-noescape class="diff">-def code_for(letter: str) -&gt; int:
+-    return ord(letter)</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id27"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>5手目： <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数をインライン化</h3>
+<p>いまの <code class="docutils literal notranslate"><span class="pre">is_between</span></code> 関数の本体は <strong>名前と同じくらい分かりやすい</strong>！</p>
+<pre data-id="id28"><code data-trim data-noescape class="diff">-    if is_between(letter, char_code, &quot;a&quot;, &quot;m&quot;) or is_between(letter, char_code, &quot;A&quot;, &quot;M&quot;):
++    if (&quot;a&quot; &lt;= letter &lt;= &quot;m&quot;) or (&quot;A&quot; &lt;= letter &lt;= &quot;M&quot;):
+-    elif is_between(letter, char_code, &quot;n&quot;, &quot;z&quot;) or is_between(letter, char_code, &quot;N&quot;, &quot;Z&quot;):
++    elif (&quot;n&quot; &lt;= letter &lt;= &quot;z&quot;) or (&quot;N&quot; &lt;= letter &lt;= &quot;Z&quot;):
+
+-def is_between(letter: str, char_code: int, first_letter: str, last_letter: str) -&gt; bool:
+-    return first_letter &lt;= letter &lt;= last_letter</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id29"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>6手目： <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数で <code class="docutils literal notranslate"><span class="pre">letter</span></code> から <code class="docutils literal notranslate"><span class="pre">char_code</span></code> を作れる</h3>
+<p>引数 <code class="docutils literal notranslate"><span class="pre">char_code</span></code> を消す前のステップ</p>
+<pre data-id="transform-letter-letter-char-code"><code data-trim data-noescape class="diff">def transform_letter(letter: str, char_code: int) -&gt; str:
++    char_code = ord(letter)</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id30"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>7手目： <code class="docutils literal notranslate"><span class="pre">char_code</span></code> 引数削除</h3>
+<pre data-id="char-code"><code data-trim data-noescape class="diff">-        char_code = ord(character)
+-        result += transform_letter(character, char_code)
++        result += transform_letter(character)
+
+-def transform_letter(letter: str, char_code: int) -&gt; str:
++def transform_letter(letter: str) -&gt; str:</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id31"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>この時点もだいぶスッキリ✨</h3>
+<pre data-id="id32"><code data-trim data-noescape class="python">def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    result = &quot;&quot;
+    for character in input_:
+        result += transform_letter(character)
+    return result
+
+
+def transform_letter(letter: str) -&gt; str:
+    char_code = ord(letter)
+    if (&quot;a&quot; &lt;= letter &lt;= &quot;m&quot;) or (&quot;A&quot; &lt;= letter &lt;= &quot;M&quot;):
+        char_code += 13
+    elif (&quot;n&quot; &lt;= letter &lt;= &quot;z&quot;) or (&quot;N&quot; &lt;= letter &lt;= &quot;Z&quot;):
+        char_code -= 13
+    return chr(char_code)
+</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>さらなるアイデア（おそらく途中で時間切れ）</h2>
+<ul class="simple">
+<li><p>正規表現 <code class="docutils literal notranslate"><span class="pre">r&quot;[A-Za-z]&quot;</span></code> にマッチする文字だけ置き換える</p></li>
+<li><p>Pythonでは <code class="docutils literal notranslate"><span class="pre">re.sub</span></code> に関数を渡す（<code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> を渡す）</p></li>
+</ul>
+<p><a class="reference external" href="https://docs.python.org/ja/3/library/re.html#re.sub">https://docs.python.org/ja/3/library/re.html#re.sub</a></p>
+<pre data-id="id33"><code data-trim data-noescape class="python">re.sub(r&quot;[A-Za-z]&quot;, マッチした各文字を変換する関数, 対象文字列)</code></pre>
+</section>
+<section >
+<h3>正規表現導入</h3>
+<pre data-id="id34"><code data-trim data-noescape class="diff">+import re
+
+-    result = &quot;&quot;
+-    for character in input_:
+-        result += transform_letter(character)
+-    return result
++    return re.sub(
++        r&quot;[A-Za-z]&quot;,
++        lambda matchobj: transform_letter(matchobj.group(0)),
++        input_,
++    )</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id35"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> のif文を単純に（WIP）</h3>
+<p>正規表現を使ったことで、 <strong>A-Za-zでのみ</strong> <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数が呼び出される</p>
+<pre data-id="transform-letter-if-wip"><code data-trim data-noescape class="diff">-    if (&quot;a&quot; &lt;= letter &lt;= &quot;m&quot;) or (&quot;A&quot; &lt;= letter &lt;= &quot;M&quot;):
++    if letter.upper() &lt;= &quot;M&quot;:</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id36"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> のif文を単純に</h3>
+<pre data-id="transform-letter-if"><code data-trim data-noescape class="diff">-    elif (&quot;n&quot; &lt;= letter &lt;= &quot;z&quot;) or (&quot;N&quot; &lt;= letter &lt;= &quot;Z&quot;):
++    else:</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id37"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> の処理に <code class="docutils literal notranslate"><span class="pre">rotation</span></code> 変数導入</h3>
+<p>何文字だけ文字コードを変更するかを表す変数</p>
+<pre data-id="transform-letter-rotation"><code data-trim data-noescape class="diff">     char_code = ord(letter)
+     if letter.upper() &lt;= &quot;M&quot;:
+         char_code += 13
++        rotation = 13
+     else:
+         char_code -= 13
++        rotation = -13</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id38"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">char_code</span></code> 変数に再代入しない（ <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数）</h3>
+<pre data-id="char-code-transform-letter"><code data-trim data-noescape class="diff">     char_code = ord(letter)
+     if letter.upper() &lt;= &quot;M&quot;:
+-        char_code += 13
+         rotation = 13
+     else:
+-        char_code -= 13
+         rotation = -13
+-    return chr(char_code)
++    return chr(char_code + rotation)</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id39"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">char_code</span></code> 変数のインライン化（ <code class="docutils literal notranslate"><span class="pre">transform_letter</span></code> 関数）</h3>
+<pre data-id="id40"><code data-trim data-noescape class="diff">-    char_code = ord(letter)
+
+-    return chr(char_code + rotation)
++    return chr(ord(letter) + rotation)</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id41"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>条件式を使って <code class="docutils literal notranslate"><span class="pre">if</span></code> 文を消す</h3>
+<p>Pythonに馴染みのない方へ、条件式は <em>三項演算子</em> だと思ってください</p>
+<pre data-id="if"><code data-trim data-noescape class="diff">-    if letter.upper() &lt;= &quot;M&quot;:
+-        rotation = 13
+-    else:
+-        rotation = -13
++    rotation = 13 if letter.upper() &lt;= &quot;M&quot; else -13</code></pre>
+</section>
+<section >
+<h3>Tests passed✅</h3>
+<pre data-id="id42"><code data-trim data-noescape class="default">$ python -m unittest
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK</code></pre>
+</section>
+<section >
+<h3>小さいステップを積み重ねてリファクタリングできた！！🙌</h3>
+<pre data-id="id43"><code data-trim data-noescape class="python">import re
+
+
+def transform(input_: str) -&gt; str:
+    if not isinstance(input_, str):
+        raise TypeError(&quot;Expected string parameter&quot;)
+
+    return re.sub(
+        r&quot;[A-Za-z]&quot;,
+        lambda matchobj: transform_letter(matchobj.group(0)),
+        input_,
+    )
+
+
+def transform_letter(letter: str) -&gt; str:
+    rotation = 13 if letter.upper() &lt;= &quot;M&quot; else -13
+    return chr(ord(letter) + rotation)
+</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>書籍を通じて達人とリファクタリングしてみて</h2>
+<p>まとめ🌯に代えて、気付きを最後に共有します（気付きについてのフィードバックはnikkieまで）</p>
+</section>
+<section >
+<h3>IMO: クソデカリファクタリングしかやってこなくて、すみませんでした！（懺悔）</h3>
+<ul class="simple">
+<li><p>リファクタリング＝ <strong>小さいステップを積み上げる</strong> と認識が変わった</p></li>
+<li><p>ステップが小さいので、テストが落ちているREDの時間が最小にできる</p></li>
+<li><p>チームでどうやるかは実践して学びを得たい</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO: 小さいステップでリファクタリングするには</h3>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274224546/">リファクタリング</a>』にあるような知識（例：関数のインライン化）が必要</p></li>
+<li><p><strong>テクニックを知っているからこそ</strong> 小さいステップに分解できる</p></li>
+<li><p>テクニックを知る＝IDE操作を知るにもなりそう</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO: 小さいステップのリファクタリングの効果</h3>
+<ul class="simple">
+<li><p>小さいステップに分けているからこそ <strong>今はここまで</strong> ができる</p>
+<ul>
+<li><p>出した例では正規表現を導入せずに止めてもいい</p></li>
+<li><p>今は時間がないけど、ここは設計変えていきたいから「 <strong>一手目として変数追加だけ</strong> やろう」もできるはず（👉 <em>発表後記</em>）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>IMO: 『<a class="reference external" href="https://www.shoeisha.co.jp/book/detail/9784798116839">レガシーコード改善ガイド</a>』を思い出す</h3>
+<ul class="simple">
+<li><p>小さなステップに分けて、 <strong>いまできる手数だけ</strong> リファクタリング</p></li>
+<li><p>betterな設計に向けてチームが動き出すための足がかりを作るということ🌱</p></li>
+<li><p>6章 スプラウトクラスやラップクラスに通じるかも</p></li>
+</ul>
+</section>
+<section >
+<h3>結びに：ケント・ベック言ってた！（『エクストリームプログラミング』 はじめに）</h3>
+<blockquote>
+<div><div class="line-block">
+<div class="line">どんな状況でも必ず改善できる。</div>
+<div class="line">どんなときでもあなたから改善を始められる。</div>
+<div class="line">どんなときでも今日から改善を始められる。</div>
+</div>
+</div></blockquote>
+<p>達人のリファクタリングを知り、 <strong>小さく改善</strong> していけるイメージ！</p>
+</section>
+</section>
+<section >
+<h2>小さなリファクタリングを積み上げていきましょう！</h2>
+<p>ご清聴ありがとうございました</p>
+</section>
+<section >
+<h2>関連アウトプット</h2>
+<ul class="simple">
+<li><p>Python写経コード <a class="reference external" href="https://github.com/ftnext/aoad2e-py/tree/main/refactoring">https://github.com/ftnext/aoad2e-py/tree/main/refactoring</a></p></li>
+<li><p>事前アウトプット ブログ版 <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/art-of-agile-development-2nd-really-small-refactoring-steps">え、待って！リファクタリングって1つ1つのステップそんなに小さく実施するの！？ （『The Art of Agile Development』読書録）</a></p></li>
+</ul>
+</section>
+<section >
+<h2>IMO 発表後記：一手目として変数追加だけ</h2>
+<ul class="simple">
+<li><p>チャットではネガティブな反応が多数だった（と思っている）こちらについて発表後版で補足します</p></li>
+<li><p>なんにでもメリット・デメリットはあると思っていて、「一手目として変数追加だけ」も実践して学びを得ようと思っています</p></li>
+</ul>
+</section>
+<section >
+<h2>IMO 発表後記：一手目として変数追加だけ</h2>
+<ul class="simple">
+<li><p>開発者のコミュニケーションのきっかけとして期待（コードを読んで「私ここやっておきますね」ができるのでは）</p></li>
+<li><p><em>数手重ねた小まとまり</em> まで進めたほうが現実的なのかも</p></li>
+</ul>
+</section>
+<section >
+<h2>IMO 発表後記：一手目として変数追加だけ</h2>
+<ul class="simple">
+<li><p>ラップクラスでも「そんなことしたら前よりも悪くなる」という反応はあったと聞いています</p></li>
+<li><p>「その時点では、そのとおりです」と続きます（『<a class="reference external" href="https://www.shoeisha.co.jp/book/detail/9784798116839">レガシーコード改善ガイド</a>』 p.85）</p></li>
+<li><p>小さなリファクタリングを <strong>重ねる前提</strong> で <strong>足がかりを作る</strong> ためにやるのかなと理解しています</p></li>
+</ul>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,793 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>実践と価値を行き来して理解を深めるXP</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/xpjug_matsuri/story_and_planning_value_and_practice.html">
+    <meta property="og:title" content="実践と価値を行き来して理解を深めるXP 〜ストーリー・計画づくり篇〜">
+    <meta property="og:description" content="2022/10 XP祭り 20分トーク スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/xpjug_matsuri.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>実践と価値を行き来して理解を深めるXP</h1>
+<p>〜ストーリー・計画づくり篇〜</p>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>XP祭り2022</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/10/01 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>nikkie（にっきー）と申します</p></li>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>Pythonとアニメが好き</p></li>
+</ul>
+</section>
+<section >
+<h3>Pythonとアニメが好き</h3>
+<ul class="simple">
+<li><p><strong>Py</strong> thon <strong>Con</strong> ference Japan 2021 座長</p></li>
+<li><p>国内外のPyConで定期的に（リモート）登壇（2020〜）</p></li>
+<li><p>最近のアニメはリコリコ、スーパースター🌟💫などなど楽しんでます😆</p></li>
+</ul>
+</section>
+<section >
+<h3>XPするデータサイエンティスト</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.uzabase.com/jp/">株式会社ユーザベース</a> （Python、自然言語処理）</p></li>
+<li><p>We're hiring!! (Engineers, Data scientists, Researchers)</p></li>
+</ul>
+<img alt="https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL" src="https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL" />
+</section>
+<section >
+<h3>XPとnikkie</h3>
+<ul class="simple">
+<li><p>2019年、ユーザベースにJoinしてXPの実践スタート</p></li>
+<li><p><strong>XP未経験</strong> から開発チーム（先輩XPer）のプラクティスを見様見真似で実践</p></li>
+<li><p>3年経った頃「このやり方でいい？」と思うように</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>今回話す、私のこのやり方でいいんだっけ？</h2>
+<ul class="simple">
+<li><p>ストーリー（＝ユーザーストーリー User story）</p></li>
+<li><p>計画づくり（planning、計画を作る過程）</p></li>
+</ul>
+</section>
+<section >
+<h3>アプローチ</h3>
+<ul class="simple">
+<li><p>『エクストリームプログラミング』には簡潔な説明がある</p></li>
+<li><p>「私のこのやり方でいいんだっけ？」（本質をわかっている達人（例：ケント・ベック）は同じやり方をする？）</p></li>
+<li><p>👉 <strong>他の書籍</strong> にあたっていく</p></li>
+</ul>
+</section>
+<section >
+<h3>実践と価値を行き来</h3>
+<iframe class="speakerdeck-iframe" style="border: 0px none; background: rgba(0, 0, 0, 0.1) padding-box; margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 560px; height: 315px;" src="https://speakerdeck.com/player/6724fd9dfb65454b8af32bf05c19cbb2?slide=24" title="実践エクストリームプログラミング / Extreme Programming in Practice" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" data-ratio="1.7777777777777777" frameborder="0"></iframe></section>
+<section >
+<h3>実践と価値を行き来</h3>
+<ul class="simple">
+<li><p>プラクティスの実践➡️価値の理解</p></li>
+<li><p>価値を体現するプラクティスを探す</p></li>
+</ul>
+</section>
+<section >
+<h3>これでいい？＝「価値の理解を更新したい」</h3>
+<ul class="simple">
+<li><p>書籍（この発表のメイン）</p></li>
+<li><p>社外の読書会（Special thanks <a class="reference external" href="https://agiledevs.connpass.com/">agile_devs</a> ）</p></li>
+<li><p>日々チームでの実践（Special thanks チームメンバー）</p></li>
+</ul>
+</section>
+<section >
+<h3>思うに、誰しもアジャイルの <strong>旅の途中</strong> にいる</h3>
+<ul class="simple">
+<li><p>キーノートでも「旅」出ましたね</p></li>
+<li><p>現時点での私の理解を共有します</p></li>
+<li><p>ちょっとしたことでもフィードバックいただけるととても嬉しいです🙌</p></li>
+</ul>
+</section>
+<section >
+<h3>実践と価値を行き来して理解を深めるXP</h3>
+<ol class="arabic simple">
+<li><p><strong>ストーリー</strong></p></li>
+<li><p>計画づくり</p></li>
+</ol>
+</section>
+</section>
+<section >
+<h2>原点📚ケント・ベック曰く</h2>
+<p>ストーリー（ユーザーストーリー）とは</p>
+<blockquote>
+<div><p>顧客に見える機能の単位を使って計画すること</p>
+</div></blockquote>
+<p>『エクストリームプログラミング（第2版）』7.6</p>
+</section>
+<section>
+<section >
+<h2>ストーリー、これでいいんだっけ？</h2>
+<ul class="simple">
+<li><p>確証が持てなかったポイント「<em>ストーリーはどこまで詳細にする？</em>」</p></li>
+<li><p>機能の単位で計画する中で、ストーリーにメモが増えていく📝</p></li>
+</ul>
+</section>
+<section >
+<h3>『Clean Agile』📘 曰く</h3>
+<blockquote>
+<div><p>ユーザーストーリーとは、システムの機能をユーザーの視点から簡潔に記述したもの</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」</p>
+<aside class="notes">
+くどいかもしれないが、早すぎて分からなくなるのを防ぐため、2回繰り返してみる</aside>
+</section>
+<section >
+<h3>ここで注目：<strong>簡潔に記述</strong></h3>
+<blockquote>
+<div><p>詳細化を避けるのは鍛錬である。</p>
+</div></blockquote>
+<p>第3章「ATMのストーリー」📘</p>
+</section>
+<section >
+<h3>なぜ詳細化を避ける？</h3>
+<blockquote>
+<div><p>ストーリーをマネジメント可能、スケジュール可能、見積り可能にするためには、「一時的な詳細の欠如」が必要である</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」📘</p>
+</section>
+</section>
+<section>
+<section >
+<h2>ストーリーは <strong>会話のプレースホルダー</strong> 📘</h2>
+<ul class="simple">
+<li><p>Webページ作成中のLorem Ipsumや「ああああ」と同じということ</p></li>
+<li><p>実際のコンテンツは後から挿入される</p></li>
+</ul>
+</section>
+<section >
+<h3>タイトルタイトルタイトル</h3>
+<ul class="simple">
+<li><p>ああああ</p></li>
+<li><p>ああああ</p></li>
+<li><p>ああああ</p></li>
+</ul>
+<p>※プレースホルダーの例のスライドです</p>
+</section>
+<section >
+<h3>ストーリーは「あとで会話する」を表す</h3>
+<blockquote>
+<div><p>詳細な仕様を決めるのは、ストーリーを開発するときまで可能な限り遅らせたい。</p>
+</div></blockquote>
+<p>第3章「ストーリーとポイント」📘</p>
+</section>
+<section >
+<h3>『Clean Agile』📘を読んで</h3>
+<ul class="simple">
+<li><p>当初の疑問「ストーリーはどこまで詳細にする？」</p></li>
+<li><p>ストーリーは <strong>会話のプレースホルダー</strong></p></li>
+<li><p>💡詳細化はあまり効果的ではない（「ああああ」を「あいうえ」に凝っても・・・）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>もう1冊『The Art of Agile Development, 2nd Edition』📖</h2>
+<ul class="simple">
+<li><p>英語で読んでます</p></li>
+<li><p><a class="reference external" href="https://www.oreilly.co.jp/books/9784873113951/">初版は日本語</a> で入手できます（2009）</p></li>
+</ul>
+</section>
+<section >
+<h3>AoAD2eより</h3>
+<blockquote>
+<div><p>Stories are for planning. They’re the playing pieces of the planning game. That’s it!</p>
+</div></blockquote>
+<p>8.Planning &gt; Stories</p>
+</section>
+<section >
+<h3>AoAD2e ストーリーとはnikkie訳</h3>
+<blockquote>
+<div><p>ストーリーとは計画のためのものです。ストーリーは <strong>計画ゲームをプレーするための駒</strong> で、それだけです！</p>
+</div></blockquote>
+</section>
+<section >
+<h3>規模により分類できればいい📖</h3>
+<ul class="simple">
+<li><p>計画段階（プラクティス The planning game）においての話</p>
+<ul>
+<li><p>ストーリーがちょうどいい大きさ・大きすぎる・小さすぎるが分かる状態</p></li>
+</ul>
+</li>
+<li><p>『Clean Agile』📘の <strong>詳細化を避けると重なる</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>計画とは別にストーリーをタスクに分解する📖</h3>
+<blockquote>
+<div><p>Use task planning to break the first few stories into development tasks.</p>
+</div></blockquote>
+<p>8.Planning &gt; Adaptive Planning &gt; How to Create Your Plan</p>
+</section>
+<section >
+<h3>『AoAD 2e』を読んで</h3>
+<ul class="simple">
+<li><p>当初の疑問「ストーリーはどこまで詳細にする？」</p></li>
+<li><p>（やはり）ストーリーは詳細化しない</p></li>
+<li><p><strong>計画とは別にタスクに分解</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>ストーリーについての考察</h2>
+<ul class="simple">
+<li><p>裏にある考え方はなんだろう？</p></li>
+<li><p>実践を踏まえるとどのようにとらえられるだろう？</p></li>
+</ul>
+</section>
+<section >
+<h3>再掲：『エクストリームプログラミング（第2版）』</h3>
+<p>ストーリー（ユーザーストーリー）とは</p>
+<blockquote>
+<div><p>顧客に見える機能の単位を使って計画すること</p>
+</div></blockquote>
+</section>
+<section >
+<h3>ポイントは「<strong>計画</strong> すること」</h3>
+<ul class="simple">
+<li><p>ストーリーは <em>状況</em> によって詳細化の程度が変わる！</p></li>
+<li><p>計画時は <strong>詳細化を避ける</strong></p></li>
+<li><p>計画とは別にタスクに変える</p></li>
+</ul>
+</section>
+<section >
+<h3>詳細化を避ける</h3>
+<ul class="simple">
+<li><p>XPの価値の1つ「シンプルさ」</p></li>
+<li><p>計画時は簡潔な記述に留める</p></li>
+</ul>
+</section>
+<section >
+<h3>コミュニケーションのリマインダー</h3>
+<ul class="simple">
+<li><p>XPの価値の1つ「コミュニケーション」</p></li>
+<li><p>「会話のプレースホルダー」</p></li>
+<li><p><strong>取り組む際にコミュニケーション</strong> して、詳細化する</p></li>
+</ul>
+</section>
+<section >
+<h3>詳細化は遅らせたい</h3>
+<ul class="simple">
+<li><p>XPの価値の1つ「フィードバック」</p></li>
+<li><p>チームの <strong>学びを反映</strong> して詳細化したい</p></li>
+<li><p>計画時に話した詳細は信用していない（『Clean Agile』📘）</p></li>
+</ul>
+<aside class="notes">
+ref: 最終責任時点（『アート・オブ・アジャイル デベロップメント』）</aside>
+</section>
+<section >
+<h3>計画する中でストーリーにメモを増やしていた私へ</h3>
+<ul class="simple">
+<li><p>📣「詳細化したい衝動に抵抗するんだ！」</p></li>
+<li><p>計画段階では規模で分類できればいい。詳細化は後で</p></li>
+<li><p>💡ストーリーのプラクティスの鍵は <strong>どこまで詳細化するかチーム内の認識合わせ</strong></p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>小まとめ🥟：ストーリー</h2>
+<ul class="simple">
+<li><p>見積もって <strong>計画</strong> するために、 <strong>一時的に詳細化を避ける</strong></p></li>
+<li><p>「会話のプレースホルダー」、開発して学びを得た上で直前で詳細化</p></li>
+</ul>
+<aside class="notes">
+詳細化しすぎないために：砂時計</aside>
+</section>
+<section >
+<h2>ストーリーから計画づくりへ橋渡し（2点）</h2>
+<ol class="arabic simple">
+<li><p>ストーリーポイント</p></li>
+<li><p>規模を見積もり、期間を導出</p></li>
+</ol>
+</section>
+<section>
+<section >
+<h2>1)ストーリーポイント</h2>
+<p>ストーリーを <em>ポイント</em> で見積もっている（1pt、2pt）</p>
+</section>
+<section >
+<h3>ストーリーポイントとは</h3>
+<blockquote>
+<div><p>フィーチャを実装するのに必要な作業、開発内容の複雑さ、開発に内在するリスクなどが渾然一体となったもの</p>
+</div></blockquote>
+<p>『アジャイルな見積りと計画づくり』（4章 p.62）</p>
+</section>
+<section >
+<h3>ストーリーポイントとは</h3>
+<blockquote>
+<div><p>ポイントの数字はあいまいで、ファジーで、精度の低いものであり、実時間と直接 <strong>関連しているわけではない</strong></p>
+</div></blockquote>
+<p>『Clean Agile』（第3章 ATMのストーリー 強調ママ）📘</p>
+</section>
+<section >
+<h3>ポイントの考え方：バケツと砂</h3>
+<blockquote>
+<div><p>5 ポイントのバケツに 5 ポイント 分よりも少し多めに砂を入れたとしても、砂がバケツからあふれることはない</p>
+</div></blockquote>
+<p>『アジャイルな見積りと計画づくり』（6章 p.75）</p>
+</section>
+<section >
+<h3>比較して見積もる</h3>
+<ul class="simple">
+<li><p>ストーリーどうしを比較</p></li>
+<li><p>平均的な規模のゴールデンストーリー</p></li>
+</ul>
+</section>
+<section >
+<h3>『アジャイルな見積りと計画づくり』より</h3>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/cohn_2009_figure6_1.png"><img alt="../_images/cohn_2009_figure6_1.png" src="../_images/cohn_2009_figure6_1.png" style="width: 80%;" /></a>
+</figure>
+</section>
+<section >
+<h3>見積りは短時間で</h3>
+<ul class="simple">
+<li><p><strong>少ない労力で大きな効果</strong> が得られる状態（図の左寄り）（『アジャイルな見積りと計画づくり』6章）</p></li>
+<li><p>精度が低い（ブレる）からこそ短時間（『Clean Agile』📘 第3章）</p>
+<ul>
+<li><p>フィードバックで調整して精度を上げていく</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>ストーリーから計画づくりへ橋渡し（2点）</h3>
+<ol class="arabic simple">
+<li><p>ストーリーポイント✅</p></li>
+<li><p>規模を見積もり、期間を導出</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>2)規模を見積もり、期間を導出</h2>
+<p>『アジャイルな見積りと計画づくり』（4章）</p>
+</section>
+<section >
+<h3>2つの道具🛠</h3>
+<ul class="simple">
+<li><p>ストーリーポイント（既出）：規模の見積り</p></li>
+<li><p><em>ベロシティ</em></p></li>
+</ul>
+</section>
+<section >
+<h3>ベロシティ</h3>
+<blockquote>
+<div><p>ベロシティとは、チームの進む速度をあらわす数値</p>
+</div></blockquote>
+<p>『アジャイルな見積りと計画づくり』（4章 p.63）</p>
+</section>
+<section >
+<h3>ベロシティ</h3>
+<blockquote>
+<div><p>チームが 1 回のイテレーションで完了させたユーザーストーリーのストーリーポイントの合計値</p>
+</div></blockquote>
+<p>『アジャイルな見積りと計画づくり』（4章 p.63）</p>
+</section>
+<section >
+<h3>スケジュールの求め方</h3>
+<ol class="arabic simple">
+<li><p>プロジェクト全体の規模を見積もる（ストーリーポイントの合計）</p></li>
+<li><p>規模をベロシティで割る ＝ <strong>必要なイテレーション回数</strong> の見積り</p></li>
+</ol>
+<p>『アジャイルな見積りと計画づくり』（4章）</p>
+</section>
+<section >
+<h3>ベロシティの推測</h3>
+<ul class="simple">
+<li><p>ベロシティが分かっている場合はイテレーション回数はすぐ求まる</p></li>
+<li><p>ベロシティが不明な場合（例：新規チーム）、ベロシティを見積もる（後述）</p></li>
+</ul>
+<aside class="notes">
+ストーリーの出し方で話題が追加できるかも</aside>
+</section>
+<section >
+<h3>実践と価値を行き来して理解を深めるXP</h3>
+<ol class="arabic simple">
+<li><p>ストーリー</p></li>
+<li><p><strong>計画づくり</strong></p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>計画づくり、これでいいんだっけ？</h2>
+<p>（ちょっと長いですが）「これでいいんだっけ」を共有します</p>
+</section>
+<section >
+<h3>「何をいつまでに作ればいいのか」に答えた</h3>
+<ul class="simple">
+<li><p>ここでは、1イテレーションの期間は1週間とする</p></li>
+<li><p>全体の規模 <span class="math notranslate nohighlight">\(\div\)</span> ベロシティ</p></li>
+<li><p>1回1回のイテレーションに入っていく</p></li>
+</ul>
+</section>
+<section >
+<h3>イテレーションプランニング</h3>
+<ul class="simple">
+<li><p>優先度の高いストーリーを採る</p></li>
+<li><p>ポイントの合計がベロシティになるまで</p></li>
+</ul>
+</section>
+<section >
+<h3>比喩：予算を賢く使って買い物</h3>
+<ul class="simple">
+<li><p>ストーリー＝食料品</p></li>
+<li><p>ストーリーポイント＝値札</p></li>
+<li><p>ベロシティ＝予算</p></li>
+</ul>
+<p>ref: 『エクストリームプログラミング（第2版）』第12章</p>
+</section>
+<section >
+<h3>ベロシティは確約ではなく見積もり</h3>
+<blockquote>
+<div><p>完成させようと <strong>試みる</strong> ことを約束しているわけでもない</p>
+</div></blockquote>
+<p>『Clean Agile』第3章 ATMのストーリー（強調ママ）📘</p>
+</section>
+<section >
+<h3>&quot;確約ではない&quot;が、これでいい？</h3>
+<ul class="simple">
+<li><p>「<em>採ったストーリー、今週は全部できませんでした</em>」</p></li>
+<li><p>翌週もこれが繰り返される</p></li>
+<li><p>コミットの強度が低くなってる？（信頼目減りしてない？）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>昨日の天気 ☀️🌤☁️</h2>
+<p>ちょっと話題を変えて</p>
+</section>
+<section >
+<h3>昨日の天気（Yesterday's Weather）</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://martinfowler.com/bliki/YesterdaysWeather.html">https://martinfowler.com/bliki/YesterdaysWeather.html</a></p></li>
+<li><p>今日の天気は昨日の天気と同じだろう</p></li>
+<li><p>今回のイテレーションのベロシティは <strong>前回のイテレーションのベロシティと同じ</strong> だろう</p></li>
+</ul>
+</section>
+<section >
+<h3>昨日の天気により、ベロシティは自己調整される</h3>
+<ul class="simple">
+<li><p>ベロシティを <strong>過剰</strong> に見積りすぎた（overestimate）</p></li>
+<li><p>見積もったベロシティに満たない</p></li>
+<li><p>昨日の天気により、次のイテレーションはベロシティを <strong>小さく</strong> できる（達成はより現実的）📉</p></li>
+</ul>
+<aside class="notes">
+AoAD 8.8.2</aside>
+</section>
+<section >
+<h3>昨日の天気により、ベロシティは自己調整される</h3>
+<ul class="simple">
+<li><p>ベロシティを <strong>過小</strong> に見積りすぎた（underestimate）</p></li>
+<li><p>見積もったベロシティを上回る</p></li>
+<li><p>昨日の天気により、次のイテレーションはベロシティを <strong>大きく</strong> できる📈</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>話を戻して、これでいいんだっけ？</h2>
+<p>今回はストーリー全部できませんでした（の繰り返し）</p>
+</section>
+<section >
+<h3>IMO：全体の規模 <span class="math notranslate nohighlight">\(\div\)</span> ベロシティ の裏側</h3>
+<ul class="simple">
+<li><p>分母のベロシティは <strong>昨日の天気</strong></p>
+<ul>
+<li><p>今回のベロシティは前回のイテレーションと同じ</p></li>
+</ul>
+</li>
+<li><p>イテレーションを通して <strong>同じベロシティという前提</strong> でスケジュールが算出されている！</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO：フィードバック！</h3>
+<ul class="simple">
+<li><p>「今回はストーリー全部できませんでした」はフィードバックのトリガー！</p></li>
+<li><p>同じベロシティという前提が崩れている👉 <strong>スケジュールに影響</strong> する（結構重要な事態！🚨）</p></li>
+</ul>
+</section>
+<section >
+<h3>期間の導出に使ったベロシティが過大と分かった</h3>
+<ul class="simple">
+<li><p>昨日の天気により、小さい値に調整された</p></li>
+<li><p>全体の規模 <span class="math notranslate nohighlight">\(\div\)</span> ベロシティ により、所要する <strong>イテレーション回数は増える</strong></p></li>
+<li><p>この懸念はステークホルダーに共有されるべきと考える</p></li>
+</ul>
+</section>
+<section >
+<h3>まずい事態に対策はないのか？</h3>
+<ul class="simple">
+<li><p>発生した場合はスコープの調整（全体の規模を減らす）が有力（ref: 荒ぶる四天王『アジャイルサムライ』）</p></li>
+<li><p>そもそも今回は全部できませんでした（の繰り返し）に <strong>ならないようにする</strong> 方法はある？</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>計画に意志を乗せる</h2>
+<p>有力と考えている対策（実践中）</p>
+</section>
+<section >
+<h3>「そのプランニングに意思、乗せていますか?」</h3>
+<iframe class="speakerdeck-iframe" style="border: 0px none; background: rgba(0, 0, 0, 0.1) padding-box; margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 560px; height: 315px;" src="https://speakerdeck.com/player/ac9f5ce5dac3477091d7af64017f268c" title="そのプランニングに意思、乗せていますか？" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" data-ratio="1.7777777777777777" frameborder="0"></iframe></section>
+<section >
+<h3>「そのプランニングに意思、乗せていますか?」</h3>
+<ul class="simple">
+<li><p>各イテレーションのイメージ</p></li>
+<li><p>各イテレーションで必ず達成すること</p></li>
+<li><p>各イテレーションで完全Doneしようとする</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO：主導権を握りに行く</h3>
+<ul class="simple">
+<li><p>意志を乗せていなかった私、状況に翻弄されている</p>
+<ul>
+<li><p>前回も今回もストーリー全部できなかった（あわわわ）</p></li>
+</ul>
+</li>
+<li><p>意志を乗せることで、 <strong>主導権を取った</strong> 状態</p></li>
+</ul>
+<aside class="notes">
+希望は込めてはなりませぬ</aside>
+</section>
+<section >
+<h3>裏付け：3段階の計画（プランニング・オニオン）</h3>
+<ul class="simple">
+<li><p>リリースプランニング</p></li>
+<li><p>イテレーションプランニング</p></li>
+<li><p>「今日」のプランニング</p></li>
+</ul>
+<p>『アジャイルな見積りと計画づくり』（3章 図3.1）</p>
+</section>
+<section >
+<h3>意思を乗せるとの対応</h3>
+<ul class="simple">
+<li><p>リリースプランニング</p>
+<ul>
+<li><p>各イテレーションのイメージ</p></li>
+<li><p>各イテレーションで必ず達成すること</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>意思を乗せるとの対応</h3>
+<ul class="simple">
+<li><p>イテレーションプランニング &amp; 「今日」のプランニング</p>
+<ul>
+<li><p>各イテレーションで完全Doneしようとする</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+AoAD 8.5.4 コミットメントの儀式</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>計画づくりについての考察</h2>
+<ul class="simple">
+<li><p>裏にある考え方はなんだろう？</p></li>
+<li><p>実践を踏まえるとどのようにとらえられるだろう？</p></li>
+</ul>
+</section>
+<section >
+<h3>規模を見積もり、期間を導出</h3>
+<ul class="simple">
+<li><p><strong>昨日の天気</strong> が採用されている！</p></li>
+<li><p>＝同一のベロシティという前提</p></li>
+<li><p>上回るのに比べて <strong>下回るのはかなりまずい</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>ベロシティが同一前提にもかかわらず下回った</h3>
+<ul class="simple">
+<li><p>XPの価値の1つ「フィードバック」</p></li>
+<li><p>いつまでに作る（何イテレーション分か）への回答がズレる（<strong>多くの期間が必要</strong>）とわかる</p></li>
+<li><p>ステークホルダーとコミュニケーションを！</p></li>
+</ul>
+</section>
+<section >
+<h3>「ベロシティは確約ではない」</h3>
+<ul class="simple">
+<li><p>ベロシティが <strong>分からない場合</strong> の見積もり（『Clean Agile』📘）</p>
+<ul>
+<li><p>見積もったベロシティ（と導出される期間）の精度は低い（ブレうる）</p></li>
+</ul>
+</li>
+<li><p>ベロシティのデータが蓄積されるとベロシティも期間も精度が高く（ブレずに）見積もれる</p></li>
+</ul>
+</section>
+<section >
+<h3>WE WILL🎶</h3>
+<ul class="simple">
+<li><p>各イテレーションをイメージし「ストーリーを完了させるんだ」という <strong>意志</strong> を乗せる</p></li>
+<li><p>ただし、それでもすべてを完了させるのは至難の業</p></li>
+<li><p>「やるんだ」のスタンスであれば、状況に対して主導権は取れている（と考える）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>小まとめ🥟：計画づくり</h2>
+<ul class="simple">
+<li><p>ベロシティが見積った値を下回ったという結果は、 <strong>期間を導出した際の前提（同一ベロシティ）を</strong> 大きく <strong>揺るがし</strong> ている</p></li>
+<li><p>WE WILL：「毎イテレーション、すべてのストーリーを完了させるんだ」という意志を乗せる</p></li>
+</ul>
+<aside class="notes">
+実践例の1つが「一度に一つのプロジェクト」</aside>
+</section>
+<section>
+<section >
+<h2>まとめ：実践と価値を行き来して理解を深めるXP</h2>
+<ul class="simple">
+<li><p>ストーリー：「どこまで詳細にする？」</p></li>
+<li><p>計画づくり：「ストーリー全部できませんでした」</p></li>
+</ul>
+</section>
+<section >
+<h2>まとめ：実践と価値を行き来して理解を深めるXP</h2>
+<ul class="simple">
+<li><p>ストーリー：「どこまで詳細にする？」</p>
+<ul>
+<li><p>計画時点では <strong>詳細化を避ける</strong></p></li>
+</ul>
+</li>
+<li><p>計画づくり：「ストーリー全部できませんでした」</p></li>
+</ul>
+</section>
+<section >
+<h2>まとめ：実践と価値を行き来して理解を深めるXP</h2>
+<ul class="simple">
+<li><p>ストーリー：「どこまで詳細にする？」</p></li>
+<li><p>計画づくり：「ストーリー全部できませんでした」</p>
+<ul>
+<li><p><strong>同一ベロシティが前提</strong> にされているので即フィードバックを回す</p></li>
+<li><p><strong>意志</strong> を乗せる</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>この旅はどんな旅だった？</h3>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/mn74ElzSSKo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>
+<section >
+<h3>守破離とは、Alistair Cockburn曰く (4:30〜)</h3>
+<ul class="simple">
+<li><p>守：1つの技法をコピー、質問しない</p></li>
+<li><p>破：技法を集める</p>
+<ul>
+<li><p>💡「このやり方でいいんだっけ？」は破の段階に差し掛かっていたということか！</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>Enjoy your journey!❤️</p>
+<p>References が続きます</p>
+</section>
+</section>
+<section>
+<section >
+<h2>References 1/3</h2>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274217623/">エクストリームプログラミング（第2版）</a>』（2015）</p></li>
+<li><p>『<a class="reference external" href="https://www.kadokawa.co.jp/product/302007001102/">Clean Agile</a>』（2020）</p></li>
+<li><p>『<a class="reference external" href="https://book.mynavi.jp/ec/products/detail/id=22141">アジャイルな見積りと計画づくり</a>』（2009）</p></li>
+</ul>
+</section>
+<section >
+<h3>References 2/3</h3>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://www.jamesshore.com/v2/books/aoad2">The Art of Agile Development, 2nd Edition</a>』（2021）</p></li>
+<li><p>『<a class="reference external" href="https://www.oreilly.co.jp/books/9784873113951/">アート・オブ・アジャイル デベロップメント</a>』（2009）</p></li>
+<li><p>『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274068560/">アジャイルサムライ</a>』（2011）</p></li>
+</ul>
+</section>
+<section >
+<h3>References 3/3</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://speakerdeck.com/enk/extreme-programming-in-practice">実践エクストリームプログラミング</a></p>
+<ul>
+<li><p>アーカイブ <a class="reference external" href="https://youtu.be/b6gSzGC1BF8?t=2215">TechBase vol.1</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference external" href="https://speakerdeck.com/jnuank/sofalsepuranninguniyi-si-cheng-seteimasuka">そのプランニングに意思、乗せていますか？</a></p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

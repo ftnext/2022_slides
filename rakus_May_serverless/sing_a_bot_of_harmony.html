@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/rakus_May_serverless/sing_a_bot_of_harmony.html">
+    <meta property="og:title" content="「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します">
+    <meta property="og:description" content="2022/05 サーバーレス LT vol.2 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/rakus_May_serverless.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>「お役立ち Twitter Bot を作りながら学ぶ AWS ドリル」を元に作ったBotを紹介します</h1>
+</section>
+<section >
+<h2>アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h2>
+<p>これがシン・タイトル！</p>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>サーバーレス LT vol.2</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/05/26 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ（自己紹介）</h2>
+<ul class="simple">
+<li><p>Python大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>株式会社ユーザベースのデータサイエンティスト（NLPer）</p></li>
+</ul>
+</section>
+<section >
+<h3>ラクスさんのLT会、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2022_slides/rakus_May_pythontips/superstar.html"
+    title="*と**"></iframe></section>
+<section >
+<h3>映画『<a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a>』🤖🎤🎼</h3>
+<iframe width="640" height="480" src="https://ainouta.jp/" title="アイの歌声を聴かせて 公式サイト"></iframe></section>
+<section >
+<h3>アイの歌声を聴かせて</h3>
+<ul class="simple">
+<li><p>SF × 学園 × ミュージカル！</p></li>
+<li><p><em>最後にきっと、笑顔になれる</em></p></li>
+<li><p>面白いから、みんな観て！ 6/10(金)まで <a class="reference external" href="https://ainouta.jp/ondemand.html">配信</a> 、7/27(水) <a class="reference external" href="https://ainouta.jp/bddvd.html">円盤発売</a></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>このLTの目的</h2>
+<ul class="simple">
+<li><p>PythonとAWS LambdaでTwitter Bot <strong>簡単</strong> かもと思っていただく</p></li>
+<li><p>AWSは独学なので、自分よりも詳しい方から、実装へのフィードバックを得たい</p></li>
+<li><p><a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a> を知っていただく（達成）</p></li>
+</ul>
+</section>
+<section >
+<h3>Python、あんまり使わないんだよなという方へ</h3>
+<ul class="simple">
+<li><p>Pythonに限らない話題（AWSの構成など）を聞いていただければ！</p></li>
+<li><p>本当に簡単だと思うので、Pythonの素振りとして試してみては（またはお使いの言語で書き換えてみては）</p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/ainouta-music-list">アイの歌声を聴かせてのおすすめリンク</a> 見ます？</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>本題へ：こんなTwitter Bot作りました</h2>
+<p>その名も <a class="reference external" href="https://twitter.com/harmonizer_bot">&#64;harmonizer_bot</a></p>
+</section>
+<section >
+<h3>その責務は、『アイの歌声を聴かせて』を応援！</h3>
+</section>
+<section >
+<h3>カウントダウンして応援</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">5/26は <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 公開🎬から210日目です。<br>Blu-ray&amp;DVDリリース📀まで今日を含めてあと62日です(7/27発売。現在予約期間)。<br><br>今日も、元気で、頑張るぞっ、おーっ</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1529598200700862467?ref_src=twsrc%5Etfw">May 25, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>秘密を明かしていきます</h3>
+<ul class="simple">
+<li><p>秘密1</p></li>
+<li><p>秘密2</p></li>
+<li><p>秘密3</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>秘密1：AWSドリルを参考にしました</h2>
+</section>
+<section >
+<h3>ご存知ですか？ builders.flash</h3>
+<p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/">https://aws.amazon.com/jp/builders-flash/</a></p>
+</section>
+<section >
+<h3>builders.flash</h3>
+<ul class="simple">
+<li><p><em>AWS のデベロッパー向けウェブマガジン</em></p></li>
+<li><p>ソリューションアーキテクトの皆様による <strong>豊富な記事</strong></p></li>
+<li><p>メールメンバーに登録すると、特典（AWSのクーポン）いただけます</p></li>
+</ul>
+</section>
+<section >
+<h3>お役立ち Twitter Bot を作りながら学ぶ AWS ドリル</h3>
+<p>金澤さん（a.k.a <a class="reference external" href="https://twitter.com/ketancho">&#64;ketancho</a> さん）による毎月連載（2022年1月〜）</p>
+<blockquote>
+<div><p>Twitter Bot を開発・運用しながら AWS を学んでいただきます。（第1回より）</p>
+</div></blockquote>
+</section>
+<section >
+<h3>現在5️⃣回連載</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202201/aws-drill-twitter-bot-1/">第1回</a> AWS Lambda・Amazon EventBridge・AWS CloudShell</p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202202/aws-drill-twitter-bot-2/">第2回</a> Amazon DynamoDB・AWS IAM</p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202203/aws-drill-twitter-bot-3/">第3回</a> AWS Systems Manager (Parameter Store)</p></li>
+</ul>
+</section>
+<section >
+<h3>現在5️⃣回連載</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202204/aws-drill-twitter-bot-4/">第4回</a> Amazon SNS</p></li>
+<li><p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202205/aws-drill-twitter-bot-5/">第5回</a> Amazon Translate</p></li>
+<li><p>今後も楽しみにしています！</p></li>
+</ul>
+</section>
+<section >
+<h3>harmonizer_botは <strong>初回</strong> の内容で作りました</h3>
+<ul class="simple">
+<li><p>第3回も一部参照しています</p></li>
+<li><p>ドリル4回分残しているので、拡張しがいがあって最高！</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>AWSドリル第1回で作るTwitter Bot</h2>
+<p><a class="reference external" href="https://aws.amazon.com/jp/builders-flash/202201/aws-drill-twitter-bot-1/">https://aws.amazon.com/jp/builders-flash/202201/aws-drill-twitter-bot-1/</a></p>
+</section>
+<section >
+<h3>Twitter Botの仕組み</h3>
+<ul class="simple">
+<li><p>Bot用のTwitterアカウントを用意</p></li>
+<li><p>Twitter APIを介すと、Twitterアカウントにツイートさせられる</p></li>
+<li><p>つまり、Twitter Bot＝ <strong>Bot用アカウントでツイートするプログラム</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>Bot用Twitterアカウントの設定</h3>
+<ul class="simple">
+<li><p>Twitter API <strong>v2</strong> の Essential access は申請不要で使える！</p></li>
+<li><p>Bot用アカウントでdeveloper accountを登録し、APIのキーやトークンを払い出す</p></li>
+<li><p>詳しくは <a class="reference external" href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api</a></p></li>
+</ul>
+</section>
+<section >
+<h3>ツイートのエンドポイント</h3>
+<pre data-id="id21"><code data-trim data-noescape class="default">POST https://api.twitter.com/2/tweets</code></pre>
+<ul class="simple">
+<li><p>ドリルに沿って、OAuth 1.0a User Contextを使っています</p></li>
+<li><p><a class="reference external" href="https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets">https://developer.twitter.com/en/docs/twitter-api/tweets/manage-tweets/api-reference/post-tweets</a></p></li>
+</ul>
+</section>
+<section >
+<h3>ツイートするプログラム（Python）</h3>
+<pre data-id="id22"><code data-trim data-noescape class="python">import os
+from requests_oauthlib import OAuth1Session
+
+# 環境変数の読み込み
+consumer_key = os.getenv(&quot;TWITTER_API_KEY&quot;)
+client_secret = os.getenv(&quot;TWITTER_API_KEY_SECRET&quot;)
+access_token = os.getenv(&quot;TWITTER_API_ACCESS_TOKEN&quot;)
+access_token_secret = os.getenv(&quot;TWITTER_API_ACCESS_TOKEN_SECRET&quot;)
+
+oauth = OAuth1Session(consumer_key, client_secret, access_token, access_token_secret)
+
+payload = {&quot;text&quot;: &quot;#アイの歌声を聴かせて 面白いからみんな観て&quot;}
+response = oauth.post(&quot;https://api.twitter.com/2/tweets&quot;, json=payload)</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>Twitter BotのプログラムをAWSで動かす</h2>
+<p>ツイートするプログラムを、定期的に自動で実行。それすなわちBot</p>
+</section>
+<section >
+<h3>Twitter Botの最小構成は2つのサービス</h3>
+<ul class="simple">
+<li><p>AWS Lambda</p></li>
+<li><p>Amazon EventBridge</p></li>
+</ul>
+<aside class="notes">
+図をここに入れるかも</aside>
+</section>
+<section >
+<h3>AWS Lambda</h3>
+<ul class="simple">
+<li><p>先のツイートするプログラムをLambda関数にする</p>
+<ul>
+<li><p><code class="file docutils literal notranslate"><span class="pre">lambda_function.py</span></code> の <code class="docutils literal notranslate"><span class="pre">lambda_handler</span></code> 関数として実装（デフォルト設定に合わせる）</p></li>
+</ul>
+</li>
+<li><p>（手に馴染んだ言語に書き換えても素振りになるかもしれませんね）</p></li>
+</ul>
+</section>
+<section >
+<h3>ツイートするLambda関数の例</h3>
+<pre data-id="lambda"><code data-trim data-noescape class="python">import os
+from requests_oauthlib import OAuth1Session
+
+consumer_key = os.getenv(&quot;TWITTER_API_KEY&quot;)
+client_secret = os.getenv(&quot;TWITTER_API_KEY_SECRET&quot;)
+access_token = os.getenv(&quot;TWITTER_API_ACCESS_TOKEN&quot;)
+access_token_secret = os.getenv(&quot;TWITTER_API_ACCESS_TOKEN_SECRET&quot;)
+
+oauth = OAuth1Session(consumer_key, client_secret, access_token, access_token_secret)
+
+def lambda_handler(event, context):
+    payload = {&quot;text&quot;: &quot;#アイの歌声を聴かせて 面白いからみんな観て&quot;}
+    response = oauth.post(&quot;https://api.twitter.com/2/tweets&quot;, json=payload)</code></pre>
+</section>
+<section >
+<h3>Amazon EventBridge</h3>
+<ul class="simple">
+<li><p>Lambda関数はevent（JSON）を受け取ると実行される（<code class="docutils literal notranslate"><span class="pre">lambda_handler</span></code> 関数の第1引数）</p></li>
+<li><p>EventBridgeでeventを <strong>発生</strong> させる</p>
+<ul>
+<li><p>定期的に、Lambda関数に対して（👉Lambda関数の日次実行）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>こうして、毎朝カウントダウンするBotが爆誕した🎉</h2>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">3/21は <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 公開から144日目です。<br>今日も、元気で、頑張るぞっ、おーっ</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1505680602942492674?ref_src=twsrc%5Etfw">March 20, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>LT：アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h3>
+<ul class="simple">
+<li><p>秘密1： <strong>AWSドリル</strong> を参考にしました</p></li>
+<li><p>秘密2</p></li>
+<li><p>秘密3</p></li>
+</ul>
+</section>
+<section >
+<h3>NEXT：1日に複数回つぶやかせるには？🤔</h3>
+<ul class="simple">
+<li><p>Lambda関数をつぶやきの種類だけ作る？</p></li>
+<li><p>1つのLambda関数の中で、この時間はこのつぶやきというロジックを書く？</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>秘密2：eventの種類を変えて、1日複数回ツイートさせています</h2>
+<p>この設計について、AWSに詳しい方からのフィードバック希望🙏</p>
+</section>
+<section >
+<h3>IMO：1日に複数回つぶやかせる方法</h3>
+<ul class="simple">
+<li><p>Lambda関数は1個（保守しやすい）</p></li>
+<li><p>EventBridgeで <em>様々なevent</em> を発生させる</p>
+<ul>
+<li><p>14時には時報用event</p></li>
+<li><p>20時には劇場情報用event</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Lambda関数の引数 <code class="docutils literal notranslate"><span class="pre">event</span></code></h3>
+<pre data-id="lambda-event"><code data-trim data-noescape class="python">def lambda_handler(event, context):
+    # EventBridgeで発生させたevent(JSON)がevent引数に渡る
+    # eventはPythonの辞書という型（他の言語でいうMap）
+    # {&quot;キー&quot;: &quot;値&quot;}</code></pre>
+<p>このeventを受け取って実行されたら、この振る舞いをすると実装</p>
+</section>
+<section >
+<h3>eventのカスタマイズ</h3>
+<ul class="simple">
+<li><p>EventBridgeの <strong>入力トランスフォーマー</strong></p></li>
+<li><p>Lambda関数で参照するキーと値をeventに追加する</p></li>
+</ul>
+<pre data-id="event"><code data-trim data-noescape class="json">{&quot;bot-mode&quot;: &quot;time-signal&quot;}</code></pre>
+</section>
+<section >
+<h3>Lambda関数の実装（イメージ）</h3>
+<pre data-id="id24"><code data-trim data-noescape class="python">def lambda_handler(event, context):
+    mode = event.get(&quot;bot-mode&quot;)
+    if mode == &quot;information&quot;:
+        # informationモードの文面を作ってツイート
+    elif mode == &quot;time-signal&quot;:
+        # time-signalモードの文面を作ってツイート
+    ...</code></pre>
+</section>
+<section >
+<h3>この実装の推しポイント</h3>
+<ul class="simple">
+<li><p>「何時にどういうeventが発生して、それによりこれこれのツイートをする」という構成</p></li>
+<li><p><strong>何時の部分は簡単に変えられる</strong> （8時にツイートしていたのを今日から9時にしよう）</p></li>
+<li><p>EventBridgeのルール名は変更できないので、「何時」ではなく「やりたいこと」にした方がよかったです</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>入力トランスフォーマー</h2>
+<p><a class="reference external" href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-input-transformer-tutorial.html">https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-input-transformer-tutorial.html</a></p>
+</section>
+<section >
+<h3>入力トランスフォーマーの構成要素</h3>
+<ul class="simple">
+<li><p>入力パス</p></li>
+<li><p>入力テンプレート</p></li>
+</ul>
+</section>
+<section >
+<h3>入力トランスフォーマーの設定例</h3>
+<ul class="simple">
+<li><p>入力パスは変数定義。今回は使わないので <code class="docutils literal notranslate"><span class="pre">{}</span></code> にしています</p></li>
+<li><p>入力テンプレートは <strong>eventのJSON</strong>。何時ならこの値と固定しています</p></li>
+</ul>
+<pre data-id="id28"><code data-trim data-noescape class="json">{
+  &quot;bot-mode&quot;: &quot;time-signal&quot;
+}</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>こうして、アイうた応援Botは複数回つぶやけるようになった🚀</h2>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">👩🏻‍🔬「にぃじ」<br><br>アイの歌声を聴かせて 非公式Botが5/26の午後2時をお伝えします🌈</p>&mdash; sing_a_bot_of_harmony (@harmonizer_bot) <a href="https://twitter.com/harmonizer_bot/status/1529688839891329027?ref_src=twsrc%5Etfw">May 26, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>いいわ、いいわ！</p>
+</section>
+<section >
+<h3>LT：アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h3>
+<ul class="simple">
+<li><p>秘密1：AWSドリルを参考にしました</p></li>
+<li><p>秘密2： <strong>eventの種類を変え</strong> て、1日複数回ツイートさせています</p></li>
+<li><p>秘密3</p></li>
+</ul>
+</section>
+<section >
+<h3>現在、神化する lambda_function.py と戦っています</h3>
+<ul class="simple">
+<li><p><code class="file docutils literal notranslate"><span class="pre">lambda_function.py</span></code> が肥大化するSmellを察知</p></li>
+<li><p>Pythonのパッケージングで、薄くするのを試みる日々（エントリポイントは薄く！）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>秘密3：Twitter Bot開発生産性アップtips！</h2>
+<p>2つ紹介します</p>
+</section>
+<section>
+<section >
+<h2>1. GitHubにpushしたらLambda関数を更新！</h2>
+<ul class="simple">
+<li><p>Lambda関数デプロイのハードルが下がり、捗りました</p></li>
+<li><p><strong>小さくこまめにリリース</strong>、楽しい</p></li>
+</ul>
+</section>
+<section >
+<h3>第1回ドリルのCloudShell</h3>
+<pre data-id="cloudshell"><code data-trim data-noescape class="shell">mkdir twitter-ainouta-bot
+cd twitter-ainouta-bot
+python -m pip install -t ./ -r ../requirements.lock
+cp ../lambda_function.py .
+zip -r twitter-ainouta-bot.zip ./
+
+aws lambda update-function-code \
+    --function-name twitter-ainouta-bot \
+    --zip-file fileb://twitter-ainouta-bot.zip | \
+jq 'del(.Environment, .FunctionArn, .Role)'</code></pre>
+</section>
+<section >
+<h3>GitHub Actionsに移植！（ただし注意点）</h3>
+<ul class="simple">
+<li><p>ドリルから変えて、Lambda関数の環境変数を使いました</p></li>
+<li><p><strong class="command">aws lambda update-function-code</strong> の返り値（JSON）には <em>環境変数も含まれる</em>！</p></li>
+<li><p><strong class="command">jq</strong> は環境変数などを画面に出さないように追加しています（マスクする方法もあるらしい）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>2. AWSのアカウントの権限まわりの設定</h2>
+<p>実務レベルではない可能性あるので、気になる点あればフィードバックください</p>
+</section>
+<section >
+<h3>試行錯誤の末、AWSアカウントを2つに分けた</h3>
+<ul class="simple">
+<li><p>開発中にコンソールを操作するアカウント</p></li>
+<li><p>自動デプロイするためのアカウント</p></li>
+</ul>
+</section>
+<section >
+<h3>2つのアカウント</h3>
+<ul class="simple">
+<li><p>開発中にコンソールを操作するアカウント：Lambda full access</p></li>
+<li><p>自動デプロイするためのアカウント：権限絞る（<em>コンソールにログインしない</em>）</p></li>
+</ul>
+</section>
+<section >
+<h3>1つでやろうとするのは苦しかった・・・</h3>
+<ul class="simple">
+<li><p>full accessは広すぎるので、権限を絞る</p></li>
+<li><p>するとコンソールが満足に操作できない</p></li>
+<li><p>👉「これ、複数いるんだ！」と気づき</p></li>
+</ul>
+</section>
+<section >
+<h3>LT：アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h3>
+<ul class="simple">
+<li><p>秘密1：AWSドリルを参考にしました</p></li>
+<li><p>秘密2：eventの種類を変えて、1日複数回ツイートさせています</p></li>
+<li><p>秘密3：Twitter Bot開発生産性アップtips！ <strong>2つ紹介</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h2>
+<ul class="simple">
+<li><p>AWSドリル（の第1回）を参考に、アイうた応援Botを爆誕させました</p>
+<ul>
+<li><p>AWS Lambda</p></li>
+<li><p>Amazon EventBridge</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>まとめ🌯 アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h2>
+<ul class="simple">
+<li><p>eventの種類を変えて、1日複数回ツイートさせています</p>
+<ul>
+<li><p>1つのLambda関数、複数種のevent</p></li>
+<li><p>入力トランスフォーマー</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>まとめ🌯 アイの歌声を聴かせて応援Botの秘密はね、最後じゃないけど明かされるんだよ</h2>
+<ul class="simple">
+<li><p>Twitter Bot開発生産性アップtips！</p>
+<ul>
+<li><p>ドリルのCloudShellのスクリプトをGitHub Actionsに移植</p></li>
+<li><p>自動デプロイと開発、アカウントが分かれそう</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>あなたの応援したいものにTwitter Botを試してもらえたら嬉しいです（驚くくらい簡単でした！）</p>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

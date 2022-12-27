@@ -1,0 +1,1778 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Revisit Python from statements and PEG</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/pyconapac_peg/revisit_python_statements.html">
+    <meta property="og:title" content="Revisit Python from statements and PEG">
+    <meta property="og:description" content="PyCon APAC 2022 30 minutes talk slide (pre-recorded version)">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/pyconapac_peg.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>Revisit Python from statements and PEG</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PyCon APAC 2022</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/07/20 (pre-recorded) nikkie</p>
+</dd>
+</dl>
+<aside class="notes">
+All right, Let's start!
+'Revisit Python from statements and PEG'
+This is 30 minutes long English talk with english slide.
+This talk was prerecorded on july 20th.</aside>
+</section>
+<section >
+<h2>你好❗️ PyCon APAC 2022</h2>
+<p>Many thanks to all the staff who worked so hard❤️</p>
+<aside class="notes">
+I would like to thank all the staff who worked so hard to make this online event possible!</aside>
+</section>
+<section>
+<section >
+<h2>First question: Can you write in Python❔</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">for</span></code></p></li>
+<li><p>function</p></li>
+</ul>
+<aside class="notes">
+Can you write if and for and function in Python?
+if you answered 'Of course', [続]</aside>
+</section>
+<section >
+<h3>About &quot;Revisit Python from statements and PEG&quot;</h3>
+<dl class="field-list simple">
+<dt class="field-odd">audience<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Intermediate level (equivalent of those who answered &quot;yes&quot;)</p>
+</dd>
+<dt class="field-even">subject<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>appearance</strong> pf Python</p>
+</dd>
+</dl>
+<aside class="notes">
+Congrats! you are target audience.
+I will talk about appearance pf Python such as the if line needs a colon.</aside>
+</section>
+<section >
+<h3>Audience take away</h3>
+<ul class="simple">
+<li><p>Components of Python statements: <em>expressions and keywords</em></p></li>
+<li><p>Explanation of the statement by <em>clauses, headers, and suites</em></p></li>
+<li><p>How to read <em>PEG</em></p></li>
+</ul>
+<aside class="notes">
+You know the Components of Python statements.
+You hear Explanation of the statement from different view point.
+We read together the PEG.</aside>
+</section>
+<section >
+<h3>Motivation: Python itself is interesting!</h3>
+<ul class="simple">
+<li><p>Language Reference is <em>difficult</em>? But exciting!</p></li>
+<li><p>Difficulty may comes from confusion between <strong>new</strong> and old grammatical expressions, so resolve it (as first step)</p></li>
+</ul>
+<aside class="notes">
+Do you consider Python language reference difficult?
+I have tried repeatedly to read the references and find it exciting now that I know a little more!
+Dramatic changes occurred in Python 3.9 silently
+and confusion between **new** and old grammatical expressions may make us feel difficulty.
+As a first step, I will try to resolve the confusion in this talk.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>About nikkie myself</h2>
+<ul class="simple">
+<li><p>loves Python (&amp; Anime, Japanese cartoons)</p></li>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>PyCon JP: 2019〜2020 staff &amp; 2021 chair</p></li>
+</ul>
+<aside class="notes">
+Let me talk about myself a little.
+I love Python and anime.
+About Python Conference Japan, I was contributing as staff in 2019 and 2020.
+Last year I was chair on PyCon Japan 2021.</aside>
+</section>
+<section >
+<h2>About nikkie myself</h2>
+<ul class="simple">
+<li><p>Data scientist at <a class="reference external" href="https://www.uzabase.com/en/">Uzabase, Inc.</a> (NLP, Write Python)</p></li>
+<li><p>We're hiring!! (Engineers, Data scientists, Researchers)</p></li>
+</ul>
+<aside class="notes">
+I'm working at Uzabase as a Data scientist. Do NLP with Python
+We're hiring!!</aside>
+<img alt="https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL" src="https://drive.google.com/uc?id=19PMMnkqDiFMCJBPwoA1B51ltQBG0y4kL" />
+</section>
+<section >
+<h3>Also talks 讓我聽見愛的歌聲 x 🐍</h3>
+<aside class="notes">
+I also talks implement SHion with Python on this PyCon APAC!</aside>
+<aside class="notes">
+TOOD スライド埋め込む</aside>
+<aside class="notes">
+ここまでで2分</aside>
+</section>
+</section>
+<section >
+<h2>Statements in programming</h2>
+<ol class="arabic simple">
+<li><p><strong>High</strong> level / <strong>Low</strong> level</p></li>
+<li><p>Short introduction about <strong>compile</strong></p></li>
+</ol>
+<aside class="notes">
+First of all, as an introduction, I will talk two points about statements in programming.</aside>
+</section>
+<section>
+<section >
+<h2>1 <strong>High</strong> level / <strong>Low</strong> level</h2>
+<aside class="notes">
+First, about High level and Low level.</aside>
+</section>
+<section >
+<h3>High-level programming language / Machine language</h3>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>High level</p></td>
+<td><p>Low level</p></td>
+</tr>
+<tr class="row-even"><td><p>High-level programming language (e.g. Python)</p></td>
+<td><p>Machine language</p></td>
+</tr>
+<tr class="row-odd"><td><p>Humans 👩‍💻👨‍💻 read and write</p></td>
+<td><p>Machines 🤖 read and write</p></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+This slide shows the contrast.
+Humans read and write high-level languages, such as Python and other programming languages,
+while machines read and write machine languages.</aside>
+</section>
+<section >
+<h3>E.g. Program written in high-level language 👩‍💻👨‍💻（<code class="file docutils literal notranslate"><span class="pre">mario.py</span></code>）</h3>
+<pre data-id="e-g-program-written-in-high-level-language-mario-py"><code data-trim data-noescape class="python">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+As an example, I wrote a simple if statement program.
+It branches when the input name is Mario and when it is not.</aside>
+</section>
+<section >
+<h3>Execute <code class="file docutils literal notranslate"><span class="pre">mario.py</span></code> 🤖</h3>
+<pre data-id="execute-mario-py"><code data-trim data-noescape class="shell">$ python mario.py
+Input your name: nikkie
+It's not Mario.
+
+$ python mario.py
+Input your name: mario
+It's me, Mario!</code></pre>
+<aside class="notes">
+In executing the script, nikkie does not match Mario, so it says &quot;It's not Mario&quot;.
+If you type mario, it says &quot;It's me, Mario!</aside>
+</section>
+<section >
+<h3>For humans to write in high-level languages</h3>
+<ul class="simple">
+<li><p>Humans 👩‍💻👨‍💻 read and write high-level language</p></li>
+<li><p>Machines 🤖 read and write machine language</p></li>
+</ul>
+<ul class="simple">
+<li class="fragment"><p>Machines 🤖 <strong>converts</strong> program in high-level language into machine language</p></li>
+</ul>
+<aside class="notes">
+For humans to write programs in high-level languages [PRESS SPACE]
+Machines converts program written in high-level language into machine language</aside>
+</section>
+<section >
+<h3>For humans to write in high-level languages</h3>
+<ul class="simple">
+<li><p>Machines 🤖 <strong>read high-level languages</strong> (not only machine language)</p></li>
+</ul>
+<ul class="simple">
+<li class="fragment"><p>Machines 🤖 <strong>recognize the structure</strong> of programs written in high-level languages</p></li>
+</ul>
+<aside class="notes">
+Machines 🤖 read not only machine language but also high-level languages. [PRESS SPACE]
+Machines recognize the structure of programs written in high-level languages.</aside>
+</section>
+<section >
+<h3>Statement allows machines 🤖 to understand the structure of the program</h3>
+<aside class="notes">
+statement allows machines to understand the structure of the program.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>2 Short introduction about <strong>compile</strong></h2>
+<p>ref: &quot;<a class="reference external" href="https://mitpress.mit.edu/books/elements-computing-systems">The Elements of Computing Systems</a>&quot;</p>
+<aside class="notes">
+Second, let's think about compilation.
+I referred to the book &quot;The Elements of Computing Systems&quot;.</aside>
+</section>
+<section >
+<h3>Example of compilation</h3>
+<ul class="simple">
+<li><p>Source code (written in Python)</p></li>
+<li><p>Bytecode (ref: <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytecode">Glossary</a>)</p>
+<ul>
+<li><p>internal representation in the interpreter</p></li>
+<li><p>cached in .pyc files</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+I will show you an example of compilation.
+Source codes written in Python are converted into bytecode.
+bytecode is the internal representation in the interpreter and cached in .pyc files.</aside>
+</section>
+<section >
+<h3>Compile the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement program</h3>
+<pre data-id="compile-the-if-statement-program"><code data-trim data-noescape class="python">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+See the compilation in the if statement example.
+This is a source code.</aside>
+</section>
+<section >
+<h3>2 steps from compile</h3>
+<ol class="arabic simple">
+<li><p>Lexical analysis</p></li>
+<li><p>Abstract Syntax Trees</p></li>
+</ol>
+<aside class="notes">
+Compilation consists of a number of steps, but I will pick up only two.
+One is lexical analysis and the other is abstract syntax tree.</aside>
+</section>
+<section >
+<h3>2-1. Lexical analysis</h3>
+<ul class="simple">
+<li><p>Source code is string.</p></li>
+<li><p>Parse into <strong>tokens</strong>, the smallest unit of meaning.</p></li>
+</ul>
+<aside class="notes">
+Source code is string.
+In Lexical analysis, machines parse source code into tokens.
+Token is the smallest unit of meaning.</aside>
+</section>
+<section >
+<h3>e.g. Lexical analysis (<strong class="command">python -m tokenize -e mario.py</strong>)</h3>
+<pre data-id="e-g-lexical-analysis-python-m-tokenize-e-mario-py"><code data-trim data-noescape class="txt">2,0-2,2:            NAME           'if'           
+2,3-2,7:            NAME           'name'         
+2,7-2,8:            DOT            '.'            
+2,8-2,13:           NAME           'lower'        
+2,13-2,14:          LPAR           '('            
+2,14-2,15:          RPAR           ')'            
+2,16-2,18:          EQEQUAL        '=='           
+2,19-2,26:          STRING         '&quot;mario&quot;'      
+2,26-2,27:          COLON          ':'            
+2,27-2,28:          NEWLINE        '\n'           
+</code></pre>
+<aside class="notes">
+For lexical analysis, you can use the standard Python library 'tokenize'.
+Here is the result of tokenizing the if statement.</aside>
+</section>
+<section >
+<h3>2-2. Abstract Syntax Trees</h3>
+<ul class="simple">
+<li><p>AST</p></li>
+<li><p>Machines handle the structure of a program as a <strong>tree</strong>.</p></li>
+<li><p>Output an abstract syntax tree from a sequence of tokens.</p></li>
+</ul>
+<aside class="notes">
+Next, let's look at Abstract Syntax Trees, also called AST.
+Machines handle the structure of a program by representing it as a **tree**.
+Machine outputs an abstract syntax tree from a sequence of tokens</aside>
+</section>
+<section >
+<h3>e.g. AST (<strong class="command">python -m ast -m exec mario.py</strong>)</h3>
+<pre data-id="e-g-ast-python-m-ast-m-exec-mario-py"><code data-trim data-noescape class="txt">      If(
+         test=Compare(
+            left=Call(
+               func=Attribute(
+                  value=Name(id='name', ctx=Load()),
+                  attr='lower',
+                  ctx=Load()),
+               args=[],
+               keywords=[]),
+            ops=[
+               Eq()],
+            comparators=[
+               Constant(value='mario')]),
+         body=[
+            Expr(
+</code></pre>
+<aside class="notes">
+An abstract syntax tree can be created by using the module ast from the standard library.</aside>
+</section>
+<section >
+<h3>Two kinds of syntax</h3>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Abstract syntax</p></td>
+<td><p>Concrete syntax</p></td>
+</tr>
+<tr class="row-even"><td><p>interpreted by the interpreter</p></td>
+<td><p>appearance of programming language (e.g. how to write compound statements)</p></td>
+</tr>
+</tbody>
+</table>
+<aside class="notes">
+Syntax includes abstract syntax as well as concrete syntax.
+Abstract syntax is interpreted by the interpreter.
+Concrete syntax represents the appearance of a programming language.
+Concrete syntax determines, for example, how if statement would be written</aside>
+</section>
+<section >
+<h3>Subject is <strong>concrete syntax</strong></h3>
+<ul class="simple">
+<li><p>Deep dive into the current appearance of compound statements (Python 3.10.5)</p></li>
+</ul>
+<ul class="simple">
+<li class="fragment"><p>Machine (<strong>parser</strong> 🤖) reads whether tokens match concrete syntax or not (Key🗝 is <em>recursion</em>)</p></li>
+</ul>
+<aside class="notes">
+It is concrete syntax that I will be talking this time.
+Let's dive deeply into the current appearance of compound statements in Python.
+Prior to making ASTs, the machine, called parser reads whether tokens match Python's concrete syntax or not.
+This talk will give you the viewpoint of parser</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Share the meaning of colons and indents</p></li>
+<li><p>Read and taste PEG together</p></li>
+</ul>
+<aside class="notes">
+In this talk, I will share the meaning of colons and indents
+and we will read PEG and taste it together!</aside>
+</section>
+<section >
+<h2>Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Meaning of colons and indents: <strong>tell parser components of statement</strong></p></li>
+<li><p>Read and taste PEG together</p></li>
+</ul>
+<aside class="notes">
+Colons and indents tell parser components of statement</aside>
+</section>
+<section >
+<h2>Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Meaning of colons and indents: tell parser components of statement</p></li>
+<li><p>Read and taste PEG together： <strong>expressed concisely and without omissions</strong></p></li>
+</ul>
+<aside class="notes">
+After reading PEG together, you will maybe notice concise expression without omissions</aside>
+</section>
+<section >
+<h3>Menu: Revisit Python from statements and PEG</h3>
+<ol class="arabic simple">
+<li><p>Statements in Python</p></li>
+<li><p>Define statements with PEG</p></li>
+<li><p>Read PEG together</p></li>
+</ol>
+<aside class="notes">
+I will talk about this in three major parts（ここまでで5分。開始7分）</aside>
+</section>
+</section>
+<section >
+<h2>Part I. Statements in Python</h2>
+</section>
+<section>
+<section >
+<h2>Glossary &quot;statement&quot;</h2>
+<blockquote>
+<div><p>A statement is part of a suite (a “block” of code).</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-statement">https://docs.python.org/3/glossary.html#term-statement</a></p>
+<aside class="notes">
+One of my favorite Python documents is the glossary.
+I often look up in the glossary, and when I look up &quot;statement&quot;,
+it says a statement is part of a suite.
+A suite is a block of code.</aside>
+</section>
+<section >
+<h3>Focus on &quot;compound statements&quot;</h3>
+<blockquote>
+<div><p>Compound statements contain (groups of) other statements;</p>
+</div></blockquote>
+<p>The Python Language Reference <a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a></p>
+<aside class="notes">
+The reference includes simple statements and compound statements,
+but we will focus on compound statements this time.
+The reference says compound statements contain other statements.</aside>
+</section>
+<section >
+<h3>Example of compound statements: <code class="docutils literal notranslate"><span class="pre">if</span></code> statement</h3>
+<pre data-id="example-of-compound-statements-if-statement"><code data-trim data-noescape class="python">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+An example of a compound statement is this if statement we saw earlier.</aside>
+</section>
+<section >
+<h3>Compound statements are like <strong>control flows</strong></h3>
+<blockquote>
+<div><p>they[*compound statements] affect or control the execution of those other statements in some way (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">if</span></code> statement is a branch (execute / don't execute).</p>
+<aside class="notes">
+In addition to &quot;if&quot; there are other compound statements such as &quot;try&quot; and &quot;with,&quot;
+but the overview of a compound statement is a control flow.
+It controls &quot;the execution of other statements contained in it.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Elements of compound statement</h2>
+<ul class="simple">
+<li><p>clause</p></li>
+<li><p>header</p></li>
+<li><p>suite</p></li>
+</ul>
+<aside class="notes">
+There are three elements that make up a compound statement: clause, header and suite</aside>
+</section>
+<section >
+<h3>Clause</h3>
+<blockquote>
+<div><p>A compound statement consists of one or more ‘clauses.’ (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<aside class="notes">
+What is a clause? The reference says that a compound statement consists of one or more clauses,</aside>
+</section>
+<section >
+<h3>e.g. Clauses in <code class="docutils literal notranslate"><span class="pre">if</span></code> statement 1/2</h3>
+<pre data-id="e-g-clauses-in-if-statement-1-2"><code data-trim data-noescape class="python" data-line-numbers="2,3">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+Here is an example consisting of two clauses.
+The first clause is the line 2, if, followed by the line 3</aside>
+</section>
+<section >
+<h3>e.g. Clauses in <code class="docutils literal notranslate"><span class="pre">if</span></code> statement 2/2</h3>
+<pre data-id="e-g-clauses-in-if-statement-2-2"><code data-trim data-noescape class="python" data-line-numbers="4,5">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+and the second clause is the line 4, else, followed by the line 5</aside>
+</section>
+<section >
+<h3>Elements of clause</h3>
+<blockquote>
+<div><p>A clause consists of a header and a ‘suite.’ (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<aside class="notes">
+There are two components of a clause: a header and a suite.</aside>
+</section>
+<section >
+<h3>Header</h3>
+<blockquote>
+<div><p>Each clause header begins with a uniquely identifying keyword and ends with a colon. (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<aside class="notes">
+Headers begin with a uniquely identifying keyword and end with a colon.</aside>
+</section>
+<section >
+<h3>Keyword</h3>
+<ul class="simple">
+<li><p>Specific tokens</p></li>
+<li><p>e.g.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">for</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span></code></p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+What is a keyword?　Keywords are specific tokens.
+Besides those listed here, There are other classes, etc.</aside>
+</section>
+<section >
+<h3>Header begins with a keyword and ends with a colon</h3>
+<pre data-id="header-begins-with-a-keyword-and-ends-with-a-colon"><code data-trim data-noescape class="python" data-line-numbers="2,4">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+Header begins with a keyword and ends with a colon.
+For example, if we look at line 2, it starts with the keyword 'if' and ends with a colon, so it is a header.
+Line 4 is also a header because it begins with the keyword 'else' and ends with a colon.</aside>
+</section>
+<section >
+<h3>Suite</h3>
+<blockquote>
+<div><p>A suite can be [...], or it can be one or more indented statements on subsequent lines. (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<aside class="notes">
+So what is the suite?
+Suite is one or more indented statements following the header.</aside>
+</section>
+<section >
+<h3>Suite is one or more indented statements</h3>
+<pre data-id="suite-is-one-or-more-indented-statements"><code data-trim data-noescape class="python" data-line-numbers="3,5">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+This is an example of a suite.
+The explanation in the reference didn't make sense to me,
+but if you look at this, lines 3 and 5 are indented, so they're suites!</aside>
+</section>
+<section >
+<h3>e.g. Suite as two indented statements</h3>
+<pre data-id="e-g-suite-as-two-indented-statements"><code data-trim data-noescape class="python" data-line-numbers="3,4">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me.&quot;)
+    print(&quot;Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)</code></pre>
+<aside class="notes">
+A suite is a collection of statements, so it can contain multiple statements.</aside>
+</section>
+<section >
+<h3>Suite</h3>
+<blockquote>
+<div><p>Only the latter form[*prior quoted] of a suite can contain nested compound statements; (<a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a>)</p>
+</div></blockquote>
+<p>Compound statements are defined <strong>recursively</strong>!</p>
+<aside class="notes">
+Also, suites can nest compound statements.
+You can put other compound statements inside a suite of compound statement.</aside>
+</section>
+<section >
+<h3>e.g. Suite nests other compound statement</h3>
+<pre data-id="e-g-suite-nests-other-compound-statement"><code data-trim data-noescape class="python" data-line-numbers="3,4">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    for _ in range(3):
+        print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)</code></pre>
+<aside class="notes">
+I wrote a for statement in a suite of if statements.
+I think you can already see that there is a header and a suite for that 'for' statement as well.</aside>
+</section>
+</section>
+<section >
+<h2>Short summary🥟: Statements in Python</h2>
+<ul class="simple">
+<li><p>Compound statements consist of <strong>clauses</strong> (headers and suites)</p></li>
+<li><p>Colons indicate headers!</p></li>
+<li><p>Indents indicate suites!</p></li>
+</ul>
+<aside class="notes">
+Short summary is here.
+A compound statement consists of clauses, or headers and suites.
+When you forget colon or indent, you see syntax errors,
+but colons correspond to headers and indents corresponds to suites.
+I was impressed that explanations of the reference matches the Python I usually write.</aside>
+<aside class="notes">
+ここまでで約4分</aside>
+</section>
+<section>
+<section >
+<h2>Supplementation💊 about statements: Glossary continues</h2>
+<blockquote>
+<div><p>A statement is either an expression or one of several constructs with a keyword, such as if, while or for.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-statement">https://docs.python.org/3/glossary.html#term-statement</a></p>
+<aside class="notes">
+To add a little more about the statement, the glossary continues that
+A statement is either an expression or one of several constructs with a keyword</aside>
+</section>
+<section >
+<h3>A statement is either</h3>
+<ol class="arabic simple">
+<li><p>an expression</p></li>
+<li><p>one of several constructs with a keyword</p></li>
+</ol>
+<aside class="notes">
+That is, sometimes a statement is an expression, and sometimes it consists of constructs with a keyword</aside>
+</section>
+</section>
+<section >
+<h2>Supplementation💊: Keywords are reserved (2)</h2>
+<pre data-id="supplementation-keywords-are-reserved-2"><code data-trim data-noescape class="python">&gt;&gt;&gt; if = 1231  # Cannot use as variable
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    if = 1231
+       ^
+SyntaxError: invalid syntax</code></pre>
+<aside class="notes">
+Keywords are reserved words. For example, they cannot be used as variables.</aside>
+</section>
+<section>
+<section >
+<h2>Another element of statement: Expression (1)</h2>
+<blockquote>
+<div><p>A piece of syntax which can be evaluated to some value.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-expression">Glossary 'expression'</a></p>
+<aside class="notes">
+Here is another topic.
+The glossary says &quot;a statement is an expression.&quot; What is an expression?
+An expression is &quot;A piece of syntax which can be evaluated to some value.</aside>
+</section>
+<section >
+<h3>Glossary continues</h3>
+<blockquote>
+<div><p>In other words, an expression is an accumulation of expression elements [...] which all return a value.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-expression">Glossary 'expression'</a></p>
+<p>Expressions are defined <strong>recursively</strong> too!</p>
+<aside class="notes">
+If we look at glossary a little further, an expression is an accumulation of expression elements which return a value.
+The expression is defined with expression itself, recursively!</aside>
+</section>
+<section >
+<h3>Elements of expression</h3>
+<ul class="simple">
+<li><p><em>Literals</em> (<a class="reference external" href="https://docs.python.org/3/reference/expressions.html">6. Expressions</a> 6.2.2)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">108</span></code> is literal (<code class="docutils literal notranslate"><span class="pre">int</span></code>) 👉 <code class="docutils literal notranslate"><span class="pre">108</span></code> is expression</p></li>
+</ul>
+<aside class="notes">
+Here are some examples of an accumulation of expression elements.
+A literal is an expression.
+In this example, the integer is a literal that is itself an expression.</aside>
+</section>
+<section >
+<h3>Elements of expression, next</h3>
+<ul class="simple">
+<li><p><em>Operators</em> (<a class="reference external" href="https://docs.python.org/3/reference/expressions.html">6. Expressions</a> 6.7)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">33</span> <span class="pre">-</span> <span class="pre">4</span></code> is expression (literal, operator, literal)</p></li>
+<li><p>Really accumulation of expression elements (recursive)</p></li>
+</ul>
+<aside class="notes">
+Another example of an element of an expression is the operator.
+33(thirty three) minus  4 is an expression using operators.</aside>
+</section>
+<section >
+<h3>Elements of expression, just one more</h3>
+<ul class="simple">
+<li><p><em>Calls</em> (<a class="reference external" href="https://docs.python.org/3/reference/expressions.html">6. Expressions</a> 6.3.4)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">print(&quot;你好&quot;)</span></code></p></li>
+</ul>
+<aside class="notes">
+There is more, but I will introduce just one more:
+a function call is also an element of an expression.
+Here's expression that uses a string literal to call the print function.</aside>
+</section>
+<section >
+<h3>Expression itself is statement</h3>
+<p>The function call in the following example is also a <em>statement</em> (written as a suite)</p>
+<pre data-id="expression-itself-is-statement"><code data-trim data-noescape class="python" data-line-numbers="3,5">name = input(&quot;Input your name: &quot;)
+if name.lower() == &quot;mario&quot;:
+    print(&quot;It's me, Mario!&quot;)
+else:
+    print(&quot;It's not Mario.&quot;)
+</code></pre>
+<aside class="notes">
+This is the example we've been looking at all along.
+Note that an expression itself is a statement.
+Line 3 and 5 are expressions because they are function calls.
+And the expression is a statement, so each statement is a suite!</aside>
+<aside class="notes">
+補足で2分半（Part Iは6分半）</aside>
+</section>
+<section >
+<h3>Menu: Revisit Python from statements and PEG</h3>
+<ol class="arabic simple">
+<li><p>✅ Statements in Python</p></li>
+<li><p>Define statements with PEG</p></li>
+<li><p>Read PEG together</p></li>
+</ol>
+<aside class="notes">
+ここまでで7分（開始14分）</aside>
+</section>
+</section>
+<section >
+<h2>Part II. Define statements with PEG</h2>
+</section>
+<section>
+<section >
+<h2>Parsing Expression Grammar</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.python.org/dev/peps/pep-0617/">PEP 617 -- New PEG parser for CPython</a></p></li>
+<li><p>Actually, parser was replaced by a PEG-based one.</p></li>
+</ul>
+<aside class="notes">
+PEG stands for Parsing Expression Grammar.
+PEP 617 introduced a new PEG parser for CPython.
+Since Python 3.9, the parser has actually been quietly replaced by a PEG-based one.</aside>
+</section>
+<section >
+<h3>Grammar from rules</h3>
+<ul class="simple">
+<li><p>Grammar consists of a sequence of rules of the form (PEP 617)</p></li>
+<li><p>Definitions of the rules in PEG are:</p></li>
+</ul>
+<pre data-id="grammar-from-rules"><code data-trim data-noescape class="peg">rule_name: expression</code></pre>
+<aside class="notes">
+In both PEG and pre-PEG, a sequence of rules of the form are defined as a grammar.
+In the definition of a rule in PEG, the rule_name comes first, followed by a colon and then an expression.
+We will see how expression is written later.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>How to read PEG</h2>
+<p>You can find on <a class="reference external" href="https://peps.python.org/pep-0617/#grammar-expressions">PEP 617 'Grammar Expressions'</a>.</p>
+<aside class="notes">
+To be able to read definitions of rules, let's look at how to read the expression.
+You can find it on PEP 617.</aside>
+</section>
+<section >
+<h3>Symbols used in PEG 1/2</h3>
+<ul class="simple">
+<li><p>literals</p></li>
+<li><p>whitespace</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[]</span></code> OR <code class="docutils literal notranslate"><span class="pre">?</span></code></p></li>
+</ul>
+<aside class="notes">
+You will see a lot of symbols. This is the first half.
+I will introduce them in order.</aside>
+</section>
+<section >
+<h3>literals</h3>
+<ul class="simple">
+<li><p>Written in <strong>single quotes</strong></p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">'else'</span></code> (keyword)</p></li>
+</ul>
+<aside class="notes">
+Literals are written in single quotes.
+Here is an example of the keyword else</aside>
+<aside class="notes">
+✍️ ソフトキーワードがダブルクォートで囲まれているように見える</aside>
+</section>
+<section >
+<h3>whitespace</h3>
+<ul class="simple">
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">e1</span> <span class="pre">e2</span></code></p></li>
+<li><p>Match <code class="docutils literal notranslate"><span class="pre">e1</span></code>, then match <code class="docutils literal notranslate"><span class="pre">e2</span></code>.</p></li>
+<li><p>(If it doesn't match <code class="docutils literal notranslate"><span class="pre">e1</span></code> first, it won't match <code class="docutils literal notranslate"><span class="pre">e1</span> <span class="pre">e2</span></code>)</p></li>
+</ul>
+<aside class="notes">
+Next, whitespace!
+`e1 space e2` means that match ``e1``, then match ``e2``.
+So if the expression doesn't match ``e1`` first, it won't match ``e1 e2``.</aside>
+</section>
+<section >
+<h3>literals &amp; whitespace</h3>
+<pre data-id="literals-whitespace"><code data-trim data-noescape class="peg">else_block: 'else' ':' block</code></pre>
+<ul class="simple">
+<li><p>First, match literal <code class="docutils literal notranslate"><span class="pre">'else'</span></code></p></li>
+<li><p>Next, match literal <code class="docutils literal notranslate"><span class="pre">':'</span></code></p></li>
+<li><p>Then, match the rule <code class="docutils literal notranslate"><span class="pre">block</span></code></p></li>
+</ul>
+<aside class="notes">
+As an example of combining literals and whitespace, read the rule else_block.
+First, it matches the literal ``'else'``.
+Next it matches the literal ``':'``.
+Then it matches the rule ``block``, which is the rule ``else_block``.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">|</span></code></h3>
+<ul class="simple">
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">e1</span> <span class="pre">|</span> <span class="pre">e2</span></code></p></li>
+<li><p>Match <code class="docutils literal notranslate"><span class="pre">e1</span></code> <em>or</em> <code class="docutils literal notranslate"><span class="pre">e2</span></code></p></li>
+<li><p>Note: <strong>ordered</strong> choice (left comes first. characteristic of PEG)</p></li>
+</ul>
+<aside class="notes">
+Next, pipe.
+ei pipe e2 matches e1 or e2
+but as a feature of PEG this is an ordered choice, left comes first.</aside>
+</section>
+<section >
+<h3>How to read <code class="docutils literal notranslate"><span class="pre">|</span></code></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rule_name:</span> <span class="pre">first_rule</span> <span class="pre">second_rule</span></code> is <strong>equivalent</strong> of:</p></li>
+</ul>
+<pre data-id="how-to-read"><code data-trim data-noescape class="peg">rule_name:
+    | first_rule
+    | second_rule</code></pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code> before <code class="docutils literal notranslate"><span class="pre">first_rule</span></code> is for formatting purposes.</p></li>
+</ul>
+<aside class="notes">
+Rules using pipe may be written side by side,
+but you may insert newlines for each expression.
+To do so, put pipe before the first expression.
+There is no semantic difference. It is simply for formatting purposes.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">()</span></code></h3>
+<ul class="simple">
+<li><p>Group (with <em>repetition</em> later)</p></li>
+<li><p>e.g. 1 <code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">e</span> <span class="pre">)</span></code>: Match <code class="docutils literal notranslate"><span class="pre">e</span></code></p></li>
+<li><p>e.g. 2 <code class="docutils literal notranslate"><span class="pre">(</span> <span class="pre">e1</span> <span class="pre">e2</span> <span class="pre">)</span></code>: Match <code class="docutils literal notranslate"><span class="pre">e1</span> <span class="pre">e2</span></code></p></li>
+</ul>
+<aside class="notes">
+Next, parenthesis. This means a group.
+If there is an e in parenthesis, it matches e,
+and e1 e2 in the parenthesis matches e1 e2.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">[]</span></code> OR <code class="docutils literal notranslate"><span class="pre">?</span></code></h3>
+<ul class="simple">
+<li><p>Match <strong>optionally</strong></p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">[e]</span></code> (equivalent of <code class="docutils literal notranslate"><span class="pre">e?</span></code>)</p>
+<ul>
+<li><p>May or may not match <code class="docutils literal notranslate"><span class="pre">e</span></code> (optionally)</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+The next two have the same meaning, bracket and question.
+bracket e OR e question may or may not match ``e``.</aside>
+<aside class="notes">
+ここまでで3分（少し回る）</aside>
+</section>
+<section >
+<h3>Symbols used in PEG 2/2</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p>
+<ul>
+<li><p>join (<code class="docutils literal notranslate"><span class="pre">s.e+</span></code>)</p></li>
+</ul>
+</li>
+<li><p>lookahead</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~</span></code></p></li>
+</ul>
+<aside class="notes">
+Now let's see the symbols in the second half.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">*</span></code></h3>
+<ul class="simple">
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">e*</span></code>: Match <strong>zero or more</strong> occurrences of <code class="docutils literal notranslate"><span class="pre">e</span></code> (i.e. zero or more repetitions)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">(e1</span> <span class="pre">e2)*</span></code>: Match zero or more repetitions of group <code class="docutils literal notranslate"><span class="pre">(e1</span> <span class="pre">e2)</span></code></p></li>
+</ul>
+<aside class="notes">
+Asterisk matches zero or more occurrences.
+e* matches zero or more occurrences of e,
+e1 e2 group and asterisk matches zero or more occurrences of e1 e2</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">+</span></code></h3>
+<ul class="simple">
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">e+</span></code>: Match <strong>one or more</strong> occurrences of <code class="docutils literal notranslate"><span class="pre">e</span></code> (i.e. one or more repetitions)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">(e1</span> <span class="pre">e2)+</span></code>: Match one or more repetitions of group <code class="docutils literal notranslate"><span class="pre">(e1</span> <span class="pre">e2)</span></code></p></li>
+</ul>
+<aside class="notes">
+plus matches one or more occurrences.
+asterisk is zero or more and plus is one or more.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">s.e+</span></code></h3>
+<ul class="simple">
+<li><p>Match one or more occurrences of <code class="docutils literal notranslate"><span class="pre">e</span></code>, <strong>separated</strong> by <code class="docutils literal notranslate"><span class="pre">s</span></code> (equivalent of <code class="docutils literal notranslate"><span class="pre">(e</span> <span class="pre">(s</span> <span class="pre">e)*)</span></code>)</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">','.e+</span></code></p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><p>one or more occurrences of <code class="docutils literal notranslate"><span class="pre">e</span></code>, separated by comma: <code class="docutils literal notranslate"><span class="pre">e</span></code> / <code class="docutils literal notranslate"><span class="pre">e,e</span></code> / <code class="docutils literal notranslate"><span class="pre">e,e,e</span></code> / and so on</p></li>
+</ul>
+</div></blockquote>
+<aside class="notes">
+As an extension of plus, s.e+ matches one or more occurrences of e, separated by s.
+This is similar to Python's string's join method.
+comma period e plus matches one or more occurrences of ``e``, separated by comma</aside>
+</section>
+<section >
+<h3>lookahead</h3>
+<ul class="simple">
+<li><p>rule: <code class="docutils literal notranslate"><span class="pre">'a'</span> <span class="pre">'b'</span></code> matches tokens 'a' 'b' ...</p></li>
+<li><p>lookahead: <strong>without consuming</strong> any tokens</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'a'</span> <span class="pre">'b'</span></code> (<em>b is lookahead</em>) matches 'a' 'b' ... and <strong>next token is b</strong></p></li>
+</ul>
+<aside class="notes">
+Then I introduce &quot;lookahead.&quot;
+Up to this point, like this rule a and b, we have been consuming tokens to see if they match.
+lookahead sees if token matches without consuming it.
+The rule a then lookahead of b matches the sequence a b and next token is b.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">&amp;</span></code></h3>
+<ul class="simple">
+<li><p>Positive lookahead: <strong>Succeed</strong> if matched</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">&amp;e</span></code>: <code class="docutils literal notranslate"><span class="pre">e</span></code> is required to match, but not <strong>consumed</strong> by match</p></li>
+<li><p>(Prior example is the one of positive lookahead)</p></li>
+</ul>
+<aside class="notes">
+and is positive lookahead.
+and e succeeds if it matches e.
+e`` is required to match, but not **consumed** by match</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">!</span></code></h3>
+<ul class="simple">
+<li><p>Negative lookahead: <strong>Fail</strong> if matched</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">primary:</span> <span class="pre">atom</span> <span class="pre">!'.'</span> <span class="pre">!'('</span> <span class="pre">!'['</span></code></p>
+<ul>
+<li><p>Given <code class="docutils literal notranslate"><span class="pre">a</span></code> is <code class="docutils literal notranslate"><span class="pre">atom</span></code>, it matches if the expression is not <code class="docutils literal notranslate"><span class="pre">a.</span></code> or <code class="docutils literal notranslate"><span class="pre">a(</span></code> or <code class="docutils literal notranslate"><span class="pre">a[</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+exclamation is Negative lookahead.
+exclamation e fails if it matches e. We are expecting for no matches.
+As an example, let's look at the rule primary.
+Negative lookaheads are period parenthesis bracket.
+If ``a`` is ``atom`` and there are not ``a.`` or ``a(`` or ``a[``,
+then the tokens matches the primary rule.
+The following tokens are not consumed</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">~</span></code></h3>
+<ul class="simple">
+<li><p>Commit</p></li>
+<li><p>e.g. <code class="docutils literal notranslate"><span class="pre">rule_name:</span> <span class="pre">'('</span> <span class="pre">~</span> <span class="pre">some_rule</span> <span class="pre">')'</span> <span class="pre">|</span> <span class="pre">some_alt</span></code></p>
+<ul>
+<li><p>Match <code class="docutils literal notranslate"><span class="pre">'('</span></code>, but doesn't match <code class="docutils literal notranslate"><span class="pre">'('</span> <span class="pre">some_rule</span> <span class="pre">')'</span></code>, <code class="docutils literal notranslate"><span class="pre">some_alt</span></code> is not considered</p></li>
+<li><p>Commit will not consider <strong>others</strong> in an ordered selection.</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+Finally, tilde. This represents a commit.
+The rule_name has a commit in parenthesis.
+Suppose the sequence of tokens starts with parenthesis.
+We will see if it matches the expression in the some_rule one.
+Even if it does not match, another choice some_alt is not considered due to the tilde of the commit.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Understand how to read symbols🙌</h2>
+<ul class="simple">
+<li><p>literals</p></li>
+<li><p>whitespace</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[]</span></code> OR <code class="docutils literal notranslate"><span class="pre">?</span></code></p></li>
+</ul>
+<aside class="notes">
+So far, we've introduced (続く)</aside>
+</section>
+<section >
+<h2>Understand how to read symbols🙌</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p>
+<ul>
+<li><p>join (<code class="docutils literal notranslate"><span class="pre">s.e+</span></code>)</p></li>
+</ul>
+</li>
+<li><p>lookahead</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&amp;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">!</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~</span></code></p></li>
+</ul>
+<aside class="notes">
+many symbols.</aside>
+</section>
+<section >
+<h3>Broader world of PEG!</h3>
+<ul class="simple">
+<li><p>Handle <em>the return type</em> of rule.</p></li>
+<li><p><strong>Grammar actions</strong> (Secrets of Python 3.10 <a class="reference external" href="https://docs.python.org/ja/3/whatsnew/3.10.html#better-error-messages">Better error messages</a>)</p></li>
+<li><p>Check <a class="reference external" href="https://www.python.org/dev/peps/pep-0617/">PEP 617</a>!</p></li>
+</ul>
+<aside class="notes">
+This is only a small part of PEG.
+PEG can handle the return type of rule.
+And Grammar action is amazing.
+The syntax error message has been improved since Python 3.10, you know?
+The secret is in the Grammar action.
+If you are interested, please take a look at PEP 617.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Short summary🥟: Define statements with PEG</h2>
+<ul class="simple">
+<li><p>Introduce how to read of each symbol in PEG (i.e. meaning).</p></li>
+<li><p>Ready to read <strong>the definitions of compound statements</strong> of Python.</p></li>
+</ul>
+<aside class="notes">
+These are the parts that define the statements.
+I have introduced how to read, or meaning, of each symbol in the PEG.
+Now you are ready to read the definitions of compound statements!</aside>
+</section>
+<section >
+<h3>Menu: Revisit Python from statements and PEG</h3>
+<ol class="arabic simple">
+<li><p>✅ Statements in Python</p></li>
+<li><p>✅ Define statements with PEG</p></li>
+<li><p>Read PEG together</p></li>
+</ol>
+<aside class="notes">
+Read the definitions of compound statements together in the next part!</aside>
+<aside class="notes">
+ここまでで6分（開始20分）</aside>
+</section>
+</section>
+<section >
+<h2>Part III. Read PEG together</h2>
+</section>
+<section>
+<section >
+<h2>Read syntax definitions</h2>
+<ul class="simple">
+<li><p>Let's read definitions written in <strong>PEG</strong> on <a class="reference external" href="https://docs.python.org/3/reference/grammar.html">10. Full Grammar specification</a></p>
+<ul>
+<li><p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#compound-statements">8. Compound statements</a> (written in <em>BNF</em>) is not within the scope of this time.</p></li>
+</ul>
+</li>
+<li><p>Impressed with a <strong>simple</strong> view point &amp; <strong>concise</strong> explanation <strong>without omissions</strong></p></li>
+</ul>
+<aside class="notes">
+In this part we will read the concrete syntax definitions together.
+We read here the definitions written in PEG on the reference 10. Full Grammar specification.
+Definitions on 8. Compound statements are written in BNF, not PEG, so they are not within the scope of this time.
+When I read the definitions by PEG, I was impressed a simple view point represented by PEG and that definitions explain concisely without omission.</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="our-reading-list"><code data-trim data-noescape class="peg">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<p>References include other statements.</p>
+<aside class="notes">
+These are the five we will read together.
+References include other statements, with, try, etc. Please read them later if you are interested.</aside>
+</section>
+<section >
+<h3>Assumptions of reading PEG</h3>
+<ul class="simple">
+<li><p>Program has been tokenized (lexical analysis)! We have a sequence of tokens.</p></li>
+<li><p>Parser checks that <strong>the sequence of tokens matches the rules</strong>.</p></li>
+<li><p>i.e. you won't see syntax errors if you write according to the definitions.</p></li>
+</ul>
+<aside class="notes">
+The assumption in reading PEG is that the program has been tokenized, so we have a sequence of tokens.
+The parser checks that the sequence of tokens matches the rules.
+We will now read the syntax definition from the parser's point of view.
+If you write according to the PEGs you read here, you won't see Syntax errors.</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="id12"><code data-trim data-noescape class="peg" data-line-numbers="3">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+First, if statement.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">if</span></code> statement</h2>
+<blockquote>
+<div><p>The if statement is used for conditional execution:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#the-if-statement">8.1. The if statement</a></p>
+<aside class="notes">
+The reference says that if statement is used for conditional execution,
+and that is how we use it.</aside>
+</section>
+<section >
+<h3>How would you explain the syntax of an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement (without PEG)?</h3>
+<p>Think about it for a minute.</p>
+<aside class="notes">
+Here's a question.
+How would you explain the syntax of an ``if`` statement (without PEG)?
+＜少し間＞
+After this, I will introduce what I would do and look at how it is actually defined in PEG.
+＜10秒程度＞
+Have you settled on an idea?</aside>
+</section>
+<section >
+<h3>nikkie's choice: Enumerate cases</h3>
+<ul class="simple">
+<li><p>else presence / absence</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+I would thoroughly enumerate cases.
+First of all, I divide the if only case and if else case
+by the presence or absence of else.</aside>
+</section>
+<section >
+<h3>Hard to check for omissions in enumeration😫</h3>
+<ul class="simple">
+<li><p>Number of elif (0 / 1 / multiple)</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+Next, I will divide the cases by elif, but it was hard to cover all the cases so that there are no omissions.
+If there are zero ELIFs, we have already seen them.
+I enumarate one elif case, two or more elifs case, one elif and an else case, and two or more elifs and an else case.</aside>
+</section>
+<section >
+<h3>Syntax of <code class="docutils literal notranslate"><span class="pre">if</span></code> statement by PEG</h3>
+<pre data-id="syntax-of-if-statement-by-peg"><code data-trim data-noescape class="peg">if_stmt:
+    | 'if' named_expression ':' block elif_stmt
+    | 'if' named_expression ':' block [else_block]
+elif_stmt:
+    | 'elif' named_expression ':' block elif_stmt
+    | 'elif' named_expression ':' block [else_block]
+else_block:
+    | 'else' ':' block
+</code></pre>
+<aside class="notes">
+This is how it is described in the PEG.
+Let's read through this together.
+You will see the block several times.</aside>
+</section>
+<section >
+<h3>What is <code class="docutils literal notranslate"><span class="pre">block</span></code>?</h3>
+<pre data-id="what-is-block"><code data-trim data-noescape class="peg">block:
+    | NEWLINE INDENT statements DEDENT
+    | simple_stmts</code></pre>
+<aside class="notes">
+What is block in a nutshell?</aside>
+</section>
+<section >
+<h3>Elements of <code class="docutils literal notranslate"><span class="pre">block</span></code></h3>
+<pre data-id="elements-of-block"><code data-trim data-noescape class="peg">statements: statement+
+statement: compound_stmt  | simple_stmts
+# In brief, simple_stmts are multiple simple_stmt</code></pre>
+<aside class="notes">
+A block consists of statements, or one or more statements.
+A statement consist of a compound statement or multiple simple statements</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">block</span></code> (equivalent of suite)</h3>
+<pre data-id="block-equivalent-of-suite"><code data-trim data-noescape class="peg"># indented multiple (simple or compound) statements with newline and dedent,
+# OR multiple simple statements without newline
+block:
+    | NEWLINE INDENT statements DEDENT
+    | simple_stmts</code></pre>
+<aside class="notes">
+So a block can be multiple statements with line breaks and indentation,
+or it can be multiple simple statements that continue without line breaks.</aside>
+<aside class="notes">
+TODO block == suite 触れたい</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">if</span></code> statement 1/2</h3>
+<pre data-id="taste-if-statement-1-2"><code data-trim data-noescape class="peg">if_stmt:
+    | 'if' named_expression ':' block elif_stmt
+    | 'if' named_expression ':' block [else_block]
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: Clause with a header starting with the keyword <code class="docutils literal notranslate"><span class="pre">if</span></code> and following block</p></li>
+<li><p>View point: <strong>presence or absence of elif</strong> after the <code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+</ul>
+<aside class="notes">
+First, looking at if_stmt, a clause consisting of a header starting with the keyword if and the following block is required
+It takes care with presence or absence of elif after the ``if``</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">if</span></code> statement 2/2</h3>
+<pre data-id="taste-if-statement-2-2"><code data-trim data-noescape class="peg">elif_stmt:
+    | 'elif' named_expression ':' block elif_stmt
+    | 'elif' named_expression ':' block [else_block]
+</code></pre>
+<ul class="simple">
+<li><p>View point: presence or absence of <code class="docutils literal notranslate"><span class="pre">elif</span></code> after the <code class="docutils literal notranslate"><span class="pre">elif</span></code></p></li>
+</ul>
+<aside class="notes">
+If you look at elif_stmt, it is defined as a header that starts with elif.
+I think the point is that ``elif`` may or may not be followed by more</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">if</span></code> statement expressed in PEG</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code> clause is required.</p></li>
+<li><p>View point of <strong>presence or absence of elif</strong>!</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span></code> clause is optional (<code class="docutils literal notranslate"><span class="pre">[]</span></code>).</p></li>
+<li><p>No omissions!</p></li>
+</ul>
+<aside class="notes">
+In summary, if is required.
+The elif is written down focusing on whether it is there or not, and
+else is optional.
+I was impressed by the simplicity and no omissions of this explanation,
+comparing it with my own explanation of enumeration.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>wandering: <code class="docutils literal notranslate"><span class="pre">named_expression</span></code></h2>
+<p><code class="docutils literal notranslate"><span class="pre">named_expression</span></code> appears in the header of <code class="docutils literal notranslate"><span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">elif</span></code> clauses.</p>
+<aside class="notes">
+I wander here to named_expression.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">named_expression</span></code></h3>
+<pre data-id="named-expression"><code data-trim data-noescape class="peg"># Assignment expression OR (non-assignment) expression
+named_expression:
+    | assignment_expression
+    | expression !':='
+
+assignment_expression:
+    | NAME ':=' ~ expression</code></pre>
+<aside class="notes">
+named_expression is defined as an assignment expression or a non-assignment expression.
+There is a negative anticipation..</aside>
+</section>
+<section >
+<h3>Read definition of <code class="docutils literal notranslate"><span class="pre">named_expression</span></code></h3>
+<ul class="simple">
+<li><p>Assignment expression <code class="docutils literal notranslate"><span class="pre">:=</span></code> was <strong>big change</strong>; It affected the syntax of the control flow.</p></li>
+<li><p>Note: appears in <code class="docutils literal notranslate"><span class="pre">while</span></code> statement (not only in <code class="docutils literal notranslate"><span class="pre">if</span></code> statement)</p></li>
+</ul>
+<aside class="notes">
+After reading the definition
+I realized that the assignment expression was such a big change that it affected the syntax of the control flow!
+Note that the rule named_expression also appears in the while statement</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="id13"><code data-trim data-noescape class="peg" data-line-numbers="5">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+ここで6分</aside>
+<aside class="notes">
+Next, while statement</aside>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">while</span></code> statement</h2>
+<blockquote>
+<div><p>The while statement is used for repeated execution as long as an expression is true:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#the-while-statement">8.2. The while statement</a></p>
+<aside class="notes">
+The while statement is used for repeated execution as long as an expression is true</aside>
+</section>
+<section >
+<h3>Syntax of <code class="docutils literal notranslate"><span class="pre">while</span></code> statement</h3>
+<pre data-id="syntax-of-while-statement"><code data-trim data-noescape class="peg">while_stmt:
+    | 'while' named_expression ':' block [else_block]
+</code></pre>
+<aside class="notes">
+The syntax of the while statement is defined by just these two lines</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">while</span></code> statement</h3>
+<pre data-id="taste-while-statement"><code data-trim data-noescape class="peg">while_stmt:
+    | 'while' named_expression ':' block [else_block]
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: Clause with a header starting with the keyword <code class="docutils literal notranslate"><span class="pre">while</span></code> and following block</p></li>
+<li><p>Optional <code class="docutils literal notranslate"><span class="pre">else_block</span></code></p></li>
+</ul>
+<aside class="notes">
+A clause consisting of a header starting with the keyword while and the following block is required.
+The else_block seen in if statement comes optionally.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">while</span></code> <code class="docutils literal notranslate"><span class="pre">else</span></code></h3>
+<blockquote>
+<div><p>if the expression is false (which may be the first time it is tested) the suite of the else clause, if present, is executed and the loop terminates.</p>
+<p>A break statement executed in the first suite terminates the loop without executing the else clause’s suite.</p>
+</div></blockquote>
+<aside class="notes">
+About while else,
+if the expression is false, the suite of the else clause is executed and the loop terminates.
+When a break statement executed, the else clause’s suite is not executed.
+This kind of syntax is defined in Python.</aside>
+</section>
+<section >
+<h3>🚨 Syntax supports, but do not use <code class="docutils literal notranslate"><span class="pre">else_block</span></code> in loop (recommend)</h3>
+<blockquote>
+<div><p>9 Avoid else Blocks After for and while Loops</p>
+</div></blockquote>
+<p><a class="reference external" href="https://effectivepython.com/">Effective Python Second Edition</a> （<em>Because they are easily misunderstood</em>）</p>
+<aside class="notes">
+I recommend not using it just because you know about it now.
+&quot;Effective Python&quot; says Avoid else Blocks After for and while Loops because they are easily misunderstood</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="id14"><code data-trim data-noescape class="peg" data-line-numbers="4">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+Next, for statement</aside>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">for</span></code> statement</h2>
+<blockquote>
+<div><p>The for statement is used to iterate over the elements of a sequence (such as a string, tuple or list) or other iterable object:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#the-for-statement">8.3. The for statement</a></p>
+<aside class="notes">
+The for statement is used to iterate over the elements of a sequence or other iterable object.</aside>
+</section>
+<section >
+<h3>Syntax of <code class="docutils literal notranslate"><span class="pre">for</span></code> statement</h3>
+<pre data-id="syntax-of-for-statement"><code data-trim data-noescape class="peg">for_stmt:
+    | 'for' star_targets 'in' ~ star_expressions ':' [TYPE_COMMENT] block [else_block]
+    | ASYNC 'for' star_targets 'in' ~ star_expressions ':' [TYPE_COMMENT] block [else_block]
+</code></pre>
+<aside class="notes">
+The syntax is defined this way.
+Scroll sideways to see it.</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">for</span></code> statement (out of scope: <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">for</span></code>)</h3>
+<pre data-id="taste-for-statement-out-of-scope-async-for"><code data-trim data-noescape class="peg">for_stmt:
+    | 'for' star_targets 'in' ~ star_expressions ':' [TYPE_COMMENT] block [else_block]
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: Clause with a header starting with the keyword <code class="docutils literal notranslate"><span class="pre">for</span></code> and containing <code class="docutils literal notranslate"><span class="pre">in</span></code>, and following block</p></li>
+<li><p>Optional: <code class="docutils literal notranslate"><span class="pre">TYPE_COMMENT</span></code> and <code class="docutils literal notranslate"><span class="pre">else_block</span></code></p></li>
+</ul>
+<aside class="notes">
+Let async for be out of scope today.
+A clause consisting of a header starting with the keyword for and containing in, and the following block is required
+TYPE_COMMENT and else_block are optional.</aside>
+</section>
+<section >
+<h3>type comment of <code class="docutils literal notranslate"><span class="pre">for</span></code> statement</h3>
+<pre data-id="type-comment-of-for-statement"><code data-trim data-noescape class="python">for x, y in points:  # type: float, float
+    # Here x and y are floats
+    ...</code></pre>
+<p><a class="reference external" href="https://peps.python.org/pep-0484/#type-comments">https://peps.python.org/pep-0484/#type-comments</a></p>
+<aside class="notes">
+What is a type comment?
+In fact, you can specify the type of a variable after the header of a for statement.</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">for</span></code> <code class="docutils literal notranslate"><span class="pre">else</span></code> (recommend not using)</h3>
+<blockquote>
+<div><p>When the items are exhausted ([...]), the suite in the else clause, if present, is executed, and the loop terminates.</p>
+<p>A break statement executed in the first suite terminates the loop without executing the else clause’s suite.</p>
+</div></blockquote>
+<aside class="notes">
+When the items are exhausted, the suite in the else clause is executed and the loop terminates.
+When a break statement executed, the else clause’s suite is not executed.
+I recommend not using else block in loop.</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="id15"><code data-trim data-noescape class="peg" data-line-numbers="2">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+Last two! Read function definition.</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Function definitions</h2>
+<blockquote>
+<div><p>A function definition defines a user-defined function object</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#function-definitions">8.7. Function definitions</a></p>
+<aside class="notes">
+A function definition defines a user-defined function object</aside>
+</section>
+<section >
+<h3>Syntax of function definitions (<code class="docutils literal notranslate"><span class="pre">def</span></code>)</h3>
+<pre data-id="syntax-of-function-definitions-def"><code data-trim data-noescape class="peg">function_def:
+    | decorators function_def_raw
+    | function_def_raw
+function_def_raw:
+    | 'def' NAME '(' [params] ')' ['-&gt;' expression ] ':' [func_type_comment] block
+    | ASYNC 'def' NAME '(' [params] ')' ['-&gt;' expression ] ':' [func_type_comment] block
+func_type_comment:
+    | NEWLINE TYPE_COMMENT &amp;(NEWLINE INDENT)
+    | TYPE_COMMENT
+</code></pre>
+<aside class="notes">
+It's a lot, but let's look at them in order</aside>
+</section>
+<section >
+<h3>Taste function definitions 1/2</h3>
+<pre data-id="taste-function-definitions-1-2"><code data-trim data-noescape class="peg">function_def:
+    | decorators function_def_raw
+    | function_def_raw
+</code></pre>
+<ul class="simple">
+<li><p>With one or more decorators OR without ones</p></li>
+</ul>
+<aside class="notes">
+The function_def shows whether one or more decorators are attached or not.</aside>
+</section>
+<section >
+<h3>Taste function definitions 2/2 (out of scope: <code class="docutils literal notranslate"><span class="pre">async</span> <span class="pre">def</span></code>)</h3>
+<pre data-id="taste-function-definitions-2-2-out-of-scope-async-def"><code data-trim data-noescape class="peg">function_def_raw:
+    | 'def' NAME '(' [params] ')' ['-&gt;' expression ] ':' [func_type_comment] block
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: Clause with a header starting with the keyword <code class="docutils literal notranslate"><span class="pre">def</span></code> and containing function <code class="docutils literal notranslate"><span class="pre">NAME</span></code> and <code class="docutils literal notranslate"><span class="pre">()</span></code>, and following block</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code> in <code class="docutils literal notranslate"><span class="pre">()</span></code> and type hint <code class="docutils literal notranslate"><span class="pre">'-&gt;'</span> <span class="pre">expression</span></code> are optional</p></li>
+</ul>
+<aside class="notes">
+We will leave ``async def`` out of scope and look at function_def_raw.
+A clause consisting of a header starting with the keyword def and containing function ``NAME`` and parenthesis, and the following block is required.
+parameters in parenthesis and return value's type hit are optional</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">func_type_comment</span></code> is also optional</h3>
+<pre data-id="func-type-comment-is-also-optional"><code data-trim data-noescape class="python">def embezzle(self, account, funds=1000000, *fake_receipts):
+    # type: (str, int, *str) -&gt; None
+    &quot;&quot;&quot;Embezzle funds from account using fake receipts.&quot;&quot;&quot;
+    &lt;code goes here&gt;</code></pre>
+<p><a class="reference external" href="https://peps.python.org/pep-0484/#suggested-syntax-for-python-2-7-and-straddling-code">Suggested syntax for Python 2.7 and straddling code (PEP 484)</a></p>
+<aside class="notes">
+The optional rule func_type_comment is for compatibility with Python 2.7,
+you can comment the parameters and return types immediately after the header line instead of type hints</aside>
+</section>
+<section >
+<h3>Our reading list!</h3>
+<pre data-id="id17"><code data-trim data-noescape class="peg" data-line-numbers="6">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+Finally, let's look at the match statement</aside>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">match</span></code> statement</h2>
+<blockquote>
+<div><p>The match statement is used for pattern matching.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#the-match-statement">8.6. The match statement</a></p>
+<aside class="notes">
+The match statement is used for pattern matching.</aside>
+</section>
+<section >
+<h3>Since Python 3.10 (2021/10 release)</h3>
+<pre data-id="since-python-3-10-2021-10-release"><code data-trim data-noescape class="python">match subject:
+    case &lt;pattern_1&gt;:
+        &lt;action_1&gt;
+    case &lt;pattern_2&gt;:
+        &lt;action_2&gt;
+    case &lt;pattern_3&gt;:
+        &lt;action_3&gt;
+    case _:
+        &lt;action_wildcard&gt;</code></pre>
+<p>ref: <a class="reference external" href="https://docs.python.org/ja/3/whatsnew/3.10.html#pep-634-structural-pattern-matching">What's New In Python 3.10</a></p>
+<aside class="notes">
+I brought this from What's New In Python 3.10.
+The soft keywords match and case have been introduced, which enables us to write pattern matching!</aside>
+</section>
+<section >
+<h3>Example of <code class="docutils literal notranslate"><span class="pre">match</span></code> statement</h3>
+<pre data-id="example-of-match-statement"><code data-trim data-noescape class="python" data-line-numbers>def fizzbuzz(number):
+    match number % 3, number % 5:
+        case 0, 0: return &quot;FizzBuzz&quot;
+        case 0, _: return &quot;Fizz&quot;
+        case _, 0: return &quot;Buzz&quot;
+        case _, _: return str(number)</code></pre>
+<aside class="notes">
+For example, we can write FizzBuzz quite clearly using the match statement.</aside>
+</section>
+<section >
+<h3>Syntax of <code class="docutils literal notranslate"><span class="pre">match</span></code> statement</h3>
+<pre data-id="syntax-of-match-statement"><code data-trim data-noescape class="peg">match_stmt:
+    | &quot;match&quot; subject_expr ':' NEWLINE INDENT case_block+ DEDENT
+subject_expr:
+    | star_named_expression ',' star_named_expressions?
+    | named_expression
+case_block:
+    | &quot;case&quot; patterns guard? ':' block
+guard: 'if' named_expression
+</code></pre>
+<aside class="notes">
+The syntax definition looks like this, let's look in order</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">match</span></code> statement 1/4</h3>
+<pre data-id="taste-match-statement-1-4"><code data-trim data-noescape class="peg">match_stmt:
+    | &quot;match&quot; subject_expr ':' NEWLINE INDENT case_block+ DEDENT
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: a header starting with the soft keyword <code class="docutils literal notranslate"><span class="pre">match</span></code></p></li>
+<li><p>One or more <code class="docutils literal notranslate"><span class="pre">case_block</span></code></p></li>
+</ul>
+<aside class="notes">
+The rule match_stmt starts with the soft keyword ``match``, which is required.
+There are one or more ``case_block``</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">match</span></code> statement 2/4</h3>
+<pre data-id="taste-match-statement-2-4"><code data-trim data-noescape class="peg">match_stmt:
+    | &quot;match&quot; subject_expr ':' NEWLINE INDENT case_block+ DEDENT
+</code></pre>
+<ul class="simple">
+<li><p>Required: <strong>NEWLINE</strong> and <strong>INDENT</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">case</span></code> block cannot be written on the <code class="docutils literal notranslate"><span class="pre">match</span></code> line (But e.g. <code class="docutils literal notranslate"><span class="pre">if</span></code> header and block may come on the same line)</p></li>
+</ul>
+<aside class="notes">
+Since NEWLINE and INDENT are required,
+we know that CASE cannot be written on the same line as the header of MATCH.</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">match</span></code> statement 3/4 （<code class="docutils literal notranslate"><span class="pre">case_block</span></code>）</h3>
+<pre data-id="taste-match-statement-3-4-case-block"><code data-trim data-noescape class="peg">case_block:
+    | &quot;case&quot; patterns guard? ':' block
+</code></pre>
+<ul class="simple">
+<li><p><strong>Required</strong>: a header starting with the soft keyword <code class="docutils literal notranslate"><span class="pre">case</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block</span></code> follows (It can be continued on the same line, separated by a semicolon, or indented on the next line)</p></li>
+</ul>
+<aside class="notes">
+What is case_block?
+A header that begins with the soft keyword ``case`` is required and must be followed by a ``block``.
+and block can be written on the same line, or indented on a new line.</aside>
+</section>
+<section >
+<h3>Taste <code class="docutils literal notranslate"><span class="pre">match</span></code> statement 4/4 （<code class="docutils literal notranslate"><span class="pre">guard</span></code>）</h3>
+<pre data-id="taste-match-statement-4-4-guard"><code data-trim data-noescape class="peg" data-line-numbers="2,3">case_block:
+    | &quot;case&quot; patterns guard? ':' block
+guard: 'if' named_expression
+</code></pre>
+<ul class="simple">
+<li><p>Forms <strong>part of the header</strong> starting with <code class="docutils literal notranslate"><span class="pre">case</span></code>.</p></li>
+<li><p>But optional (<code class="docutils literal notranslate"><span class="pre">?</span></code>).</p></li>
+</ul>
+<aside class="notes">
+There is a guard, which is optional.
+but forms part of the header starting with ``case``.</aside>
+</section>
+<section >
+<h3>Example of <code class="docutils literal notranslate"><span class="pre">guard</span></code></h3>
+<pre data-id="example-of-guard"><code data-trim data-noescape class="python">&gt;&gt;&gt; flag = False
+&gt;&gt;&gt; match (100, 200):
+...    case (100, 200) if flag:  # Match succeeds, but guard fails
+...        print(&quot;Case 2&quot;)
+...    case (100, y):  # Match! (200 is assigned to y)
+...        print(f&quot;Case 3, y: {y}&quot;)
+...
+Case 3, y: 200</code></pre>
+<p>ref: <a class="reference external" href="https://docs.python.org/3/reference/compound_stmts.html#the-match-statement">8.6. The match statement</a></p>
+<aside class="notes">
+Here is an example of a guard, and using FLAG as a guard.
+When the tuple (100, 200) comes in, the first case block is not executed because the guard fails.
+It matches the next case block, (100, y).</aside>
+</section>
+<section >
+<h3>Finished! 🙌</h3>
+<pre data-id="finished"><code data-trim data-noescape class="peg">compound_stmt:
+    | function_def
+    | if_stmt
+    | for_stmt
+    | while_stmt
+    | match_stmt
+</code></pre>
+<aside class="notes">
+These are the five syntax definitions we have read together</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Short summary🥟: Read PEG together</h2>
+<ul class="simple">
+<li><p>Tasted definitions of compound statements written in PEG</p></li>
+<li><p><strong>simple</strong> view point</p></li>
+<li><p>AND expressed concisely without omissions</p></li>
+</ul>
+<aside class="notes">
+We have tasted the definitions of compound statements.
+The view point of PEG is interested, and PEG expresses concisely without omissions</aside>
+</section>
+<section >
+<h3>Menu: Revisit Python from statements and PEG</h3>
+<ol class="arabic simple">
+<li><p>✅ Statements in Python</p></li>
+<li><p>✅ Define statements with PEG</p></li>
+<li><p>✅ Read PEG together</p></li>
+</ol>
+<aside class="notes">
+ここまでで7分（開始27分）</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>Summary🌯: Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Focus on appearance of compound statements of Python (<strong>concrete syntax</strong>).</p></li>
+<li><p>learn how to read PEG and tasted the syntax of compound statements.</p></li>
+</ul>
+<aside class="notes">
+Wrap up!
+I focused on the appearance of compound statements of current Python,
+what is called concrete syntax.
+We learned how to read PEG and tasted the syntax of compound statements.</aside>
+</section>
+<section >
+<h2>Summary🌯: Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Compound statements consist of headers and suites</p></li>
+<li><p>Colons and indents <strong>tell parser</strong> elements of statements</p></li>
+</ul>
+<aside class="notes">
+Compound statements consist of headers and suites (The two create clause).
+Colons and indents tell the parser the elements of statements</aside>
+</section>
+<section >
+<h2>Summary🌯: Revisit Python from statements and PEG</h2>
+<ul class="simple">
+<li><p>Taste PEG's <strong>concise</strong> expression <strong>without ommissions</strong></p></li>
+<li><p>Language Reference is difficult but exciting!</p></li>
+</ul>
+<aside class="notes">
+We read PEG together and Taste PEG's **concise** expression **without ommissions**
+One of the message is Language Reference is difficult but exciting!</aside>
+</section>
+<section >
+<h3>Thank you very much for your attention.</h3>
+<p><strong>Enjoy</strong> development with Python!</p>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

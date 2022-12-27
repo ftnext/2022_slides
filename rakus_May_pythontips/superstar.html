@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>* と **</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/rakus_May_pythontips/superstar.html">
+    <meta property="og:title" content="* と **">
+    <meta property="og:description" content="2022/05 Python Tips LT会 - vol.3 LT スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/rakus_May_pythontips.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1><code class="docutils literal notranslate"><span class="pre">*</span></code> と <code class="docutils literal notranslate"><span class="pre">**</span></code></h1>
+<p>🌟💫🌟💫🌟💫🌟💫🌟💫🌟💫</p>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Python Tips LT会 - vol.3</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/05/25 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>質問です！ どうなるでしょうか？</h2>
+<pre data-id="id2"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2)</code></pre>
+<ul class="simple">
+<li><p>Python <strong>3.10</strong> で動作確認</p></li>
+<li><p>現在サポートされている Python 3.7 以降で再現します（はず）</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>「お前、誰よ」は自己紹介のエイリアス（Python界隈の慣習）</p></li>
+<li><p>Python大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>株式会社ユーザベースのデータサイエンティスト（NLPer）</p></li>
+</ul>
+</section>
+<section >
+<h3>Python Tips LT、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/rakus_Feb_pythontips/about_yield.html"
+    title="yieldについて"></iframe></section>
+<section >
+<h3>Python Tips LT、お世話になっております</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/rakus_Aug_pythontips/about_decorators.html"
+    title="デコレータについて"></iframe></section>
+<section >
+<h3>最近のPythonニュース</h3>
+<p>NHKのドラマ『17才の帝国』に㊗️ <strong>出演</strong></p>
+</section>
+<section >
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/17%E6%89%8D%E3%81%AE%E5%B8%9D%E5%9B%BD?src=hash&amp;ref_src=twsrc%5Etfw">#17才の帝国</a> 第2話を視聴。<br><br>え、待って！<br>プログラミング言語のPythonが出演してる！！<br>PythonがNHKに！！！<br><br>あと真木くんのエディタがAtom！<br>VSCodeじゃなくてAtom！！<br>AtomもNHKに！！！（再現画像）<br><br>コードはめっちゃ突っ込みどころが😂<br><br>真木くんのコードはこちらから<a href="https://t.co/z7xE4nKEYg">https://t.co/z7xE4nKEYg</a> <a href="https://t.co/sOPTpfR9pf">pic.twitter.com/sOPTpfR9pf</a></p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1527865711942504449?ref_src=twsrc%5Etfw">May 21, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>もう1つ：読書会やるんで、<a class="reference external" href="https://pythonista-books.connpass.com/event/248895/">みんな来て</a>！</h3>
+<ul class="simple">
+<li><p>#ミノ駆動本 『<a class="reference external" href="https://gihyo.jp/book/2022/978-4-297-12783-1">良いコード／悪いコードで学ぶ設計入門</a>』</p></li>
+<li><p>Javaのコード例で示された設計を <strong>Pythonにどう適用するか</strong> 考えたい！</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>再掲：どうなるでしょうか？</h2>
+<pre data-id="id7"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2)</code></pre>
+<p>考えながらお聞きください</p>
+</section>
+<section>
+<section >
+<h2>Pythonにおける <code class="docutils literal notranslate"><span class="pre">*</span></code> と <code class="docutils literal notranslate"><span class="pre">**</span></code></h2>
+<ul class="simple">
+<li><p>二項演算子（ <code class="docutils literal notranslate"><span class="pre">*</span></code> は乗算、 <code class="docutils literal notranslate"><span class="pre">**</span></code> はべき乗）</p></li>
+<li><p>可変長引数（ <code class="docutils literal notranslate"><span class="pre">*args,</span> <span class="pre">**kwargs</span></code> ）</p></li>
+<li><p><em>アンパック演算子</em></p></li>
+</ul>
+<p>他にも浮かんだらぜひ教えてください🙏</p>
+</section>
+<section >
+<h3>Pythonにおける <code class="docutils literal notranslate"><span class="pre">*</span></code></h3>
+<ul class="simple">
+<li><p>catch-all アンパック代入</p></li>
+<li><p><em>キーワード専用引数</em></p></li>
+</ul>
+<p>他にも浮かんだらぜひ教えてください🙏🙏</p>
+</section>
+</section>
+<section>
+<section >
+<h2>このLTでは、2つの切り口 🌟💫🌟💫</h2>
+<ol class="arabic simple">
+<li><p>アンパック</p></li>
+<li><p>関数の引数</p></li>
+</ol>
+<p>紹介できないものはAppendixへ</p>
+</section>
+<section >
+<h3>お品書き <code class="docutils literal notranslate"><span class="pre">*</span></code> と <code class="docutils literal notranslate"><span class="pre">**</span></code> 🌟💫🌟💫</h3>
+<ol class="arabic">
+<li><p>アンパック演算子</p></li>
+<li><p>関数と <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code></p>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li><p>キーワード専用引数</p></li>
+<li><p>可変長引数</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>Part I. アンパック演算子 🌟💫🌟💫</h2>
+<p>アンパックする演算子としての <code class="docutils literal notranslate"><span class="pre">*</span></code> と <code class="docutils literal notranslate"><span class="pre">**</span></code> を紹介します</p>
+</section>
+<section >
+<h3>パック／アンパック</h3>
+<ul class="simple">
+<li><p>タプルのパック： <strong>詰める</strong> （パッキング）</p></li>
+<li><p>シーケンスのアンパック：中の物を <strong>取り出す</strong></p></li>
+</ul>
+<p>パック・アンパックは <a class="reference external" href="https://docs.python.org/ja/3/tutorial/datastructures.html#tuples-and-sequences">Pythonチュートリアル 5.3.</a> で紹介されます</p>
+</section>
+<section >
+<h3>アンパック演算子</h3>
+<ul class="simple">
+<li><p><strong>イテラブルアンパック演算子</strong></p></li>
+<li><p>辞書アンパック演算子</p></li>
+</ul>
+<p>用語は「<a class="reference external" href="https://docs.python.org/ja/3/whatsnew/3.5.html#pep-448-additional-unpacking-generalizations">What's New In Python 3.5</a>」より</p>
+</section>
+</section>
+<section>
+<section >
+<h2>イテラブルアンパック演算子</h2>
+<p><a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-iterable">「イテラブル」を用語集で引く</a> と</p>
+<blockquote>
+<div><p>要素を一度に 1 つずつ返せるオブジェクト</p>
+</div></blockquote>
+</section>
+<section >
+<h3>これらがイテラブル（用語集より）</h3>
+<ul class="simple">
+<li><p>シーケンス</p></li>
+<li><p>辞書</p></li>
+<li><p>ファイルオブジェクト</p></li>
+<li><p>など（※イテラブルを自作もできます）</p></li>
+</ul>
+</section>
+<section >
+<h3>これらがシーケンス（<a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-sequence">用語集</a> より）</h3>
+<ul class="simple">
+<li><p>リスト</p></li>
+<li><p>文字列</p></li>
+<li><p>タプル</p></li>
+<li><p>など（※自作もできます）</p></li>
+</ul>
+<p>整数インデクスでアクセスでき、長さを返す</p>
+</section>
+</section>
+<section>
+<section >
+<h2>例で紹介：イテラブルアンパック演算子</h2>
+<pre data-id="id18"><code data-trim data-noescape class="python">&gt;&gt;&gt; # タプル (1, 2) は（シーケンスであり）イテラブル
+&gt;&gt;&gt; [*(1, 2)]
+[1, 2]</code></pre>
+</section>
+<section >
+<h3>この書き方でも新しいリストが作れます🌟💫</h3>
+<pre data-id="id19"><code data-trim data-noescape class="python">&gt;&gt;&gt; [*(1, 2), 3]
+[1, 2, 3]</code></pre>
+</section>
+<section >
+<h3>脱線🍚：他のイテラブルでも</h3>
+<pre data-id="id20"><code data-trim data-noescape class="python">&gt;&gt;&gt; [0, *[1, 2]]
+[0, 1, 2]
+&gt;&gt;&gt; [*range(2), 2]
+[0, 1, 2]
+&gt;&gt;&gt; [*&quot;12&quot;, 3]
+['1', '2', 3]</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>イテラブルアンパック演算子で新しいタプルも作れます</h2>
+<pre data-id="id21"><code data-trim data-noescape class="python">&gt;&gt;&gt; (*(1, 2), 3)
+(1, 2, 3)</code></pre>
+</section>
+<section >
+<h3>ご存知ですか？ タプルの肝は <strong>カンマ</strong></h3>
+<blockquote>
+<div><p>タプルを書くときは必ずしも丸括弧で囲まなくてもいい （<a class="reference external" href="https://docs.python.org/ja/3/tutorial/datastructures.html#tuples-and-sequences">Pythonチュートリアル 5.3.</a>）</p>
+</div></blockquote>
+<pre data-id="id22"><code data-trim data-noescape class="python">&gt;&gt;&gt; 1, 2
+(1, 2)
+&gt;&gt;&gt; 1,
+(1,)</code></pre>
+</section>
+<section >
+<h3>カッコつけずに書けます</h3>
+<pre data-id="id24"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2), 3
+(1, 2, 3)</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>先の質問：どうなるでしょうか？</h2>
+<pre data-id="id25"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2)  </code></pre>
+</section>
+<section >
+<h3>たたーん！ 正解は <code class="docutils literal notranslate"><span class="pre">SyntaxError</span></code></h3>
+<pre data-id="syntaxerror"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2)  
+  File &quot;&lt;stdin&gt;&quot;, line 1
+SyntaxError: can't use starred expression here</code></pre>
+</section>
+<section >
+<h3>ですが、カンマつけると動きます</h3>
+<pre data-id="id26"><code data-trim data-noescape class="python">&gt;&gt;&gt; *(1, 2),
+(1, 2)</code></pre>
+<p>カッコつけないタプルの書き方になっている！</p>
+</section>
+<section >
+<h3>脱線🍚：辞書の場合、<strong>キー</strong> からなるタプルになります</h3>
+<pre data-id="id27"><code data-trim data-noescape class="python">&gt;&gt;&gt; # 辞書はイテラブル
+&gt;&gt;&gt; fruits_prices = {&quot;apple&quot;: 100, &quot;banana&quot;: 50}
+&gt;&gt;&gt; *fruits_prices,
+('apple', 'banana')</code></pre>
+</section>
+<section >
+<h3>脱線🍚：複数の値を返す関数は <strong>タプル</strong> を返している！</h3>
+<pre data-id="id28"><code data-trim data-noescape class="python">&gt;&gt;&gt; def f():
+...   return 42, &quot;spam&quot;
+...
+&gt;&gt;&gt; type(f())
+&lt;class 'tuple'&gt;</code></pre>
+<p>カッコつけずに書いたタプル！</p>
+</section>
+</section>
+<section>
+<section >
+<h2>イテラブルアンパック演算子 小まとめ</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*iterable,</span> <span class="pre">v1,</span> <span class="pre">v2</span></code> で新しい <strong>タプル</strong> が返る</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[*iterable,</span> <span class="pre">v1,</span> <span class="pre">v2]</span></code> とすれば新しいリスト</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">[*iterable]</span></code> だけでもリストにできる</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+* これは ``[*iterable, ]`` でできるリストと等しい</aside>
+</section>
+<section >
+<h3>アンパック演算子</h3>
+<ul class="simple">
+<li><p>イテラブルアンパック演算子</p></li>
+<li><p><strong>辞書アンパック演算子</strong></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>辞書アンパック演算子</h2>
+<pre data-id="id31"><code data-trim data-noescape class="python">&gt;&gt;&gt; fruits_prices = {&quot;apple&quot;: 100, &quot;banana&quot;: 50}
+&gt;&gt;&gt; {**fruits_prices}
+{'apple': 100, 'banana': 50}</code></pre>
+</section>
+<section >
+<h3>新しい辞書を作る例</h3>
+<pre data-id="id32"><code data-trim data-noescape class="python">&gt;&gt;&gt; {**fruits_prices, &quot;melon&quot;: 777}
+{'apple': 100, 'banana': 50, 'melon': 777}</code></pre>
+<p>キーと値の組を <strong>追加</strong> した辞書</p>
+</section>
+</section>
+<section>
+<section >
+<h2>アンパック演算子は <strong>複数</strong> 使えます</h2>
+<ul class="simple">
+<li><p>Python 3.5から可能になりました</p></li>
+<li><p><a class="reference external" href="https://peps.python.org/pep-0448/">PEP 448 – Additional Unpacking Generalizations</a></p></li>
+</ul>
+</section>
+<section >
+<h3>アンパック演算子を複数使う例</h3>
+<pre data-id="id34"><code data-trim data-noescape class="python">&gt;&gt;&gt; [*(1, 2), 3, *range(2)]
+[1, 2, 3, 0, 1]
+&gt;&gt;&gt; d1, d2 = {&quot;x&quot;: 11, &quot;y&quot;: 22}, {&quot;v&quot;: 101, &quot;w&quot;: 201}
+&gt;&gt;&gt; {**d1, &quot;z&quot;: -33, **d2}
+{'x': 11, 'y': 22, 'z': -33, 'v': 101, 'w': 201}</code></pre>
+</section>
+<section >
+<h3>脱線🍚：2つの辞書から新しい辞書を作る場合</h3>
+<ul class="simple">
+<li><p>知っていたので、一方の辞書をforで回さず、簡潔に書けました</p></li>
+</ul>
+<pre data-id="id35"><code data-trim data-noescape class="python">&gt;&gt;&gt; fruits_prices = {&quot;apple&quot;: 100, &quot;banana&quot;: 50}
+&gt;&gt;&gt; {**fruits_prices, **{&quot;melon&quot;: 777}}
+{'apple': 100, 'banana': 50, 'melon': 777}</code></pre>
+</section>
+<section >
+<h3>脱線🍚：2つの辞書から新しい辞書を作る場合</h3>
+<ul class="simple">
+<li><p>なお、Python 3.9 以降は <code class="docutils literal notranslate"><span class="pre">|</span></code> 演算子で <strong>もっと簡単</strong> に書けます</p></li>
+</ul>
+<pre data-id="id35"><code data-trim data-noescape class="python">&gt;&gt;&gt; fruits_prices | {&quot;melon&quot;: 777}
+{'apple': 100, 'banana': 50, 'melon': 777}</code></pre>
+<p>Guidoさん曰く「私も <code class="docutils literal notranslate"><span class="pre">{**d1,</span> <span class="pre">**d2}</span></code> って書けるの忘れてた（意訳）」（<a class="reference external" href="https://peps.python.org/pep-0584/">PEP 584</a>）</p>
+</section>
+</section>
+<section >
+<h2>まとめ🌯 Part I. アンパック演算子🌟💫🌟💫</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> はイテラブルを、 <code class="docutils literal notranslate"><span class="pre">**</span></code> は辞書をアンパックする演算子</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> を使って、新しいタプル・リスト・辞書を作るやり方を紹介</p>
+<ul>
+<li><p>PEP 448により <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> は <strong>複数回</strong> 使えます！</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>閑話休題：PyCon JP 2022はプロポーザルを募集中！</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://2022.pycon.jp/">Python Conference Japan 2022</a> は10/14(金)-16(日) 有明で開催</p></li>
+<li><p><a class="reference external" href="https://pretalx.com/pyconjp2022/cfp">https://pretalx.com/pyconjp2022/cfp</a></p></li>
+<li><p>JST <strong>6/13(月)</strong> 20:59まで</p></li>
+</ul>
+</section>
+<section >
+<h2>Part II. 関数と <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> 🌟💫🌟💫</h2>
+<p>関数の <strong>引数</strong> と絡めて <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> を紹介します</p>
+</section>
+<section>
+<section >
+<h2>Pythonの関数の引数</h2>
+<ul class="simple">
+<li><p><em>位置またはキーワード引数</em> （<a class="reference external" href="https://docs.python.org/ja/3/tutorial/controlflow.html#positional-or-keyword-arguments">Pythonチュートリアル 4.8.3.1.</a>）</p></li>
+<li><p>位置引数としても渡せるし、キーワード引数（＝名前付き引数）としても渡せる</p></li>
+</ul>
+</section>
+<section >
+<h3>関数の例</h3>
+<pre data-id="id38"><code data-trim data-noescape class="python">&gt;&gt;&gt; def calculate_bmi(height_m, weight_kg):
+...     return weight_kg / height_m / height_m</code></pre>
+</section>
+<section >
+<h3>呼び出し例</h3>
+<pre data-id="id39"><code data-trim data-noescape class="python">&gt;&gt;&gt; calculate_bmi(1.58, 46)
+18.426534209261334
+&gt;&gt;&gt; # すべてキーワード引数で渡せば、順番を変えられます
+&gt;&gt;&gt; calculate_bmi(weight_kg=46, height_m=1.58)
+18.426534209261334
+&gt;&gt;&gt; # 位置引数はキーワード引数より先に来ます
+&gt;&gt;&gt; calculate_bmi(1.58, weight_kg=46)
+18.426534209261334</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>キーワード専用引数と示す <code class="docutils literal notranslate"><span class="pre">*</span></code></h2>
+<ul class="simple">
+<li><p>引数の並びの中で、 <code class="docutils literal notranslate"><span class="pre">*,</span></code> のあとの引数は、キーワード専用引数となる</p></li>
+<li><p><strong>必ず名前付き</strong> で渡さなければならず、位置引数としては渡せなくなる</p></li>
+</ul>
+<p><a class="reference external" href="https://docs.python.org/ja/3/tutorial/controlflow.html#keyword-only-arguments">Pythonチュートリアル 4.8.3.3.</a></p>
+</section>
+<section >
+<h3>キーワード専用引数をお試し導入</h3>
+<pre data-id="id41"><code data-trim data-noescape class="python" data-line-numbers="2">&gt;&gt;&gt; # 2つの引数をどちらもキーワード専用とした
+&gt;&gt;&gt; def calculate_bmi(*, height_m, weight_kg):
+...     return weight_kg / height_m / height_m</code></pre>
+</section>
+<section >
+<h3>キーワード専用引数の動作確認</h3>
+<pre data-id="id42"><code data-trim data-noescape class="python">&gt;&gt;&gt; calculate_bmi(weight_kg=46, height_m=1.58)
+18.426534209261334
+&gt;&gt;&gt; calculate_bmi(1.58, 46)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: calculate_bmi() takes 0 positional arguments but 2 were given</code></pre>
+</section>
+<section >
+<h3>キーワード専用引数の使い所</h3>
+<ul class="simple">
+<li><p><strong>関数呼び出しの意図を明確に</strong> するために使う（『<a class="reference external" href="https://www.oreilly.co.jp/books/9784873119175/">Effective Python 第2版</a>』項目25）</p>
+<ul>
+<li><p>例えば複数の論理型フラグを使うような、紛らわしい関数呼び出し</p></li>
+<li><p>脱線 IMO：フラグ引数は悪魔が潜みがちですよね（ref: #ミノ駆動本）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>脱線🍚：位置専用引数もできます</h3>
+<ul class="simple">
+<li><p>Python 3.8 から</p></li>
+<li><p>拙記事 <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/stapy77-positional-only-args-question">1月の #stapy で挙がった2つの質問に回答します：キーワード専用引数はいつから？　位置専用引数の使い所は？</a></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>別の話題：可変長引数と <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code></h2>
+<pre data-id="id45"><code data-trim data-noescape class="python">&gt;&gt;&gt; def f(*args, **kwargs):
+...     print(f&quot;{args=}&quot;)
+...     print(f&quot;{kwargs=}&quot;)</code></pre>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> が付いた <code class="docutils literal notranslate"><span class="pre">args</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> が付いた <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> について見ていきましょう</p>
+</section>
+<section >
+<h3>脱線🍚： <code class="docutils literal notranslate"><span class="pre">f&quot;{args=}&quot;</span></code> というf-string</h3>
+<ul class="simple">
+<li><p>f-stringはPython 3.6から（<a class="reference external" href="https://docs.python.org/ja/3/reference/lexical_analysis.html#formatted-string-literals">フォーマット済み文字列リテラル</a>）</p></li>
+<li><p>Python 3.8で <code class="docutils literal notranslate"><span class="pre">=</span></code> 指定子が有効に！（<a class="reference external" href="https://docs.python.org/ja/3/whatsnew/3.8.html#f-strings-support-for-self-documenting-expressions-and-debugging">What's New In Python 3.8</a>）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f&quot;{variable=}&quot;</span></code> は <code class="docutils literal notranslate"><span class="pre">&quot;variable=値&quot;</span></code> という形式の文字列になる</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>可変長位置引数 <code class="docutils literal notranslate"><span class="pre">*args</span></code></h2>
+<pre data-id="args"><code data-trim data-noescape class="python">&gt;&gt;&gt; f(1, 2, 3)
+args=(1, 2, 3)
+kwargs={}</code></pre>
+<p>位置引数たちは <code class="docutils literal notranslate"><span class="pre">args</span></code> （<strong>タプル</strong>）に詰められる</p>
+</section>
+<section >
+<h3>リストの要素の数字全部を渡したい</h3>
+<pre data-id="id47"><code data-trim data-noescape class="python">&gt;&gt;&gt; numbers = [1, 2, 3]
+&gt;&gt;&gt; f(numbers)
+args=([1, 2, 3],)
+kwargs={}</code></pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">args</span></code> は要素1のタプル</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">args[0]</span></code> が <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code></p></li>
+</ul>
+</section>
+<section >
+<h3>イテラブルアンパック演算子を使えば渡せる！🙌</h3>
+<pre data-id="id48"><code data-trim data-noescape class="python">&gt;&gt;&gt; f(*numbers)
+args=(1, 2, 3)
+kwargs={}</code></pre>
+<p>イテラブルの要素が位置引数として渡された</p>
+<aside class="notes">
+dezero本での説明を紹介できるかも</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>可変長キーワード引数 <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code></h2>
+<pre data-id="kwargs"><code data-trim data-noescape class="python">&gt;&gt;&gt; f(a=1, b=2, c=3)
+args=()
+kwargs={'a': 1, 'b': 2, 'c': 3}</code></pre>
+<p>キーワード引数たちは <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> （<strong>辞書</strong>）に詰められる</p>
+</section>
+<section >
+<h3>辞書アンパック演算子を使って辞書を渡すと・・・</h3>
+<pre data-id="id49"><code data-trim data-noescape class="python">&gt;&gt;&gt; values = {&quot;a&quot;: 1, &quot;b&quot;: 2, &quot;c&quot;: 3}
+&gt;&gt;&gt; f(**values)
+args=()
+kwargs={'a': 1, 'b': 2, 'c': 3}</code></pre>
+<p>辞書のキーと値の組をキーワード引数として渡せました🙌</p>
+</section>
+<section >
+<h3>2種のアンパック演算子は合わせて使えます！</h3>
+<pre data-id="id50"><code data-trim data-noescape class="python">&gt;&gt;&gt; f(*numbers, **values)  # ただし、この順に限る
+args=(1, 2, 3)
+kwargs={'a': 1, 'b': 2, 'c': 3}</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>One more thing: アンパック演算子は <strong>複数回</strong> 使えます！</h2>
+<ul class="simple">
+<li><p>PEP 448「複数回使える」は関数の引数にも該当します</p></li>
+</ul>
+</section>
+<section >
+<h3>アンパック演算子を複数回使う例</h3>
+<pre data-id="id51"><code data-trim data-noescape class="python">&gt;&gt;&gt; f(*range(2), 2, *[3, 4])
+args=(0, 1, 2, 3, 4)
+kwargs={}
+&gt;&gt;&gt; f(**{&quot;z&quot;: 1}, y=2, **{&quot;x&quot;: 3})
+args=()
+kwargs={'z': 1, 'y': 2, 'x': 3}</code></pre>
+</section>
+</section>
+<section >
+<h2>まとめ🌯 Part II. 関数と <code class="docutils literal notranslate"><span class="pre">*</span></code> や <code class="docutils literal notranslate"><span class="pre">**</span></code> 🌟💫🌟💫</h2>
+<ul class="simple">
+<li><p>引数リスト中に <code class="docutils literal notranslate"><span class="pre">*</span></code> を置くことで、それ以降を <strong>キーワード専用引数</strong> にできる</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> を先頭に付けた引数は <strong>可変長位置引数</strong> 、 <code class="docutils literal notranslate"><span class="pre">**</span></code> を先頭に付けると <strong>可変長キーワード引数</strong></p></li>
+<li><p>可変長{位置,キーワード}引数に、アンパック演算子を使って渡すこともできる</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>まとめ🌯 <code class="docutils literal notranslate"><span class="pre">*</span></code> と <code class="docutils literal notranslate"><span class="pre">**</span></code> 🌟💫🌟💫</h2>
+<ul class="simple">
+<li><p>{イテラブル,辞書}アンパック演算子</p></li>
+<li><p>可変長{位置,キーワード}引数 + アンパック演算子との組合せ</p></li>
+<li><p>これらは頻出ではないですが、 <strong>知っていたからこそ簡単に書けた瞬間</strong> が訪れると思います</p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>Enjoy development with stars! 🌟💫</p>
+</section>
+</section>
+<section >
+<h2>Appendix (WIP)</h2>
+<p>追加をお楽しみに！</p>
+</section>
+<section >
+<h2>その他の <code class="docutils literal notranslate"><span class="pre">*</span></code></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/tutorial/modules.html#importing-from-a-package">*インポート</a> （ <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">module</span> <span class="pre">import</span> <span class="pre">*</span></code> と書けるけれど非推奨）</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/library/glob.html#glob.glob">glob.glob</a> （<code class="docutils literal notranslate"><span class="pre">*</span></code> 、<code class="docutils literal notranslate"><span class="pre">**</span></code>）（Mikumoさん、ありがとうございます）</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/library/re.html#regular-expression-syntax">re</a> （<code class="docutils literal notranslate"><span class="pre">*</span></code>）</p></li>
+</ul>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

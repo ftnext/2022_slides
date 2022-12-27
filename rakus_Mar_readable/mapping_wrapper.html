@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>辞書を保持するオブジェクトで読みやすく</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides//.html">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>辞書を保持するオブジェクトで読みやすく</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>リーダブルコード LT会 - vol.3</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/03/24 nikkie</p>
+</dd>
+</dl>
+</section>
+<section>
+<section >
+<h2>お前、誰よ（自己紹介）</h2>
+<ul class="simple">
+<li><p>Python🐍大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>データサイエンティスト🐍 at 株式会社ユーザベース</p></li>
+<li><p>ラクスさんの勉強会でたまにLT・実況ツイート</p></li>
+</ul>
+</section>
+<section >
+<h3>nikkie as PyCon JP 2021 座長</h3>
+<ul class="simple">
+<li><p>Python Conference JP</p></li>
+<li><p>座長＝開催に責任を持つ人</p></li>
+<li><p>拙ブログ：「<a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/pyconjp2021-portfolio">技術で(も)支えたPyCon JP 2021</a>」（今日の話題もここから）</p></li>
+</ul>
+</section>
+<section >
+<h3>nikkie loves アニメ！</h3>
+<ul class="simple">
+<li><p>『<a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a>』にドハマリ</p></li>
+<li><p>📣 <strong>面白いから全人類観て！</strong> （ <a class="reference external" href="https://eigakan.org/theaterpage/schedule.php?t=ainouta">上映</a> も <a class="reference external" href="https://ainouta.jp/ondemand.html">配信</a> もあります）</p></li>
+</ul>
+</section>
+<section >
+<h3>すみません！登壇より優先しちゃいました😉</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">我が名はにっきー、<a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> 大好きなデータサイエンティスト！<br>アイうたに出会い、開発ネタが次々浮かんで毎日幸せ！(RT)<br>本日 <a href="https://twitter.com/hashtag/studyhacklt?src=hash&amp;ref_src=twsrc%5Etfw">#studyhacklt</a> にて上記共有予定も、なんと最終上映+監督トークとブッキング！<br>トークだけは見過ごせません！登壇辞退です<br><br>空いた枠を埋めた方に大感謝です🙇‍♂️ <a href="https://t.co/Ikw8hq41VY">https://t.co/Ikw8hq41VY</a></p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1499300361370099716?ref_src=twsrc%5Etfw">March 3, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+</section>
+<section>
+<section >
+<h2>それでは本題：このLTでは</h2>
+<ul class="simple">
+<li><p>APIの返り値（JSON形式）をパースする実装で、 <strong>スッキリ書けた</strong> 例を共有します</p></li>
+<li><p>コードはPython🐍です（<a class="reference external" href="https://github.com/pyconjp/talks.domain.2021">https://github.com/pyconjp/talks.domain.2021</a> もどうぞ）</p></li>
+<li><p>1つの実装例の共有です。ちょっとしたことでも <strong>コメント大歓迎</strong> です</p></li>
+</ul>
+</section>
+<section >
+<h3>加工したいデータ（単純化）</h3>
+<p>2つのプロパティを持つJSON</p>
+<pre data-id="id7"><code data-trim data-noescape class="json">{
+  &quot;main_data&quot;: [...],
+  &quot;items&quot;: [...]
+}</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">main_data</span></code> プロパティの配列を加工したい</h3>
+<ul class="simple">
+<li><p>配列の要素1つ1つは <code class="docutils literal notranslate"><span class="pre">item_id</span></code> を含む</p></li>
+<li><p>他にitemの情報はない</p></li>
+<li><p>👉 <code class="docutils literal notranslate"><span class="pre">items</span></code> プロパティの配列から該当するitemを探す必要がある</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">item_id</span></code> でitemを探すために辞書を作ろう！</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">items</span></code> プロパティ＝itemの一覧</p></li>
+<li><p>キー（itemの <code class="docutils literal notranslate"><span class="pre">id</span></code>）と値（item）をペアにする＝ <strong>辞書</strong> （というデータ構造）</p></li>
+<li><p>※Pythonの「辞書」は、他の言語では「マッピング」や「連想配列」です</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">items</span></code> プロパティの配列の例</h3>
+<p>登壇者（Speaker）を表すデータ</p>
+<pre data-id="items"><code data-trim data-noescape class="python">[
+  {&quot;id&quot;: &quot;0606&quot;, &quot;fullName&quot;: &quot;shion&quot;, &quot;bio&quot;: null},
+  {&quot;id&quot;: &quot;1231&quot;, &quot;fullName&quot;: &quot;satomi&quot;, &quot;bio&quot;: &quot;抹茶アイスが好き&quot;},
+  {&quot;id&quot;: &quot;0410&quot;, &quot;fullName&quot;: &quot;toma&quot;, &quot;bio&quot;: &quot;干物全般が好き&quot;},
+  {&quot;id&quot;: &quot;1120&quot;, &quot;fullName&quot;: &quot;gocchan&quot;, &quot;bio&quot;: &quot;ポテチが好き&quot;},
+  {&quot;id&quot;: &quot;0708&quot;, &quot;fullName&quot;: &quot;aya&quot;, &quot;bio&quot;: &quot;ナタデココが好き&quot;},
+  {&quot;id&quot;: &quot;0309&quot;, &quot;fullName&quot;: &quot;thunder&quot;, &quot;bio&quot;: &quot;きな粉餅が好き&quot;}
+]
+</code></pre>
+</section>
+<section >
+<h3>💡 <code class="docutils literal notranslate"><span class="pre">items</span></code> プロパティの配列から <strong>辞書</strong> を作ろう！</h3>
+<ul class="simple">
+<li><p>キーはitemの <code class="docutils literal notranslate"><span class="pre">id</span></code></p></li>
+<li><p>値は <code class="docutils literal notranslate"><span class="pre">id</span></code> に対応するitem</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">main_data</span></code> プロパティのデータの処理で、この辞書を使う（ <code class="docutils literal notranslate"><span class="pre">item_id</span></code> で参照）</p></li>
+</ul>
+<aside class="notes">
+doctestを通すためのコード
+&gt;&gt;&gt; from dataclasses import dataclass
+&gt;&gt;&gt; &#64;dataclass
+... class Speaker:
+...     name: str
+...     profile: str</aside>
+</section>
+<section >
+<h3>今回、辞書の値は、Pythonの「データクラス」で実装</h3>
+<pre data-id="python"><code data-trim data-noescape class="python">from dataclasses import dataclass
+&#64;dataclass
+class Speaker:
+    &quot;&quot;&quot;
+    &gt;&gt;&gt; Speaker(&quot;nikkie&quot;, &quot;アイの歌声を聴かせてが好き&quot;)
+    Speaker(name='nikkie', profile='アイの歌声を聴かせてが好き')
+
+    &quot;&quot;&quot;
+    name: str
+    profile: str</code></pre>
+<p>インスタンスを操作して、ほしいデータを入手する想定です</p>
+<aside class="notes">
+doctestを通すためのコード
+&gt;&gt;&gt; import json
+&gt;&gt;&gt; with open(&quot;students.json&quot;, encoding=&quot;utf8&quot;) as f:
+...     data = json.load(f)</aside>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">id</span></code> をキー、 <code class="docutils literal notranslate"><span class="pre">Speaker</span></code> インスタンスを値とする辞書を作る</h3>
+<pre data-id="id-speaker"><code data-trim data-noescape class="python">&gt;&gt;&gt; speakers = {}  # 空の辞書で初期化
+&gt;&gt;&gt; for obj in data:  # dataは先ほどの「登壇者を表すデータ」
+...     speakers[obj[&quot;id&quot;]] = Speaker(obj[&quot;fullName&quot;], obj[&quot;bio&quot;])
+&gt;&gt;&gt; speakers[&quot;1231&quot;]
+Speaker(name='satomi', profile='抹茶アイスが好き')</code></pre>
+</section>
+<section >
+<h3>tips: Pythonでは、内包表記で書ける🐍</h3>
+<pre data-id="tips-python"><code data-trim data-noescape class="python">&gt;&gt;&gt; speakers = {  # for文で作ったのと同様に辞書ができます
+...     obj[&quot;id&quot;]: Speaker(obj[&quot;fullName&quot;], obj[&quot;bio&quot;])
+...     for obj in data
+... }
+&gt;&gt;&gt; speakers[&quot;1231&quot;]
+Speaker(name='satomi', profile='抹茶アイスが好き')</code></pre>
+<p>for文より内包表記の方が性能がよいと言われます</p>
+</section>
+<section >
+<h3>スクリプトに書く</h3>
+<pre data-id="id9"><code data-trim data-noescape class="python"># ... 省略 ...
+
+speakers = {
+    obj[&quot;id&quot;]: Speaker(obj[&quot;fullName&quot;], obj[&quot;bio&quot;])
+    for obj in data
+}
+# speakers を使った処理が続く
+
+# ... 省略 ...</code></pre>
+</section>
+<section >
+<h3>読みやすく：辞書を作る処理を関数に切り出す</h3>
+<pre data-id="id10"><code data-trim data-noescape class="python">def create_mapping(data):
+    return {
+        obj[&quot;id&quot;]: Speaker(obj[&quot;fullName&quot;], obj[&quot;bio&quot;])
+        for obj in data
+    }
+
+# ... 省略 ...
+
+speakers = create_mapping(data)
+# speakers を使った処理が続く
+
+# ... 省略 ...</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>実例：PyCon JP 2021スタッフ活動と辞書</h2>
+<ul class="simple">
+<li><p>ウェブサイトの <a class="reference external" href="https://2021.pycon.jp/time-table">タイムテーブル</a> に載せるデータを作りたい</p></li>
+<li><p><a class="reference external" href="https://sessionize.com/">sessionize</a> というサービスの <strong>APIの返り値をパース</strong> する</p></li>
+<li><p>例：登壇者の情報は、スピーカーIDから取得する</p></li>
+</ul>
+</section>
+<section >
+<h3>sessionize APIの返り値</h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://sessionize.com/api/v2">https://sessionize.com/api/v2</a>/{endpoint_id}/view/All</p></li>
+<li><p>プロパティ <code class="docutils literal notranslate"><span class="pre">sessions</span></code> （トーク情報）、 <code class="docutils literal notranslate"><span class="pre">speakers</span></code> （登壇者情報）, <code class="docutils literal notranslate"><span class="pre">rooms</span></code> （部屋情報）などを持つ</p></li>
+</ul>
+</section>
+<section >
+<h3>返り値のJSONを加工していく</h3>
+<p>各プロパティは、（先ほど見た） <strong>JSONオブジェクトが入った配列</strong></p>
+<pre data-id="json"><code data-trim data-noescape class="json">{
+  &quot;sessions&quot;: [... (先のmain_data)],
+  &quot;speakers&quot;: [... (items その1)],
+  &quot;rooms&quot;: [... (items その2)],
+}</code></pre>
+</section>
+<section >
+<h3>加工処理の実装 1/2</h3>
+<pre data-id="id13"><code data-trim data-noescape class="python" data-line-numbers>def create_speakers(speaker_data):
+    return {
+        d[&quot;id&quot;]: Speaker(d[&quot;fullName&quot;], d[&quot;bio&quot;])
+        for d in speaker_data
+    }
+
+data = fetch_from_sessionize()  # sessionize APIから取得したJSON
+speakers = create_speakers(data[&quot;speakers&quot;])</code></pre>
+</section>
+<section >
+<h3>加工処理の実装 2/2</h3>
+<pre data-id="id14"><code data-trim data-noescape class="python" data-line-numbers="3,4,5,6,7,8,9,10">data = fetch_from_sessionize()
+speakers = create_speakers(data[&quot;speakers&quot;])  # spaakersは辞書
+rooms = create_rooms(data[&quot;rooms&quot;])  # roomsも辞書
+
+# data[&quot;sessions&quot;]からトークの情報を構築
+for session in data[&quot;sessions&quot;]:
+    # 各sessionはroomやspeakerのIDを持つので、
+    # roomsやspeakersを使ってIDに対応する値を取り出す。
+    # speakerのidに対応するnameを取得
+    main_speaker_name = speakers[session[&quot;speakers&quot;][0]].name</code></pre>
+</section>
+<section >
+<h3>実装直後の所感</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">speakers</span></code> , <code class="docutils literal notranslate"><span class="pre">rooms</span></code> <strong>いくつもの辞書</strong> を書いた</p></li>
+<li><p>💡 <code class="docutils literal notranslate"><span class="pre">id</span></code> に対応する値を取り出すための辞書を、 <em>スクリプトのメイン処理で取り扱う必要はない</em> のでは</p></li>
+<li><p>👉 <strong>辞書を隠せれば</strong> コードがスッキリしそう</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>辞書をオブジェクトに隠した実装 1/2</h2>
+<pre data-id="id16"><code data-trim data-noescape class="diff"> data = fetch_from_sessionize()  # sessionize APIから取得したJSON
+-# 辞書を作る関数
+-speakers = create_speakers(data[&quot;speakers&quot;])
++# 辞書をラップしたオブジェクトを作る
++speaker_factory = SpeakerFactory.from_(data[&quot;speakers&quot;])</code></pre>
+</section>
+<section >
+<h3>辞書をオブジェクトに隠した実装 2/2</h3>
+<pre data-id="id17"><code data-trim data-noescape class="diff"> # data[&quot;sessions&quot;]からトークの情報を構築するコードの一部抜粋
+-# 辞書を使う
+-[speakers[speaker_id] for speaker_id in session[&quot;speakers&quot;]]
++# 辞書をラップしたオブジェクトを使う
++[speaker_factory.create(speaker_id) for speaker_id in session[&quot;speakers&quot;]]</code></pre>
+</section>
+<section >
+<h3>辞書を保持するオブジェクト <code class="docutils literal notranslate"><span class="pre">SpeakerFactory</span></code></h3>
+<pre data-id="speakerfactory"><code data-trim data-noescape class="python">class SpeakerFactory:
+    def __init__(self, speakers_raw_map: Mapping):
+        # インスタンス変数として、辞書を持つ（ラップしている）
+        self._speakers = speakers_raw_map</code></pre>
+</section>
+<section >
+<h3>辞書を保持するオブジェクト <code class="docutils literal notranslate"><span class="pre">SpeakerFactory</span></code></h3>
+<aside class="notes">
+.. revealjs-break::</aside>
+<pre data-id="id18"><code data-trim data-noescape class="python">class SpeakerFactory:
+    # __init__ （前スライド）
+
+    &#64;classmethod
+    def from_(cls, speakers_raw_data: Sequence) -&gt; SpeakerFactory:
+        &quot;&quot;&quot;APIの返り値からSpeakerFactoryを作るメソッド（辞書を作ってから初期化する）&quot;&quot;&quot;
+        speakers_raw_map = {data[&quot;id&quot;]: data for data in speakers_raw_data}
+        return cls(speakers_raw_map)</code></pre>
+</section>
+<section >
+<h3>辞書を保持するオブジェクト <code class="docutils literal notranslate"><span class="pre">SpeakerFactory</span></code></h3>
+<aside class="notes">
+.. revealjs-break::</aside>
+<pre data-id="id19"><code data-trim data-noescape class="python">class SpeakerFactory:
+    # __init__
+    # from_
+
+    def create(self, speaker_id: str) -&gt; Speaker:
+        &quot;&quot;&quot;speaker_idに対応するSpeakerオブジェクトを返す&quot;&quot;&quot;
+        speaker_data = self._speakers[speaker_id]
+        return Speaker(speaker_data[&quot;fullName&quot;], speaker_data[&quot;bio&quot;])</code></pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">SpeakerFactory</span></code> に込めた想い</h3>
+<ul class="simple">
+<li><p>「Speakerの <em>作り方を知っている</em> モノ」（スピーカーの <em>ファクトリ</em>）</p></li>
+<li><p>スクリプトのメイン処理で持っていた辞書が、 <strong>ファクトリの属性に移った</strong></p></li>
+<li><p>スクリプトが知りすぎていなくてスッキリ！✨（変更する場合も箇所が絞られた）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯： <strong>辞書を保持するオブジェクト</strong> で読みやすく</h2>
+<ul class="simple">
+<li><p>APIが返すJSONのパースのメインの処理で、辞書を扱わなくてよくなり、スッキリした✨</p></li>
+<li><p>このオブジェクトに実装したメソッドは2つ</p>
+<ul>
+<li><p>APIの返り値から自身のオブジェクトを作るメソッド（<code class="docutils literal notranslate"><span class="pre">from_</span></code>）</p></li>
+<li><p>idに対応するオブジェクトを返すメソッド（<code class="docutils literal notranslate"><span class="pre">create</span></code>）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+<p>1つの実装例にすぎませんので、ちょっとしたことでも <strong>コメント大歓迎</strong> です</p>
+</section>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

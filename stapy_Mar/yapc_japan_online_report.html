@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>YAPC::Japan::Online 2022 レポート</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides//.html">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>YAPC::Japan::Online 2022 レポート</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>みんなのPython勉強会 #79 LT</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/03/10 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>nikkie（にっきー）</p></li>
+<li><p>Python歴4年（いまPythonの見た目が面白い！）</p></li>
+<li><p>みんなのPython勉強会 4代目LT王子、スタッフ</p></li>
+<li><p>PyCon JP 2021座長</p></li>
+</ul>
+</section>
+<section >
+<h2>このLTでは</h2>
+<ul class="simple">
+<li><p>YAPC::Japan::Online 2022（Perlのカンファレンス）のレポートします</p></li>
+<li><p>3/4, 5にオンライン開催</p></li>
+</ul>
+</section>
+<section >
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/yapcjapan?src=hash&amp;ref_src=twsrc%5Etfw">#yapcjapan</a> LTご清聴いただきありがとうございました<a href="https://t.co/c17GZ4mxcT">https://t.co/c17GZ4mxcT</a><br><br>天気が訊ける <a href="https://twitter.com/hashtag/%E3%82%A2%E3%82%A4%E3%81%AE%E6%AD%8C%E5%A3%B0%E3%82%92%E8%81%B4%E3%81%8B%E3%81%9B%E3%81%A6?src=hash&amp;ref_src=twsrc%5Etfw">#アイの歌声を聴かせて</a> のシオンです（v0.0.1は継続開発中）<br>音声の聞き取りと喋るのはPythonで先に作り、テキストの処理はこのLTを機にPerlで実装してみてデモしました。<br>Perl入学式のテキストに感謝です</p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1500042299035701252?ref_src=twsrc%5Etfw">March 5, 2022</a></blockquote></section>
+<section>
+<section >
+<h2>YAPCとは</h2>
+<ul class="simple">
+<li><p>Yet Another Perl Conference</p></li>
+<li><p>「Perlを軸としたITに関わる全ての人のためのカンファレンス」</p></li>
+<li><p>2年ぶりにオンライン開催</p></li>
+</ul>
+</section>
+<section >
+<h3>nikkie、Perl書けるの？</h3>
+<ul class="simple">
+<li><p><strong>書けない</strong> けど、参加しました😎</p></li>
+<li><p>Perlを触ったことすらありませんでした</p></li>
+<li><p>参加理由：面白そう！</p></li>
+</ul>
+</section>
+<section >
+<h3>Perl以外のトーク、面白そう！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">YAPCはPerlのトークも沢山ありますが、Perl以外のトークもあります！！ TypeScript、スクラム、エンジニア組織、ReDoS検出、PHP で NFC リーダーなどなど… 気になるキーワードがあったら是非YAPC::Japan::Online 2022でトークを聞いてみてください <a href="https://twitter.com/hashtag/yapcjapan?src=hash&amp;ref_src=twsrc%5Etfw">#yapcjapan</a> <a href="https://t.co/gg9hCn8IEx">https://t.co/gg9hCn8IEx</a></p>&mdash; yapcjapan (@yapcjapan) <a href="https://twitter.com/yapcjapan/status/1494492111026024449?ref_src=twsrc%5Etfw">February 18, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+</section>
+<section>
+<section >
+<h2>興味深かったトーク紹介</h2>
+<p>Perl以外のトークを中心に聞きました</p>
+</section>
+<section >
+<h3>開発生産性について</h3>
+<p><a class="reference external" href="https://speakerdeck.com/yasuakiomokawa/huroxiao-lu-falsexiang-shang-karashi-merukai-fa-sheng-chan-xing-falsegao-mefang-mohuwakuwoyan-ete-how-to-go-on-high-peformance-with-mob-work">https://speakerdeck.com/yasuakiomokawa/huroxiao-lu-falsexiang-shang-karashi-merukai-fa-sheng-chan-xing-falsegao-mefang-mohuwakuwoyan-ete-how-to-go-on-high-peformance-with-mob-work</a></p>
+</section>
+<section >
+<h3>エンジニア個人のアウトプットでワイワイするノウハウ</h3>
+<p><a class="reference external" href="https://www.slideshare.net/takafumionaka/ss-251290030">https://www.slideshare.net/takafumionaka/ss-251290030</a></p>
+</section>
+<section >
+<h3>トーク楽しみました！</h3>
+<ul class="simple">
+<li><p>Perl以外のトーク！</p></li>
+<li><p>PerlについてのLT：「Perlは文学」</p></li>
+<li><p>拙記事：資料まとめ <a class="reference external" href="https://qiita.com/ftnext/items/bf94e22a26982c90bc12">https://qiita.com/ftnext/items/bf94e22a26982c90bc12</a></p></li>
+</ul>
+</section>
+<section >
+<h3>アーカイブ予定。楽しみ！</h3>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">【お知らせ】本日及び明日のトークの一部は後日アーカイブ配信予定です！もし見逃した方はそちらをお待ちください🙏 <a href="https://twitter.com/hashtag/yapcjapan?src=hash&amp;ref_src=twsrc%5Etfw">#yapcjapan</a></p>&mdash; yapcjapan (@yapcjapan) <a href="https://twitter.com/yapcjapan/status/1499743306569244673?ref_src=twsrc%5Etfw">March 4, 2022</a></blockquote></section>
+</section>
+<section>
+<section >
+<h2>トーク以外も魅力的なコンテンツ！</h2>
+</section>
+<section >
+<h3>チキン！！</h3>
+<p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/yapc-japan-online-2022-report-bulletin">https://nikkie-ftnext.hatenablog.com/entry/yapc-japan-online-2022-report-bulletin</a></p>
+</section>
+<section >
+<h3>川柳！！</h3>
+<p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/yapc-japan-online-2022-senryu-poem-gachi-battle">https://nikkie-ftnext.hatenablog.com/entry/yapc-japan-online-2022-senryu-poem-gachi-battle</a></p>
+</section>
+<section >
+<h3>楽しみました😃</h3>
+</section>
+</section>
+<section>
+<section >
+<h2>Perlってどんな言語？</h2>
+<ul class="simple">
+<li><p>「Perlは正規表現が言語に組み込まれている」</p></li>
+<li><p>参考 <a class="reference external" href="https://philosophy.perlzemi.com/">https://philosophy.perlzemi.com/</a></p></li>
+</ul>
+</section>
+<section >
+<h3>哲学</h3>
+<ul class="simple">
+<li><p>「やり方は一つじゃない（TMTOWTDI: There's More Than One Way To Do It.）」</p></li>
+<li><p>👉 <strong>多様性</strong>！</p></li>
+</ul>
+</section>
+<section >
+<h3>参加しての感想</h3>
+<ul class="simple">
+<li><p>YAPC、懐が深い</p></li>
+<li><p>PyConとの雰囲気の違い！</p>
+<ul>
+<li><p>Zen of Pythonとは違う</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯：YAPC::Japan::Online 2022 レポート</h2>
+<ul class="simple">
+<li><p>トークもトーク以外も楽しみました！</p></li>
+<li><p>YAPCの雰囲気、PyConとは違うと参加してみて肌で感じました</p></li>
+</ul>
+</section>
+<section >
+<h3>カンファレンスで別の言語入門</h3>
+<ul class="simple">
+<li><p>知らない言語に触れる一歩目としてカンファレンスありかも</p></li>
+<li><p>文化、雰囲気を体験できる！</p></li>
+</ul>
+</section>
+<section >
+<h3>ご清聴ありがとうございました</h3>
+</section>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

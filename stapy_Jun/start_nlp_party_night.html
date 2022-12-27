@@ -1,0 +1,1062 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>えぬえるぴーや 1ねんせい</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/stapy_Jun/start_nlp_party_night.html">
+    <meta property="og:title" content="えぬえるぴーや 1ねんせい">
+    <meta property="og:description" content="BERT以後の自然言語処理入門を話します。2022/06 みんなのPython勉強会#82 トークスライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/stapy_Jun.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>えぬえるぴーや 1ねんせい</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>みんなのPython勉強会#82</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/06/09 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>BERT以後の自然言語処理入門を話します</h2>
+<ul class="simple">
+<li><p>いい感じのタイトルは「えぬえるぴーや 1ねんせい」となりました</p></li>
+<li><p>元ネタは <a class="reference external" href="https://idolmaster-official.jp/news/01_1556.html">こちら</a> （香川照之さん）</p></li>
+<li><p>BERTを <strong>ばーっと理解</strong> しましょう</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>皆さんの自然言語処理経験</h2>
+<figure class="align-default">
+<img alt="../_images/202206_poll_nlp_experience.png" src="../_images/202206_poll_nlp_experience.png" />
+</figure>
+</section>
+<section >
+<h3>お前、誰よ</h3>
+<ul class="simple">
+<li><p><strong>にっきー</strong> ／ Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a> ／ GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>えぬえるぴーや 4年生（株式会社ユーザベースのデータサイエンティスト）</p></li>
+<li><p>Python大好き 6年生（みんなのPython勉強会のスタッフ）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>えぬえるぴーやの提唱者</h2>
+<blockquote class="twitter-tweet" data-align="center" data-dnt="true"><p lang="ja" dir="ltr">電波受信！<br><br>自然言語処理（NLP）に従事する者の呼称、<br>NLPer（えぬえるぴーや）<br><br>SIerと同じ読み方なら、えぬえるぴあー、でも「ぴーや」もそんなに変わらないのでは？<br>試しに今後のLTなどで名乗って見よう</p>&mdash; nikkie にっきー シオンv0.0.1開発中⚒ (@ftnext) <a href="https://twitter.com/ftnext/status/1414264653517971460?ref_src=twsrc%5Etfw">July 11, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>「ぴーや」（小島よしお）や <a class="reference external" href="https://youtu.be/58VyD_I5tcA">チキチキバンバン</a> の「ぱりぴーや♪」（パリピ孔明）が好き</p>
+</section>
+<section >
+<h3>このトークの前提</h3>
+<ul class="simple">
+<li><p>対象は「自然言語処理は初めて・機械学習も初めて」で想定しています</p></li>
+<li><p>Pythonは入門済みとします（ライブラリを <strong class="command">pip install</strong> できて、スライドのコード例は手元で実行できる）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>注意事項</h2>
+<ul class="simple">
+<li><p>「私ここ知ってる！」と感じたところは <strong>飛ばして</strong> もらってかまいません（通読の必要なし）</p></li>
+<li><p>自然言語処理・機械学習が初めてでもBERTの一歩目が踏み出せるように構成しましたが、 <strong>情報量は多く</strong> なっています</p>
+<ul>
+<li><p>理解に時間をかけよう（<a class="reference external" href="https://note.com/simplearchitect/n/n388201603a28">プログラミングというより物事が出来るようになる思考法</a>）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>主な参考書籍</h2>
+<ol class="arabic simple">
+<li><p>『<a class="reference external" href="https://www.shoeisha.co.jp/book/detail/9784798128528">自然言語処理の基本と技術</a>』(2016)</p></li>
+<li><p>『<a class="reference external" href="https://www.ohmsha.co.jp/book/9784274227264/">BERTによる自然言語処理入門</a>』(2021)</p></li>
+<li><p>『<a class="reference external" href="https://www.shoeisha.co.jp/book/detail/9784798158341">Pythonによるあたらしいデータ分析の教科書</a>』(2018)</p></li>
+</ol>
+</section>
+<section>
+<section >
+<h2>お品書き えぬえるぴーや 1ねんせい</h2>
+<ol class="arabic simple">
+<li><p>自然言語処理</p></li>
+<li><p>自然言語処理と機械学習</p></li>
+<li><p>自然言語処理とBERT</p></li>
+</ol>
+</section>
+<section >
+<h3>Part I. 自然言語処理</h3>
+<ul class="simple">
+<li><p>自然言語処理とはなにか</p></li>
+<li><p>自然言語処理の例</p></li>
+</ul>
+</section>
+<section >
+<h3>自然言語処理とは</h3>
+<ul class="simple">
+<li><p>自然言語（Natural Language）を処理する（Processing）</p></li>
+<li><p><strong>NLP</strong> とも呼ばれる</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>自然言語（📚[1] 1-1）</h2>
+<ul class="simple">
+<li><p>私たちがふだん書いたり話したりする言語（例：日本語、英語）</p></li>
+<li><p>人間の歴史の中で <em>自然</em> に発達してきた</p></li>
+</ul>
+</section>
+<section >
+<h2>自然言語ではない言語（📚[1] 1-1）</h2>
+<ul class="simple">
+<li><p>プログラミング言語</p></li>
+<li><p>人工言語（例： <a class="reference external" href="https://ja.wikipedia.org/wiki/%E3%82%A8%E3%82%B9%E3%83%9A%E3%83%A9%E3%83%B3%E3%83%88">エスペラント語</a> ）</p></li>
+<li><p>e.t.c.</p></li>
+</ul>
+</section>
+<section >
+<h2>自然言語処理（📚[2] 1-1）</h2>
+<p>自然言語の関わる問題を <strong>コンピュータで解く</strong></p>
+</section>
+<section>
+<section >
+<h2>自然言語処理で扱う <strong>問題＝タスク</strong></h2>
+<p>幅広いタスクがある</p>
+<ul class="simple">
+<li><p>例：漢字かな変換（PC・スマホで日本語入力できるのもNLP）</p></li>
+<li><p>他の例はこのトークの中でも示します</p></li>
+</ul>
+</section>
+<section >
+<h3>自然言語処理の例</h3>
+<ul class="simple">
+<li><p>タスク： <strong>感情分析</strong></p></li>
+<li><p>1つのやり方を示しますが、他のやり方も全然ありえます</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>感情分析タスク</h2>
+<ul class="simple">
+<li><p>文書が <strong>ポジティブかネガティブか</strong> を判定</p>
+<ul>
+<li><p>👉（単純な文書として）この文はポジティブ？それともネガティブ？</p></li>
+</ul>
+</li>
+<li><p>極性判定とも言われる</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>『吾輩は猫である』を感情分析</h2>
+<pre data-id="id22"><code data-trim data-noescape class="txt">吾輩は猫である。
+名前はまだ無い。
+どこで生れたかとんと見当がつかぬ。</code></pre>
+<p>文で区切られたテキストがあるとします（用意する過程はAppendix）</p>
+</section>
+<section >
+<h3>僕が考えた最強の感情分析ルール（ref: 📚[3] 5.2.5）</h3>
+<ul class="simple">
+<li><p>文は <strong>単語</strong> から構成される</p></li>
+<li><p>ポジティブな単語／ネガティブな単語の <strong>数</strong> で文の感情を判断してみる</p></li>
+<li><p>例：この文は10語からできていて、ポジティブな単語が3、ネガティブな単語が1</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>ポジティブな単語、ネガティブな単語の一覧</h2>
+<ul class="simple">
+<li><p><strong>日本語極性評価辞書</strong></p></li>
+<li><p><a class="reference external" href="https://www.cl.ecei.tohoku.ac.jp/Open_Resources-Japanese_Sentiment_Polarity_Dictionary.html">https://www.cl.ecei.tohoku.ac.jp/Open_Resources-Japanese_Sentiment_Polarity_Dictionary.html</a> から入手可能</p></li>
+</ul>
+</section>
+<section >
+<h2>ポジティブな単語、ネガティブな単語の一覧</h2>
+<ul class="simple">
+<li><p><strong>tsvファイル</strong> として読み込む（Pythonのcsvモジュール）</p></li>
+</ul>
+<pre data-id="id23"><code data-trim data-noescape class="tsv">ネガ（経験）      あきらめる
+ネガ（評価）    あざとい
+ポジ（経験）    あこがれる
+ポジ（評価）    あか抜ける</code></pre>
+</section>
+<section >
+<h2>単語から付与する文の感情スコア</h2>
+<ul class="simple">
+<li><p>文書の極性＝ <strong>単語の極性の総和</strong></p>
+<ul>
+<li><p>ポジティブな単語があれば+1</p></li>
+<li><p>ネガティブな単語があれば-1</p></li>
+<li><p>（極性辞書にない単語は何もしない）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>文の感情スコア例</h2>
+<ul class="simple">
+<li><p>10語からできた文</p></li>
+<li><p>ポジティブな単語が <strong>3</strong>、ネガティブな単語が <strong>1</strong></p></li>
+<li><p>感情スコアは+2（ <code class="docutils literal notranslate"><span class="pre">+3+(-1)</span></code> ）</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>『吾猫』の感情分析</h2>
+<ul class="simple">
+<li><p>ポジティブ・ネガティブな単語の一覧が手元にある（先の辞書）</p></li>
+<li><p>文も手元にある</p></li>
+<li><p><em>どうやって文を単語に分ける？</em></p></li>
+</ul>
+</section>
+<section >
+<h3>日本語の文を単語に分ける</h3>
+<ul class="simple">
+<li><p>日本語は文の中の単語が区切られていない</p></li>
+<li><p>単語に分けるために <strong>形態素解析</strong> する</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>形態素解析＝単語分割＋品詞付与（📚[1] 2-5）</h2>
+<ul class="simple">
+<li><p>単語分割＝分かち書き</p></li>
+<li><p>品詞：名詞、動詞など</p></li>
+</ul>
+</section>
+<section >
+<h2>分かち書きの例</h2>
+<pre data-id="id29"><code data-trim data-noescape class="txt">吾輩/は/猫/で/ある/。
+名前/は/まだ/無い/。
+どこ/で/生れ/た/か/と/んと/見当/が/つか/ぬ/。</code></pre>
+<p><em>fugashi (MeCab) + unidic の結果</em></p>
+</section>
+<section>
+<section >
+<h2>品詞付与のイメージ</h2>
+<pre data-id="id30"><code data-trim data-noescape class="txt">ウケる 動詞,一般,,,下一段-カ行,連体形-一般,ウケル,受ける,ウケる,ウケル,ウケる,ウケル,和,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,用,ウケル,ウケル,ウケル,ウケル,&quot;2&quot;,&quot;C1&quot;,&quot;&quot;,849106612396737,3089</code></pre>
+<p><em>MeCab + unidic</em></p>
+</section>
+<section >
+<h3>コンピュータで形態素解析</h3>
+<ul class="simple">
+<li><p>MeCab</p></li>
+<li><p>Pythonライブラリ</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>「オープンソース 形態素解析エンジン」MeCab</h2>
+<blockquote>
+<div><p>言語, 辞書,コーパスに依存しない汎用的な設計</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><a class="reference external" href="https://taku910.github.io/mecab/">https://taku910.github.io/mecab/</a></p></li>
+<li><p><strong class="command">mecab</strong> コマンドで単語分割と品詞付与できる</p></li>
+</ul>
+</section>
+<section >
+<h2>Pythonで形態素解析</h2>
+<ul class="simple">
+<li><p>ライブラリにより、 <strong>Pythonから</strong> MeCabを使える</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fugashi</span></code> を紹介（ラッパーライブラリ）</p></li>
+<li><p>他の言語でも <a class="reference external" href="https://taku910.github.io/mecab/bindings.html">https://taku910.github.io/mecab/bindings.html</a></p></li>
+</ul>
+</section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">fugashi</span></code> による分かち書き</h2>
+<pre data-id="fugashi"><code data-trim data-noescape class="python">from fugashi import Tagger
+
+tagger = Tagger(&quot;-Owakati&quot;)
+
+texts = [&quot;吾輩は猫である。&quot;, &quot;名前はまだ無い。&quot;, &quot;どこで生れたかとんと見当がつかぬ。&quot;]
+for text in texts:
+    print(&quot;/&quot;.join(word.surface for word in tagger(text)))</code></pre>
+</section>
+<section >
+<h2>付与する品詞情報の利用例</h2>
+<ul class="simple">
+<li><p>文中の単語は活用されている（例：ウケた）</p></li>
+<li><p>品詞情報を使って、辞書に載っている形式＝ <strong>原形に戻せる</strong> （例：ウケる） ※極性評価辞書の関係</p></li>
+<li><p>今回はunidicという辞書を使っています</p></li>
+</ul>
+</section>
+<section >
+<h2>原形に揃える例</h2>
+<pre data-id="id34"><code data-trim data-noescape class="txt">我が輩/は/猫/だ/有る/。
+名前/は/未だ/無い/。
+何処/で/生まれる/た/か/と/うんと/見当/が/付く/ず/。</code></pre>
+<p>fugashi (MeCab) + unidic の結果</p>
+</section>
+<section>
+<section >
+<h2>参考 <code class="docutils literal notranslate"><span class="pre">fugashi</span></code> で原形に戻して分かち書き</h2>
+<pre data-id="id35"><code data-trim data-noescape class="python">from fugashi import Tagger
+
+tagger = Tagger(&quot;-Owakati&quot;)
+
+texts = [&quot;吾輩は猫である。&quot;, &quot;名前はまだ無い。&quot;, &quot;どこで生れたかとんと見当がつかぬ。&quot;]
+for text in texts:
+    print(&quot;/&quot;.join(word.feature.lemma for word in tagger(text)))</code></pre>
+<p>極性辞書の都合で、原形が必要</p>
+</section>
+<section >
+<h3>ルールを決めて『吾輩は猫である』の文を感情分析</h3>
+<ol class="arabic simple">
+<li><p><strong>形態素解析</strong> で文を単語に分ける</p></li>
+<li><p>日本語極性評価辞書を読み込む</p></li>
+<li><p>ポジティブ／ネガティブな <em>単語を数えて</em> 文の感情スコアとする</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>『吾輩は猫である』の感情分析結果</h2>
+<pre data-id="id37"><code data-trim data-noescape class="txt"># 0
+吾輩は猫である。
+名前はまだ無い。
+どこで生れたかとんと見当がつかぬ。
+
+# ポジティブ 3 （まあわかる）
+これは背のすらりとした撫肩の恰好よく出来上った女で、着ている薄紫の衣服も素直に着こなされて上品に見えた。
+
+# ポジティブ 3 （あれ？）
+背といい毛並といい顔の造作といいあえて他の猫に勝るとは決して思っておらん。
+
+# ネガティブ -2 （まあわかる）
+死んでからああ残念だと墓場の影から悔やんでもおっつかない。</code></pre>
+</section>
+<section >
+<h3>まとめ🥟 Part I. 自然言語処理</h3>
+<ul class="simple">
+<li><p><strong>自然言語の関わるタスクをコンピュータで解く</strong></p></li>
+<li><p>文の構成要素である単語を扱う例</p>
+<ul>
+<li><p><em>形態素解析＝分かち書き+品詞情報</em></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Part II. 自然言語処理と機械学習</h3>
+<ul class="simple">
+<li><p>自然言語処理における機械学習</p></li>
+<li><p>機械学習を使った自然言語処理の例</p></li>
+</ul>
+</section>
+<section >
+<h3>自然言語処理における機械学習</h3>
+<ul class="simple">
+<li><p>自然言語処理のタスクはコンピュータで解く</p></li>
+<li><p>機械学習の機械＝コンピュータ</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>タスクへのアプローチの変化</h2>
+<ul class="simple">
+<li><p>吾猫の例で示したのは <strong>人手</strong> 🙋‍♂️によるルールを使ったアプローチ</p></li>
+<li><p>ルールをデータから見つける技術である <em>機械学習</em> も使われる</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>機械学習について簡単に（📚[3] 1.2.1）</h2>
+<blockquote>
+<div><p>大量のデータから、機械学習アルゴリズムによってデータの特性を見つけて予測などを行う計算式の塊を作る</p>
+</div></blockquote>
+</section>
+<section >
+<h2>機械学習について簡単に（📚[3] 1.2.1）</h2>
+<ul class="simple">
+<li><p>作られる計算式の塊＝ <strong>モデル</strong></p></li>
+<li><p>モデルを作る（＝訓練する＝ルールを <strong>自動</strong> で求める）ために</p>
+<ul>
+<li><p>大量の <strong>データ</strong> を用意</p></li>
+<li><p>機械学習アルゴリズムを指定</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>自然言語処理のタスクは、機械学習でいう <strong>分類</strong> タスク</h3>
+<ul class="simple">
+<li><p><em>教師あり</em> 学習：データに <strong>正解ラベル</strong> がある</p></li>
+<li><p>正解ラベルは <em>カテゴリ</em></p>
+<ul>
+<li><p>この後出す例：ニュースグループのカテゴリ（宗教、コンピュータ、など）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section >
+<h2>教師あり学習（分類も該当）</h2>
+<ul class="simple">
+<li><p>モデルで予測したい変数（＝目的変数）は <strong>正解ラベル</strong></p></li>
+<li><p><em>特徴量</em> （＝説明変数）を使って、モデルを訓練</p></li>
+<li><p>※機械学習の用語の説明は📚[3] 1.2.3をどうぞ</p></li>
+</ul>
+</section>
+<section >
+<h2>機械学習でテキストを扱うには（📚[2] 1-2）</h2>
+<ol class="arabic simple">
+<li><p>テキストからタスクを解くのに有用な特徴量を抽出する</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>テキストを数値に変換</strong> する必要がある（次で例示）</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>特徴量でモデルを訓練</p></li>
+</ol>
+</section>
+<section>
+<section >
+<h2>補足：自然言語処理の歴史（📚[1] 1-3）</h2>
+<ul class="simple">
+<li><p>自然言語処理はコンピュータが誕生した1940年代からある（翻訳）</p></li>
+<li><p>当初は <strong>人手</strong> 🙋‍♂️でルールを整備（≒if文いっぱい）</p></li>
+<li><p>1990年代から、 <strong>機械学習</strong> 🤖を用いたアプローチ（統計的自然言語処理）が登場</p></li>
+</ul>
+</section>
+<section >
+<h3>機械学習を使った自然言語処理の例</h3>
+<ul class="simple">
+<li><p>タスク： <strong>文書分類</strong> （テキスト分類）</p></li>
+<li><p>ニュースグループの投稿（英語）をカテゴリに分類する</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>脱線：ニュースグループって？</h2>
+<ul class="simple">
+<li><p>ネットニュースのグループ</p></li>
+<li><p>ネットニュース≒電子掲示板</p></li>
+<li><p>「今で言うTwitterみたいなものね」</p></li>
+</ul>
+</section>
+<section >
+<h2>ニュースグループの投稿をカテゴリに分類</h2>
+<ul class="simple">
+<li><p>scikit-learnのチュートリアル <a class="reference external" href="https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html">Working With Text Data</a> から</p>
+<ul>
+<li><p>機械学習アルゴリズムや評価用ツールが集まったライブラリ（📚[3] 1.3.2）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<section >
+<h2>機械学習でモデルの訓練に必要なものは</h2>
+<ul class="simple">
+<li><p>データ</p></li>
+<li><p>機械学習アルゴリズム</p></li>
+</ul>
+</section>
+<section >
+<h2>機械学習でモデルの訓練に必要なものは</h2>
+<ul class="simple">
+<li><p>データ：ニュースグループの投稿（<code class="docutils literal notranslate"><span class="pre">sklearn.datasets.fetch_20newsgroups</span></code>）</p></li>
+<li><p>機械学習アルゴリズム：ニューラルネットワーク（<code class="docutils literal notranslate"><span class="pre">sklearn.neural_network.MLPClassifier</span></code>）</p></li>
+</ul>
+</section>
+<section >
+<h3>機械学習でテキストを扱う流れ</h3>
+<ol class="arabic simple">
+<li><p>テキストから特徴量を抽出（テキストを <strong>数値</strong> に変換）</p></li>
+<li><p>特徴量でモデルを訓練</p></li>
+</ol>
+</section>
+</section>
+<section >
+<h2>データから特徴量を抽出</h2>
+<ul class="simple">
+<li><p>テキスト（＝文書）＝ <strong>文</strong> の集合</p></li>
+<li><p>個々の文は <strong>単語</strong> から構成される</p></li>
+<li><p>テキストに含まれる単語を使って、テキストを数値で表す</p></li>
+</ul>
+</section>
+<section >
+<h2>テキストを単語に関する数値で表す（📚[3] 5.2.3）</h2>
+<p>2つのテキスト</p>
+<ul class="simple">
+<li><p>子供が走る</p></li>
+<li><p>子供の脇を車が走る</p></li>
+</ul>
+<p>単語：子供/走る/車/脇/が/の/を</p>
+</section>
+<section >
+<h2>テキストを単語に関する数値で表す（📚[3] 5.2.3）</h2>
+<ul class="simple">
+<li><p>子供が走る</p>
+<ul>
+<li><p>テキストを構成する単語 子供/走る/が に何らかの数値</p></li>
+<li><p>このテキストに登場しない 車/脇/の/を は0で表す</p></li>
+</ul>
+</li>
+<li><p>(<strong>子供</strong>/ <strong>走る</strong> /車/脇/ <strong>が</strong> /の/を) = (<strong>?</strong> / <strong>?</strong> /0/0/ <strong>?</strong> /0/0)</p></li>
+</ul>
+</section>
+<section >
+<h2>テキストを単語に関する数値で表す（📚[3] 5.2.3）</h2>
+<ul class="simple">
+<li><p>子供の脇を車が走る</p>
+<ul>
+<li><p>テキストを構成する単語 子供/走る/車/脇/が/の/を に何らかの数値</p></li>
+</ul>
+</li>
+<li><p>(子供/走る/車/脇/が/の/を) = (?/?/?/?/?/?/?)</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>文中の単語の数値を算出</h2>
+<ul class="simple">
+<li><p>単語の <em>TFIDF</em> を使う</p></li>
+<li><p>正の小数値</p></li>
+<li><p>テキストに <strong>特徴的</strong> な（＝多く登場し、かつ、そのテキストにしか登場しない）単語には大きい値</p></li>
+</ul>
+</section>
+<section >
+<h3>ニュースグループ投稿のテキスト分類</h3>
+<ul class="simple">
+<li><p>分類するカテゴリは4つ</p></li>
+<li><p>ニュースグループの投稿のうち 2257 本を扱う</p></li>
+<li><p>含まれる全ての <strong>単語</strong> は 35788 語</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>TFIDFで特徴量抽出</h2>
+<ul class="simple">
+<li><p>1つ1つの投稿は、35788個の数値の並びで表される（ベクトル）</p></li>
+<li><p>投稿に含まれる単語はTFIDFの値、含まれない単語は0</p></li>
+</ul>
+</section>
+<section >
+<h2>TFIDFで特徴量抽出</h2>
+<ul class="simple">
+<li><p>例: <cite>'OpenGL on the GPU is fast'</cite></p></li>
+</ul>
+<pre data-id="tfidf"><code data-trim data-noescape class="txt">gpu god opengl  ... (35000語分並ぶ)
+0.67    0   0.60</code></pre>
+<p>openglやgpuはこのテキストに特徴的ということ</p>
+</section>
+<section >
+<h2>特徴量でモデルを訓練</h2>
+<ul class="simple">
+<li><p>特徴量：2257本 × 35788個の数値 &amp; 正解ラベル</p></li>
+<li><p>教師あり学習の設定で、モデルを作る</p></li>
+<li><p>＝ <strong>特徴量から投稿分類ルールを自動で求める</strong></p></li>
+</ul>
+</section>
+<section >
+<h2>モデルの気持ち</h2>
+<ul class="simple">
+<li><p>このカテゴリは、これらの語のTFIDFが高いぞ！</p></li>
+<li><p>別のカテゴリは、別の語たちのTFIDFが高いぞ！</p></li>
+<li><p>ただし、機械学習は、ルールを適用した結果、 <strong>間違える可能性</strong> がついて回ります</p></li>
+</ul>
+</section>
+<section >
+<h2>コード例</h2>
+<pre data-id="id57"><code data-trim data-noescape class="python">from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.neural_network import MLPClassifier
+
+categories = [&quot;alt.atheism&quot;, &quot;soc.religion.christian&quot;, &quot;comp.graphics&quot;, &quot;sci.med&quot;]
+
+twenty_train = fetch_20newsgroups(  # ニュースグループの投稿4カテゴリ分（正解ラベル付き）
+    subset=&quot;train&quot;, categories=categories, shuffle=True, random_state=42
+)
+tfidf_vect = TfidfVectorizer()
+X_train_tfidf = tfidf_vect.fit_transform(twenty_train.data)  # TFIDFで特徴量抽出
+
+clf = MLPClassifier()
+clf.fit(X_train_tfidf, twenty_train.target)</code></pre>
+</section>
+<section >
+<h2>モデルの実力、見せてもらおう！</h2>
+<p>短い投稿をモデルで分類してみます</p>
+<pre data-id="id58"><code data-trim data-noescape class="txt">'God is love' -&gt; soc.religion.christian
+# 宗教カテゴリに分類された
+
+'OpenGL on the GPU is fast' -&gt; comp.graphics
+# コンピュータカテゴリに分類された</code></pre>
+</section>
+<section>
+<section >
+<h2>英語と日本語の違い</h2>
+<ul class="simple">
+<li><p>英語は <strong>空白で単語が区切られて</strong> いる</p>
+<ul>
+<li><p>そのまま <code class="docutils literal notranslate"><span class="pre">sklearn.feature_extraction.text.TfidfVectorizer</span></code> に入力できる</p></li>
+</ul>
+</li>
+<li><p>日本語ではまず単語を区切る必要がある（先に示した <em>分かち書き</em>）</p></li>
+</ul>
+</section>
+<section >
+<h3>まとめ🥟 Part II. 自然言語処理と機械学習</h3>
+<ul class="simple">
+<li><p>タスクを解くために、人手のルールだけでなく、機械学習（ <strong>データからルールを見つける技術</strong> ）を使う</p></li>
+<li><p>機械学習では、人手で抽出した <strong>特徴量</strong> からモデルを訓練</p>
+<ul>
+<li><p>TFIDFで特徴量を作る例</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>Part III. 自然言語処理とBERT</h3>
+<p>（今日のstapyと）最近の自然言語処理を席巻している <em>BERT</em> がいよいよ登場します</p>
+</section>
+</section>
+<section>
+<section >
+<h2>Part III. 自然言語処理とBERT</h2>
+<ul class="simple">
+<li><p>BERTに至る流れ</p></li>
+<li><p>BERTの訓練 101</p></li>
+<li><p>BERTの利用例</p></li>
+</ul>
+</section>
+<section >
+<h3>ニューラル言語モデル</h3>
+<ul class="simple">
+<li><p><em>ニューラルネットワーク</em> により実現される</p></li>
+<li><p><em>言語モデル</em></p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>ニューラルネットワーク（📚[2] 2-2）</h2>
+<ul class="simple">
+<li><p>機械学習アルゴリズムの1つ（先に示した）</p></li>
+<li><p><strong>変換を行う層</strong> を（何層も） <strong>組合せる</strong></p></li>
+</ul>
+<aside class="notes">
+あたらしいデータ分析の教科書</aside>
+</section>
+<section >
+<h2>言語モデル（📚[2] 2-1）</h2>
+<ul class="simple">
+<li><p>文章の <strong>出現しやすさ</strong> を確率によってモデル化</p>
+<ul>
+<li><p>「私はパンを食べた」&gt;「私はパンに食べた」&gt;「私は家を食べた」</p></li>
+</ul>
+</li>
+<li><p>この確率は文章の <strong>自然さ</strong> とも見なせる</p></li>
+</ul>
+</section>
+<section >
+<h2>ニューラル言語モデルの訓練</h2>
+<ul class="simple">
+<li><p>言語モデルとなるニューラルネットワークを訓練する</p></li>
+<li><p>自然言語から <strong>ラベル付きデータを自動で作れる</strong></p>
+<ul>
+<li><p>例：それまでの単語たちから次の単語を予測</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>ニューラルネットワークへの入力</h2>
+<ul class="simple">
+<li><p>単語を <strong>整数ID</strong> に変換だけして入力</p>
+<ul>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">7184,</span> <span class="pre">30046,</span> <span class="pre">9,</span> <span class="pre">6040,</span> <span class="pre">12,</span> <span class="pre">31,</span> <span class="pre">8</span></code></p></li>
+</ul>
+</li>
+<li><p>各単語（ID）をどのようなベクトルとして扱うかも自動で見つける</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>用語紹介「深層学習」（📚[2] 1-3）</h2>
+<ul class="simple">
+<li><p>1つのモデルで特徴量抽出とその後の処理を行う</p></li>
+<li><p><strong>特徴量の抽出も含めて</strong>、データからルールを <strong>自動</strong> で見つける</p></li>
+<li><p>人手によらない特徴量抽出</p></li>
+</ul>
+</section>
+<section >
+<h3>BERT</h3>
+<p>ようやくBERTの話ができる！（ゼイゼイ）</p>
+</section>
+</section>
+<section >
+<h2>Transformer（📚[2] 3-1）</h2>
+<ul class="simple">
+<li><p>2017年の論文「<a class="reference external" href="https://papers.nips.cc/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">Attention is All You Need</a>」で提案されたモデル</p></li>
+<li><p>BERTはTransformerで提案されたニューラルネットワークを用いる</p></li>
+</ul>
+</section>
+<section >
+<h2>BERT</h2>
+<ul class="simple">
+<li><p>2018年発表、Bidirectional Encoder Representations from Transformersの略</p></li>
+<li><p>BERTもニューラル言語モデル</p></li>
+<li><p><strong>1つのモデルで複数のタスクを扱える</strong> のが革新的</p></li>
+</ul>
+</section>
+<section >
+<h2>余談：BERTは <em>コンビニ</em></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.slideshare.net/techblogyahoo/ss-251672433/90">NLP2022チュートリアル</a> で聞いた喩え</p></li>
+<li><p>BERTは汎用モデルで、かつタスク固有のモデルを凌いだ</p></li>
+<li><p>BERT（コンビニの鰻・天ぷら）／タスク固有モデル（鰻屋の鰻・天ぷら屋の天ぷら）</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>ライブラリ <code class="docutils literal notranslate"><span class="pre">transformers</span></code> 🤗</h2>
+<ul class="simple">
+<li><p>Transformerやそれ以後に派生したモデルを扱うためのライブラリ</p></li>
+<li><p>Transformerモデルの <strong>訓練</strong> や、 <strong>読み込んで使う</strong> のをサポート</p></li>
+<li><p>もちろんBERTもサポート</p></li>
+</ul>
+</section>
+<section >
+<h3>BERTの利用例：感情分析タスク</h3>
+<ul class="simple">
+<li><p>『吾輩は猫である』の感情分析をBERTでやってやりましょう</p></li>
+<li><p>感情分析タスクは、機械学習の <strong>二値分類</strong> （2つのカテゴリに分類）</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>コードはこれだけ！</h2>
+<pre data-id="id72"><code data-trim data-noescape class="python">from transformers import pipeline
+
+nlp = pipeline(
+    &quot;sentiment-analysis&quot;,
+    model=&quot;daigo/bert-base-japanese-sentiment&quot;,
+    tokenizer=&quot;daigo/bert-base-japanese-sentiment&quot;,
+    truncation=True,
+)
+
+texts = [&quot;吾輩は猫である。&quot;, &quot;名前はまだ無い。&quot;, &quot;どこで生れたかとんと見当がつかぬ。&quot;]
+for text in texts:
+    print(nlp(text))</code></pre>
+</section>
+<section >
+<h2>BERTによる感情分析結果</h2>
+<pre data-id="id73"><code data-trim data-noescape class="txt">吾輩は猫である。
+-&gt; [{'label': 'ポジティブ', 'score': 0.9909781217575073}]
+
+名前はまだ無い。
+-&gt; [{'label': 'ポジティブ', 'score': 0.5273743867874146}]
+（ネガティブが0.47なので、自信がない）
+
+どこで生れたかとんと見当がつかぬ。
+-&gt; [{'label': 'ネガティブ', 'score': 0.9475129842758179}]</code></pre>
+</section>
+<section >
+<h2>コードの裏で行われていること</h2>
+<ul class="simple">
+<li><p>日本語の感情分析BERTの <strong>ファイル群</strong> をダウンロード</p>
+<ul>
+<li><p><a class="reference external" href="https://huggingface.co/daigo/bert-base-japanese-sentiment/tree/main">https://huggingface.co/daigo/bert-base-japanese-sentiment/tree/main</a></p></li>
+</ul>
+</li>
+<li><p>ファイル群をモデルや <em>トークナイザ</em> として <strong>読み込む</strong></p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>トークナイザとは</h2>
+<ul class="simple">
+<li><p>「単語どうしを区切る」役割</p></li>
+<li><p>ただし、単語（word）よりも細かい単位（<strong>サブワード</strong>）で区切ることがある</p></li>
+</ul>
+<pre data-id="id75"><code data-trim data-noescape class="python">&gt;&gt;&gt; nlp.tokenizer.encode(&quot;吾輩は猫である。&quot;)  # トークナイザによりIDの並び
+[2, 7184, 30046, 9, 6040, 12, 31, 8, 3]
+&gt;&gt;&gt; # decodeすると 吾輩/は/猫/で/ある/。 と分かち書きされた</code></pre>
+<aside class="notes">
+得内座👹「お前もTransformer使いにならないか」</aside>
+</section>
+<section >
+<h3>BERTの訓練を押さえよう</h3>
+<p>例を見たBERTについて <strong>理論面を少しだけ</strong></p>
+</section>
+</section>
+<section>
+<section >
+<h2>これだけ押さえる： <strong>転移学習</strong></h2>
+<p>訓練が2段階ある</p>
+<ul class="simple">
+<li><p>事前学習（pre-train）</p></li>
+<li><p>ファインチューニング（fine-tuning）</p></li>
+</ul>
+</section>
+<section >
+<h3>事前学習</h3>
+<ul class="simple">
+<li><p>大量のテキストを用意（日本語で書かれたWikipedia）</p></li>
+<li><p>（簡略化して言うと）テキスト中の単語を <strong>穴抜け</strong> にして、その単語を推測させて訓練</p>
+<ul>
+<li><p>穴抜けにすることで、大量の教師データを確保</p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+PyCon JP 2021はBERTを将棋の盤面に使った例</aside>
+<aside class="notes">
+self-attentionの話もしたい</aside>
+</section>
+</section>
+<section >
+<h2>事前学習</h2>
+<ul class="simple">
+<li><p>計算コストはめちゃかかる（一例： <a class="reference external" href="https://huggingface.co/cl-tohoku/bert-base-japanese-v2">TPUを使って5日間</a>）</p></li>
+<li><p><strong>誰かが一回</strong> やればOK</p></li>
+<li><p>事前学習済みのモデルがトークナイザと一緒に <strong>公開</strong> されている（例：東北大学乾研究室）</p></li>
+</ul>
+</section>
+<section>
+<section >
+<h2>IMO：事前学習済みのモデルのイメージ</h2>
+<ul class="simple">
+<li><p>「こいつ、日本語わかってるな」</p></li>
+<li><p>分かっているように見える例はすぐ後で</p></li>
+</ul>
+</section>
+<section >
+<h3>ファインチューニング</h3>
+<ul class="simple">
+<li><p>事前学習済みモデルを <strong>手元のデータで再訓練</strong></p></li>
+<li><p>解きたいタスク向けにチューニングするイメージ</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>ファインチューニング</h2>
+<ul class="simple">
+<li><p>解きたいタスク用のデータ（<strong>少量</strong> でよい）を使って各自やる</p></li>
+<li><p>計算コストはそんなにかからない（Colabを使う例を紹介）</p></li>
+<li><p>ファインチューニング済みのモデルも公開されている（感情分析の例で利用済み）</p></li>
+</ul>
+</section>
+<section >
+<h3>も〜っと！BERTを使おう</h3>
+<ul class="simple">
+<li><p>事前訓練済みのBERTを使う</p></li>
+<li><p>ファインチューニングされたBERTを使う（済み）</p></li>
+<li><p>ファインチューニングする</p></li>
+</ul>
+</section>
+<section >
+<h3>事前訓練済みのBERTを使う</h3>
+<ul class="simple">
+<li><p>今回は、東北大乾研究室が公開している日本語BERTを使います</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>テキスト中のマスクした単語を埋めるタスク</h2>
+<ul class="simple">
+<li><p>これはBERTの事前訓練で使った形式（単語がマスクされる）</p></li>
+<li><p>私は[MASK]を食べた</p></li>
+<li><p>私はパン[MASK]食べた</p></li>
+</ul>
+</section>
+<section >
+<h2>事前学習済みの日本語BERTでマスク埋め</h2>
+<pre data-id="id85"><code data-trim data-noescape class="python">from pprint import pprint
+from transformers import pipeline
+
+nlp = pipeline(&quot;fill-mask&quot;, model=&quot;cl-tohoku/bert-base-japanese-v2&quot;)
+
+pprint(nlp(&quot;私は[MASK]を食べた&quot;))
+pprint(nlp(&quot;私はパン[MASK]食べた&quot;))</code></pre>
+</section>
+<section>
+<section >
+<h2>トンチンカンな埋め方しない！</h2>
+<pre data-id="id86"><code data-trim data-noescape class="txt">私は[MASK]を食べた
+それ
+肉
+パン
+これ
+魚
+
+私はパン[MASK]食べた
+を
+も
+ばかり
+まで
+だけ</code></pre>
+<p>こいつ、日本語わかってるなって思いませんか？</p>
+</section>
+<section >
+<h3>ファインチューニングする</h3>
+</section>
+</section>
+<section >
+<h2>オススメのファインチューニングアプローチ</h2>
+<ul class="simple">
+<li><p>transformersリポジトリにある <a class="reference external" href="https://github.com/huggingface/transformers/tree/main/examples">examplesスクリプト</a> を利用</p></li>
+<li><p><strong>コードを書かずに</strong> ファインチューニングできます（ref: NLP2022 チュートリアル）</p></li>
+<li><p>モデル自体を定義するアプローチもありますが、nikkieはあんまりやりません（車輪の再発明はしないという立場）</p></li>
+</ul>
+</section>
+<section >
+<h2>コードを書くケース</h2>
+<ul class="simple">
+<li><p>examplesスクリプトが想定している形式にデータを <strong>変換</strong> するためのコードは（必要なときだけ）書きます</p></li>
+</ul>
+</section>
+<section >
+<h2>ファインチューニング例</h2>
+<ul class="simple">
+<li><p>token-classification（トークンに関する分類）</p></li>
+<li><p>トークン＝文の構成要素（単語もしくは単語より小さいサブワード）</p></li>
+</ul>
+</section>
+<section >
+<h2>固有表現抽出（NER）</h2>
+<ul class="simple">
+<li><p>トークンが <em>固有表現</em> か分類</p>
+<ul>
+<li><p>固有表現：固有名詞（人名・地名など）や日付・時間・金額（📚[1] 7-1）</p></li>
+<li><p>人名や法人名など複数のカテゴリがある</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h2>日本語BERTをファインチューニング</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/ftnext/practice-dl-nlp/blob/0e85011b32b3f8f03572ecac7a038650d36286d7/bert_exercise/transformers_examples/20220518_legacy_ner_ner_wikipedia_dataset.ipynb">Colabでファインチューニングしたnotebook</a></p>
+<ul>
+<li><p>データ <a class="reference external" href="https://github.com/stockmarkteam/ner-wikipedia-dataset">https://github.com/stockmarkteam/ner-wikipedia-dataset</a> の形式だけ加工</p></li>
+<li><p>transformersのexamplesスクリプトを実行</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section>
+<section >
+<h2>固有表現抽出するBERT</h2>
+<p>ライオンって動物だったり、会社だったりしますよね？</p>
+<pre data-id="id92"><code data-trim data-noescape class="txt">ライオンは、哺乳綱食肉目ネコ科ヒョウ属に分類される食肉類。
+# -&gt; 固有表現は抽出されない
+# Wikipediaの記載 https://ja.wikipedia.org/wiki/%E3%83%A9%E3%82%A4%E3%82%AA%E3%83%B3
+
+日々の暮らしの中で使用される数々の製品を通してお客様との接点を持ち、生活を理解していることはライオンの強みです。
+{'entity': 'B-法人名', 'score': 0.98595715, 'index': 30, 'word': 'ライオン', 'start': None, 'end': None}
+# ライオン株式会社サイト中の文言 https://www.lion.co.jp/ja/</code></pre>
+</section>
+<section >
+<h3>まとめ🥟 Part III. 自然言語処理とBERT</h3>
+<ul class="simple">
+<li><p>BERTは <strong>複数</strong> のタスクを扱えるモデル！（性能もよい）</p></li>
+<li><p>ライブラリ <code class="docutils literal notranslate"><span class="pre">transformers</span></code> を使って</p>
+<ul>
+<li><p>公開された <strong>モデル</strong> の利用</p></li>
+<li><p>事前学習済みモデルを <strong>ファインチューニング</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>まとめ🌯 えぬえるぴーや 1ねんせい</h3>
+<ul class="simple">
+<li><p>自然言語処理の流れ、人手のルール➡️機械学習➡️深層学習（特徴量もルールもデータから抽出）</p></li>
+<li><p>BERTは複数のタスクを扱え、性能もいいモデル</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">transformers</span></code> で少ないコードで利用・ファインチューニング</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section >
+<h2>ご清聴ありがとうございました</h2>
+<p>Happy NLP with BERT!</p>
+</section>
+<section>
+<section >
+<h2>TODOs</h2>
+<ul class="simple">
+<li><p>Reference（主な参考書籍+α）</p></li>
+<li><p>Appendix</p></li>
+</ul>
+</section>
+<section >
+<h3>EOF</h3>
+</section>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

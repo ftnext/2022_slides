@@ -1,0 +1,1425 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>文に立ち返ってPython再入門</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/translations.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ftnext">
+    <meta property="og:url" content="https://ftnext.github.io/2022_slides/pyconk_kumamoto/revisit_python_from_statements.html">
+    <meta property="og:title" content="文に立ち返ってPython再入門">
+    <meta property="og:description" content="2022/01 PyCon Kyushu 2022 Kumamoto 30分トーク スライド">
+    <meta property="og:image" content="https://ftnext.github.io/2022_slides/_static/ogps/pyconk_kumamoto.png">
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>文に立ち返ってPython再入門</h1>
+<dl class="field-list simple">
+<dt class="field-odd">Event<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PyCon Kyushu 2022 Kumamoto</p>
+</dd>
+<dt class="field-even">Presented<span class="colon">:</span></dt>
+<dd class="field-even"><p>2022/01/22 nikkie</p>
+</dd>
+</dl>
+</section>
+<section >
+<h2>変更履歴</h2>
+<ul class="simple">
+<li><p>2022/04/17 BNF記法 -&gt; BNF に修正（F(form)自体が「記法」の意のため） <a class="reference external" href="https://github.com/ftnext/2022_slides/issues/26">#26</a></p></li>
+</ul>
+</section>
+<section >
+<h2>参加者の皆さん、こーんにーちはーー❗️</h2>
+</section>
+<section>
+<section >
+<h2>最初に質問：Pythonで書けますか❔</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code> 文</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">for</span></code> 文</p></li>
+<li><p>関数</p></li>
+</ul>
+</section>
+<section >
+<h3>本トーク「文に立ち返ってPython再入門」について</h3>
+<dl class="field-list simple">
+<dt class="field-odd">対象者<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">if</span></code> 文・ <code class="docutils literal notranslate"><span class="pre">for</span></code> 文・関数定義が書ける（＝入門書は終えた）Python使い（Intermediate）</p>
+</dd>
+<dt class="field-even">話すこと<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>構文</strong> 解析</p>
+</dd>
+</dl>
+</section>
+<section >
+<h3>聞いて持ち帰れるもの（ <a class="reference external" href="https://www.papercall.io/speakers/ftnext/speaker_talks/213217-python">公開プロポーザル</a> ）</h3>
+<ul class="simple">
+<li><p>文の構成要素：式とキーワード</p></li>
+<li><p>節、ヘッダ、スイートによる文の説明</p></li>
+<li><p>BNFの読み方</p></li>
+</ul>
+</section>
+<section >
+<h3>免責事項🙏</h3>
+<ul class="simple">
+<li><p>「構文」がめちゃくちゃ面白い✨と思っているので、話します</p></li>
+<li><p>万人向けではありません（この話を知らなくてもPythonは使っていけます）</p></li>
+<li><p>Pythonに未入門の方、方向性合わないかもと直感した方、裏のトークに行くなら今！</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>お前、誰よ</h2>
+<ul class="simple">
+<li><p>Python大好き <strong>にっきー</strong></p>
+<ul>
+<li><p>Twitter <a class="reference external" href="https://twitter.com/ftnext">&#64;ftnext</a></p></li>
+<li><p>GitHub <a class="reference external" href="https://github.com/ftnext">&#64;ftnext</a></p></li>
+</ul>
+</li>
+<li><p>Python歴4年。株式会社ユーザベースのデータサイエンティスト（NLPer）</p></li>
+</ul>
+</section>
+<section >
+<h3>心を燃やした❤️🔥PyCon JP 2021座長</h3>
+<ul class="simple">
+<li><p>座長（＝ <strong>開催に責任</strong> を持つ人）</p></li>
+<li><p>スタッフは2019年から</p></li>
+<li><p><a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/pyconjp2021-portfolio">技術で(も)支えたPyCon JP 2021</a></p></li>
+</ul>
+</section>
+<section >
+<h3>News: PyCon JP 2022 座長決定👏</h3>
+<blockquote class="twitter-tweet" data-align="center"><p lang="ja" dir="ltr">PyCon JP 2022 座長決定<br><br>来年のPyCon JP 2022の座長が決まりました。<br><br>座長: 片寄 里菜（かたよせ りな）<br><br>PyCon JP 2022をどのような形にするか 決めにくい状況です。座長のもとで、スタッフや参加者が楽しいイベントが作れることを期待しています。<a href="https://t.co/XpaXfOqe8m">https://t.co/XpaXfOqe8m</a> <a href="https://twitter.com/hashtag/pyconjp?src=hash&amp;ref_src=twsrc%5Etfw">#pyconjp</a></p>&mdash; PyCon JP (@pyconjapan) <a href="https://twitter.com/pyconjapan/status/1481932340498624513?ref_src=twsrc%5Etfw">January 14, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>もう少し：このコミットグラフは？</h3>
+<figure class="align-default">
+<img alt="../_images/202201_ainouta_watch_log.png" src="../_images/202201_ainouta_watch_log.png" />
+</figure>
+</section>
+<section >
+<h3>たたーん！ 映画『<a class="reference external" href="https://ainouta.jp/">アイの歌声を聴かせて</a>』🤖🎤🎼 鑑賞回数！</h3>
+<ul class="simple">
+<li><p>㊗️ 日本アカデミー賞 優秀アニメーション作品賞 👏</p></li>
+<li><p>ほんとによくて、2021年10月の公開から <strong>20回以上</strong> 観てます</p></li>
+<li><p>ブログ「好きな映画の鑑賞ログをGitHubのContributionのような形式で表示する」 <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution1-cal-heatmap">前編</a> ・ <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/movie-watch-log-as-contribution2-cors-error">後編</a></p></li>
+</ul>
+</section>
+<section >
+<h3>One more thing: Everyday Contribution🙌</h3>
+<figure class="align-default">
+<img alt="../_images/202201_nikkie_contribution.png" src="../_images/202201_nikkie_contribution.png" />
+</figure>
+<p>2020/08の <a class="reference external" href="https://nikkie-ftnext.hatenablog.com/entry/100days-of-contribution">100DaysOfContribution 達成しました！</a> が続いています</p>
+</section>
+</section>
+<section>
+<section >
+<h2>質問：Pythonを書くとき、「文」って意識しますか❔</h2>
+<p>本題へ： <strong>文</strong> に立ち返ってPython再入門（LT1本くらいの導入です）</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">if</span></code> 文の例（<code class="file docutils literal notranslate"><span class="pre">roland.py</span></code>）</h3>
+<pre data-id="if-roland-py"><code data-trim data-noescape class="python">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<p>ref: <a class="reference external" href="https://zenn.dev/kuramapommel/books/introduce_polymorphism/viewer/chapter2">https://zenn.dev/kuramapommel/books/introduce_polymorphism/viewer/chapter2</a></p>
+</section>
+<section >
+<h3><code class="file docutils literal notranslate"><span class="pre">roland.py</span></code> 実行例</h3>
+<pre data-id="roland-py"><code data-trim data-noescape class="shell">$ python roland.py
+名前を入力してください: nikkie
+俺以外か
+
+$ python roland.py
+名前を入力してください: ローランド
+俺か</code></pre>
+</section>
+<section >
+<h3>IMO：文は意識しない？</h3>
+<ul class="simple">
+<li><p>Pythonを書いているとき「私、いま文書いてる」とはあまり思わない</p></li>
+<li><p>書いているプログラムで意識するのは <em>行</em> （例：レビューで 「N行目の...」）</p></li>
+<li><p>（文は、プログラムの1つ以上の行からできます）</p></li>
+</ul>
+</section>
+<section >
+<h3>IMO：意識しているのは、文が作り出す構造</h3>
+<ul class="simple">
+<li><p>入門時に <code class="docutils literal notranslate"><span class="pre">if</span></code> 文・ <code class="docutils literal notranslate"><span class="pre">for</span></code> 文と教わった記憶（例 <a class="reference external" href="https://docs.python.org/ja/3/tutorial/controlflow.html">Pythonチュートリアル &quot;制御フロー&quot;</a>）</p></li>
+<li><p>制御フローは「分岐」や「反復」という <strong>構造</strong> として捉えている</p></li>
+</ul>
+</section>
+<section >
+<h3>構造を捉える例（<code class="file docutils literal notranslate"><span class="pre">roland.py</span></code>）</h3>
+<pre data-id="id19"><code data-trim data-noescape class="python" data-line-numbers="3,5">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)  # nameが&quot;ローランド&quot;のときの分岐
+else:
+    print(&quot;俺以外か&quot;)  # nameが&quot;ローランド&quot;でないときの分岐</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>では、文は誰のためにあるのか？</h2>
+<p>どうやら私たちプログラマは文を意識していなさそう</p>
+</section>
+<section >
+<h3>IMO：文は <strong>機械</strong> 🤖のためにある</h3>
+</section>
+</section>
+<section>
+<section >
+<h2>高水準（高級）／低水準（低級）</h2>
+<p>High level / Low level</p>
+</section>
+<section >
+<h3>高水準言語／機械語</h3>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>High level</p></td>
+<td><p>Low level</p></td>
+</tr>
+<tr class="row-even"><td><p>高水準言語（例：Python）</p></td>
+<td><p>機械語</p></td>
+</tr>
+<tr class="row-odd"><td><p>人間👩‍💻👨‍💻が読み書き</p></td>
+<td><p>機械🤖が読み書き</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section >
+<h3>人間が高水準言語でプログラムを書けるためには</h3>
+<ul class="simple">
+<li><p>機械が高水準言語を機械語に <em>変換</em> している</p></li>
+<li><p>つまり、機械は（機械語だけでなく） <strong>高水準言語も読んで</strong> いる</p></li>
+</ul>
+</section>
+<section >
+<h3><strong>機械</strong> がプログラムの構造を理解する</h3>
+<p>そのための <strong>文</strong></p>
+</section>
+</section>
+<section>
+<section >
+<h2>別の視点：計算機科学における「コンパイル」</h2>
+<p>参考：『 <a class="reference external" href="https://www.oreilly.co.jp/books/9784873117126/">コンピュータシステムの理論と実装</a> 』</p>
+</section>
+<section >
+<h3>コンパイルの例</h3>
+<ul class="simple">
+<li><p>ソースコード（Pythonで書かれた）</p></li>
+<li><p>バイトコード（インタプリタの内部表現。pycファイルにキャッシュ。 ref: <a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-bytecode">用語集</a>）</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">if</span></code> 文の例でコンパイルを見る</h3>
+<pre data-id="if"><code data-trim data-noescape class="python">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+</section>
+<section >
+<h3>コンパイルから2点ピックアップ</h3>
+<ol class="arabic simple">
+<li><p>字句解析</p></li>
+<li><p>抽象構文木</p></li>
+</ol>
+</section>
+<section >
+<h3>字句解析（tokenize）</h3>
+<ul class="simple">
+<li><p>ソースコードは文字列</p></li>
+<li><p><strong>字句（トークン）</strong> ＝意味を持つ最小単位</p></li>
+</ul>
+</section>
+<section >
+<h3>字句解析の例（<strong class="command">python -m tokenize -e roland.py</strong>）</h3>
+<pre data-id="python-m-tokenize-e-roland-py"><code data-trim data-noescape class="txt">2,0-2,2:            NAME           'if'           
+2,3-2,7:            NAME           'name'         
+2,8-2,10:           EQEQUAL        '=='           
+2,11-2,18:          STRING         '&quot;ローランド&quot;'      
+2,18-2,19:          COLON          ':'            
+2,19-2,20:          NEWLINE        '\n'           
+3,0-3,4:            INDENT         '    '         
+3,4-3,9:            NAME           'print'        
+</code></pre>
+</section>
+<section >
+<h3>抽象構文木</h3>
+<ul class="simple">
+<li><p>AST (Abstract Syntax Trees)</p></li>
+<li><p>機械は、プログラムの構造を <strong>木</strong> で表す</p></li>
+<li><p>一連のトークンから抽象構文木を出力</p></li>
+</ul>
+</section>
+<section >
+<h3>抽象構文木の例（<strong class="command">python -m ast -m exec roland.py</strong>）</h3>
+<pre data-id="python-m-ast-m-exec-roland-py"><code data-trim data-noescape class="txt">    If(
+      test=Compare(
+        left=Name(id='name', ctx=Load()),
+        ops=[
+          Eq()],
+        comparators=[
+          Constant(value='ローランド')]),
+      body=[
+        Expr(
+</code></pre>
+</section>
+<section >
+<h3>構文にも2種類ある</h3>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>抽象構文</p></td>
+<td><p>具象構文</p></td>
+</tr>
+<tr class="row-even"><td><p>インタプリタが解釈</p></td>
+<td><p>プログラミング言語の見た目（例：複合文はこう書く）</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section >
+<h3>このトークの主題は <strong>具象構文</strong></h3>
+<ul class="simple">
+<li><p>Pythonの複合文の現在の <strong>見た目</strong> について深堀ります（Python 3.10.2）</p></li>
+<li><p>機械は文法に沿って具象構文を読んでます（鍵🗝は「再帰」）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>さらに別視点：Grow with Covid-19</h2>
+<p>PyCon Kyushu 2022 Kumamotoのテーマ</p>
+</section>
+<section >
+<h3>IMO：2方向のGrow</h3>
+<ul class="simple">
+<li><p>横方向：文法やライブラリを知ってできること広がる</p></li>
+<li><p>縦方向：文法やライブラリを掘り下げて深く理解する</p></li>
+</ul>
+<p>（某書レビューでの学びをもとにしています）</p>
+</section>
+<section >
+<h3>このトークは <strong>縦方向</strong></h3>
+<ul class="simple">
+<li><p>横方向：文法やライブラリを知ってできること広がる</p></li>
+<li><p>縦方向：文法やライブラリを <strong>掘り下げ</strong> て深く理解する 👈本トーク</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>本トーク「文に立ち返ってPython再入門」では</h2>
+<ul class="simple">
+<li><p>Pythonのコロンやインデントの意味を共有</p></li>
+<li><p>BNFを読んで一緒に味わう</p></li>
+</ul>
+</section>
+<section >
+<h2>本トーク「文に立ち返ってPython再入門」では</h2>
+<ul class="simple">
+<li><p>コロンやインデントの意味： <strong>文の構成要素を機械に伝えている</strong></p></li>
+<li><p>BNFを読んで一緒に味わう</p></li>
+</ul>
+</section>
+<section >
+<h2>本トーク「文に立ち返ってPython再入門」では</h2>
+<ul class="simple">
+<li><p>コロンやインデントの意味：文の構成要素を機械に伝えている</p></li>
+<li><p>BNFを読んで一緒に味わう： <strong>簡潔かつ抜け漏れのない表現</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>お品書き：文に立ち返ってPython再入門</h3>
+<ol class="arabic simple">
+<li><p>Pythonにおける文</p></li>
+<li><p>文を定義する（拡張BNF）</p></li>
+<li><p>文の定義を味わう</p></li>
+</ol>
+</section>
+</section>
+<section >
+<h2>Part I. Pythonにおける文</h2>
+</section>
+<section>
+<section >
+<h2>用語集「文」</h2>
+<blockquote>
+<div><p>A statement is part of a suite (a “block” of code).</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/3/glossary.html#term-statement">Python用語集 文 (en)</a></p>
+<p>文はスイート (コードの&quot;ブロック&quot;) の一部です。（nikkie訳）</p>
+<aside class="notes">
+私の好きなPythonドキュメントの1つに「用語集」があります。
+けっこう用語集を引くんですけど、「文」についても用語集を引くと
+「文はスイートの一部です」と書かれています。
+スイートとはコードのブロックです。</aside>
+</section>
+<section >
+<h3>今回は「複合文」にフォーカス</h3>
+<blockquote>
+<div><p>複合文には、他の文 (のグループ) が入ります</p>
+</div></blockquote>
+<p>言語リファレンス <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a></p>
+<aside class="notes">
+リファレンスでは単純文と複合文に分かれていますが、今回は複合文にフォーカスします。
+「複合文には、他の文（のグループ）が入ります」</aside>
+</section>
+<section >
+<h3>複合文の例（ <code class="docutils literal notranslate"><span class="pre">if</span></code> 文）</h3>
+<pre data-id="id40"><code data-trim data-noescape class="python">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+複合文の例は先ほども見たif文です。</aside>
+</section>
+<section >
+<h3>複合文のイメージは制御フロー</h3>
+<blockquote>
+<div><p>複合文は、中に入っている他の文の実行の制御に何らかのやり方で影響を及ぼします。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">if</span></code> 文だと分岐（実行する／しない）</p>
+<aside class="notes">
+複合文にはifの他に、tryやwithなどあるんですけれどイメージとしては制御フローかと思います。
+「中に入っている他の文の実行」を制御します</aside>
+</section>
+</section>
+<section>
+<section >
+<h2>複合文の構成要素</h2>
+<ul class="simple">
+<li><p>節</p></li>
+<li><p>ヘッダ</p></li>
+<li><p>スイート</p></li>
+</ul>
+<aside class="notes">
+複合文を構成する要素として、節とヘッダとスイートの3つがあります</aside>
+</section>
+<section >
+<h3>節</h3>
+<blockquote>
+<div><p>複合文は、一つ以上の '節 (clause)' からなります。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<aside class="notes">
+節とは何かというと、複合文は一つ以上の節からなると、複合文のリファレンスに書いてありまして</aside>
+</section>
+<section >
+<h3>例の <code class="docutils literal notranslate"><span class="pre">if</span></code> 文を構成する節　その1</h3>
+<pre data-id="if-1"><code data-trim data-noescape class="python" data-line-numbers="2,3">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+2行目のifと続く3行目が1つ目の節</aside>
+</section>
+<section >
+<h3>例の <code class="docutils literal notranslate"><span class="pre">if</span></code> 文を構成する節　その2</h3>
+<pre data-id="if-2"><code data-trim data-noescape class="python" data-line-numbers="4,5">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+4行目のelseと続く5行目が2つ目の節で、2つの節から構成されていたんだとなります。</aside>
+</section>
+<section >
+<h3>節の構成要素</h3>
+<blockquote>
+<div><p>節は、ヘッダと 'スイート (suite)' からなります。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<aside class="notes">
+節の構成要素として、ヘッダとスイートというものがありまして</aside>
+</section>
+<section >
+<h3>ヘッダ</h3>
+<blockquote>
+<div><p>各節のヘッダは一意に識別するキーワードで始まり、コロンで終わります。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<aside class="notes">
+「ヘッダは一意に識別するキーワードで始まり、コロンで終わ」る</aside>
+</section>
+<section >
+<h3>キーワード</h3>
+<ul class="simple">
+<li><p>いくつかの <strong>トークン</strong> （字句）</p></li>
+<li><p>例</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">for</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">def</span></code></p></li>
+</ul>
+</li>
+</ul>
+<aside class="notes">
+キーワードって何？となったんですけど、これは特定のトークンですね。
+ここに挙げた以外にもclassなどがあります</aside>
+</section>
+<section >
+<h3>ヘッダはキーワードで始まりコロンで終わる</h3>
+<pre data-id="id47"><code data-trim data-noescape class="python" data-line-numbers="2,4">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+ヘッダはキーワードで始まりコロンで終わるということで
+例えば2行目を見るとifというキーワードで始まりコロンで終わるのでヘッダなんです。
+4行目もelseというキーワードで始まりコロンで終わるのでヘッダなんです。</aside>
+</section>
+<section >
+<h3>スイート</h3>
+<blockquote>
+<div><p>スイートは、[略]、または、ヘッダに続く行で一つ多くインデントされた文の集まりです。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<aside class="notes">
+ではスイートはなんなの？というと、リファレンスから持ってきたのですが、
+ヘッダに続く行で一つ多くインデントされた文の集まり、です。</aside>
+</section>
+<section >
+<h3>スイートはインデントされた文の集まり</h3>
+<pre data-id="id49"><code data-trim data-noescape class="python" data-line-numbers="3,5">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+これがスイートです。
+私はドキュメントではぱっと分からなかったのですが、これを見ると3行目と5行目が一つ多くインデントされているのでスイート</aside>
+</section>
+<section >
+<h3>スイートはインデントされた文の集まり（2文以上）</h3>
+<pre data-id="id50"><code data-trim data-noescape class="python" data-line-numbers="3,4">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺&quot;)
+    print(&quot;か&quot;)
+else:
+    print(&quot;俺以外か&quot;)</code></pre>
+<aside class="notes">
+文の集まりなので複数の文を入れられます</aside>
+</section>
+<section >
+<h3>スイート</h3>
+<blockquote>
+<div><p>[先に紹介した形式] のスイートに限り、さらに複合文をネストできます（ <a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a>）</p>
+</div></blockquote>
+<p>複合文は <strong>再帰</strong> 的！（複合文のスイートに別の複合文）</p>
+<aside class="notes">
+あとは、このスイートは複合文をネストできるんですね。
+複合文のスイートの中に別の複合文を入れられる</aside>
+</section>
+<section >
+<h3>スイートに複合文をネストする例</h3>
+<pre data-id="id52"><code data-trim data-noescape class="python" data-line-numbers="3,4">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    for _ in range(3):
+        print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)</code></pre>
+<aside class="notes">
+こんな感じでif文のスイートにfor文を書いてみました。
+そのfor文にもヘッダとスイートがあってと皆さんはもう見えてくると思います。</aside>
+</section>
+</section>
+<section >
+<h2>小まとめ🥟：Pythonにおける文</h2>
+<ul class="simple">
+<li><p>複合文は <strong>節</strong> （ヘッダとスイート）からなる</p></li>
+<li><p>コロンはヘッダを示している！</p></li>
+<li><p>インデントはスイートを示している！</p></li>
+</ul>
+<aside class="notes">
+というわけでリファレンスを深ぼってみると
+複合文は節、つまりヘッダとスイートからなっていて。
+Pythonを書くときに忘れるとSyntax errorと言われるコロンとインデント、
+コロンはヘッダに、インデントはスイートに対応するわけですね。
+ふだん書いているPythonを説明できているなという感動が私はありました</aside>
+<aside class="notes">
+ここまでで約4分</aside>
+</section>
+<section>
+<section >
+<h2>文の補足：用語集には続きが</h2>
+<blockquote>
+<div><p>A statement is either an expression or one of several constructs with a keyword, such as if, while or for.</p>
+</div></blockquote>
+<p>文は、式または、 if, while, for のようなキーワードから構成されるものです（nikkie訳）</p>
+<aside class="notes">
+もうちょっと文について補足していきますと、用語集には続きがありまして、
+文は、式または、 if, while, for のようなキーワードから構成されるもの と書いてあります。</aside>
+</section>
+<section >
+<h3>文はどちらか</h3>
+<ol class="arabic simple">
+<li><p>式 (an expression)</p></li>
+<li><p>キーワードから構成されるもの (one of several constructs with a keyword)</p></li>
+</ol>
+<aside class="notes">
+つまり文は式のときもあるし、キーワードから構成されるときもある</aside>
+</section>
+</section>
+<section >
+<h2>キーワードの補足：予約語</h2>
+<pre data-id="id56"><code data-trim data-noescape class="python">&gt;&gt;&gt; if = 1231  # 変数として使えません
+  File &quot;&lt;stdin&gt;&quot;, line 1
+    if = 1231
+       ^
+SyntaxError: invalid syntax</code></pre>
+<aside class="notes">
+キーワードは予約語です。例えば変数として使えません</aside>
+</section>
+<section>
+<section >
+<h2>文の構成要素の1つ：式とは</h2>
+<blockquote>
+<div><p>何かの値と評価される、一まとまりの構文
+(A piece of syntax which can be evaluated to some value.)</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-expression">Python用語集 式</a></p>
+<aside class="notes">
+もう一つ「文は式」と定義されていましたが、式とは何かというと
+式は「何かの値と評価される、一まとまりの構文」だそうで</aside>
+</section>
+<section >
+<h3>用語集「式」の続き</h3>
+<blockquote>
+<div><p>言い換えると、式とは [中略] 値を返す式の要素の積み重ねです。
+(In other words, an expression is an accumulation of expression elements [...] which all return a value.)</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/glossary.html#term-expression">Python用語集 式</a></p>
+<p>式の定義にも <strong>再帰</strong> ！</p>
+<aside class="notes">
+もうちょっと見ていくと 式とは値を返す式の要素の積み重ね なので
+式の定義の中に式がでていて再帰的な定義がされています。</aside>
+</section>
+<section >
+<h3>式の要素とは</h3>
+<ul class="simple">
+<li><p>式の要素の1つ、リテラル（ <a class="reference external" href="https://docs.python.org/ja/3/reference/expressions.html">6. 式</a> 6.2.2）</p></li>
+<li><p>例：整数 <code class="docutils literal notranslate"><span class="pre">108</span></code> はリテラル 👉 <code class="docutils literal notranslate"><span class="pre">108</span></code> は式</p></li>
+</ul>
+<aside class="notes">
+積み重ねる式の要素をいくつか挙げると、リテラルは式です。
+リテラルには整数や文字列などいろいろありますが、この例では整数はリテラルでそれ自体が式です</aside>
+</section>
+<section >
+<h3>さらに、式の要素</h3>
+<ul class="simple">
+<li><p>式の要素の1つ、演算子（ <a class="reference external" href="https://docs.python.org/ja/3/reference/expressions.html">6. 式</a> 6.7）</p></li>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">33</span> <span class="pre">-</span> <span class="pre">4</span></code> は式（リテラル、演算子、リテラル）</p></li>
+<li><p>式の要素を組合せて、別の式ができる（再帰）</p></li>
+</ul>
+<aside class="notes">
+式の要素の別の例として演算子を紹介します。
+33 - 4 は演算子を使った式です。</aside>
+</section>
+<section >
+<h3>もう少し、式の要素</h3>
+<ul class="simple">
+<li><p>関数呼び出しも、式の要素の1つ（ <a class="reference external" href="https://docs.python.org/ja/3/reference/expressions.html">6. 式</a> 6.3.4）</p></li>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">print(&quot;だんだんな〜&quot;)</span></code></p></li>
+</ul>
+<aside class="notes">
+まだまだありますが、もう1個だけ紹介すると、関数呼び出しも式の要素の1つです。
+文字列リテラルを使ってprint関数を呼び出したこちらも式です</aside>
+</section>
+<section >
+<h3>式自体で文（用語集で文は式のケース）</h3>
+<p>以下の例の関数呼び出しは文でもある（スイートとして書けている）</p>
+<pre data-id="id64"><code data-trim data-noescape class="python" data-line-numbers="3,5">name = input(&quot;名前を入力してください: &quot;)
+if name == &quot;ローランド&quot;:
+    print(&quot;俺か&quot;)
+else:
+    print(&quot;俺以外か&quot;)
+</code></pre>
+<aside class="notes">
+これまでずっと見てきた例ですが、式自体で文ということで、
+スイートの3行目と5行目は関数呼び出しの式で、文だったということです</aside>
+<aside class="notes">
+補足で2分半（Part Iは6分半）</aside>
+</section>
+<section >
+<h3>文の補足、終わり！</h3>
+<ol class="arabic simple">
+<li><p>✅ Pythonにおける文</p></li>
+<li><p>文を定義する（拡張BNF）</p></li>
+<li><p>文の定義を味わう</p></li>
+</ol>
+</section>
+</section>
+<section >
+<h2>Part II. 文を定義する（拡張BNF）</h2>
+</section>
+<section>
+<section >
+<h2>拡張したBNF</h2>
+<blockquote>
+<div><p>字句解析と構文に関する記述では、BNF 文法記法に手を加えたものを使っています。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/introduction.html#notation">1.2. 本マニュアルにおける表記法</a>）</p>
+</div></blockquote>
+<p>EBNFとも呼ぶドキュメントもありました（Extended Backus–Naur Form）</p>
+</section>
+<section >
+<h3>拡張したBNF（承前）</h3>
+<blockquote>
+<div><p>各規則は name (規則によって定義されているものの名前) と ::= から始まります。（ <a class="reference external" href="https://docs.python.org/ja/3/reference/introduction.html#notation">1.2. 本マニュアルにおける表記法</a>）</p>
+</div></blockquote>
+</section>
+<section >
+<h3>注意⚠️：Python 3.9からはPEG</h3>
+<ul>
+<li><p>python.jp <a class="reference external" href="https://www.python.jp/pages/with-statement-3.9.html">Python 3.9 の with文</a></p>
+<blockquote>
+<div><p>Python 3.9 ではPython言語のパーザが置き換えられ</p>
+</div></blockquote>
+</li>
+<li><p><a class="reference external" href="https://www.python.org/dev/peps/pep-0617/">PEP 617 -- New PEG parser for CPython</a></p>
+<ul class="simple">
+<li><p>Parsing Expression Grammar（解析表現文法）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>拡張BNFの読み方</h2>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/introduction.html#notation">1.2. 本マニュアルにおける表記法</a> に記載があります。</p>
+</section>
+<section >
+<h3>拡張BNFにおける記号</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">|</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">+</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;</span></code></p></li>
+<li><p>『　』（※空白です）</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">|</span></code></h3>
+<blockquote>
+<div><p>複数の選択項目を分かち書きするときに使います</p>
+</div></blockquote>
+<p>「または」</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span> <span class="pre">|</span> <span class="pre">&quot;b&quot;</span></code> ➡ <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;b&quot;</span></code></p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">*</span></code></h3>
+<blockquote>
+<div><p>直前にくる要素のゼロ個以上の繰り返しを表します</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;a&quot;*</span></code> ➡ <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;aaaa&quot;</span></code>, ...</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">+</span></code></h3>
+<blockquote>
+<div><p>プラス (+) は一個以上の繰り返し</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> に似て、直前に来る要素の一個以上の繰り返し</p>
+<p><code class="docutils literal notranslate"><span class="pre">&quot;a&quot;+</span></code> ➡ <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;aaaa&quot;</span></code>, ...</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">[]</span></code></h3>
+<blockquote>
+<div><div class="line-block">
+<div class="line">角括弧 ([ ]) に囲われた字句は、字句がゼロ個か一個出現する</div>
+<div class="line">(別の言い方をすれば、囲いの中の字句はオプションである)</div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">[&quot;a&quot;]</span></code> ➡ <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;</span></code></p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">()</span></code></h3>
+<blockquote>
+<div><p>字句のグループ化には丸括弧を使います。</p>
+</div></blockquote>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">&quot;</span></code></h3>
+<blockquote>
+<div><p>リテラル文字列はクオートで囲われます。</p>
+</div></blockquote>
+</section>
+<section >
+<h3>空白</h3>
+<blockquote>
+<div><p>空白はトークンを分割しているときのみ意味を持ちます。</p>
+</div></blockquote>
+</section>
+</section>
+<section>
+<section >
+<h2>拡張BNFの例</h2>
+<p>前提「lc_letter は 'a' から 'z' までの何らかの文字一字（ <code class="docutils literal notranslate"><span class="pre">&quot;a&quot;...&quot;z&quot;</span></code>）」</p>
+<pre>
+<strong id="grammar-token-notation-name">name</strong> ::=  lc_letter (lc_letter | &quot;_&quot;)*
+</pre>
+<p>規則 <code class="docutils literal notranslate"><span class="pre">name</span></code> はどんな文字列を表す？</p>
+</section>
+<section >
+<h3>もっとも内側 <code class="docutils literal notranslate"><span class="pre">lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;</span></code></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lc_letter</span></code> または <code class="docutils literal notranslate"><span class="pre">&quot;_&quot;</span></code></p></li>
+<li><p>＝ 'a' から 'z' までの文字一字、または （リテラルの）'_'</p></li>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">z</span></code> , <code class="docutils literal notranslate"><span class="pre">_</span></code></p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">(lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;)</span></code></h3>
+<ul class="simple">
+<li><p>丸括弧によるグループ化</p></li>
+<li><p>'a' から 'z' までの文字一字、または '_' をグループに</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">(lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;)*</span></code></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*</span></code> は0個以上の繰り返し</p></li>
+<li><p>＝ グループ <code class="docutils literal notranslate"><span class="pre">(lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;)</span></code> の0個以上の繰り返し</p></li>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">''</span></code> （空文字列）, <code class="docutils literal notranslate"><span class="pre">z</span></code> , <code class="docutils literal notranslate"><span class="pre">w_</span></code> , <code class="docutils literal notranslate"><span class="pre">_prq</span></code></p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">::=</span> <span class="pre">lc_letter</span> <span class="pre">(lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;)*</span></code></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lc_letter</span></code> の後に、 <code class="docutils literal notranslate"><span class="pre">(lc_letter</span> <span class="pre">|</span> <span class="pre">&quot;_&quot;)*</span></code> が続く</p></li>
+<li><p>＝ <code class="docutils literal notranslate"><span class="pre">lc_letter</span></code> の後に「 <code class="docutils literal notranslate"><span class="pre">lc_letter</span></code> またはリテラルの <code class="docutils literal notranslate"><span class="pre">_</span></code>」を0個以上の繰り返す</p></li>
+<li><p>例： <code class="docutils literal notranslate"><span class="pre">a</span></code> , <code class="docutils literal notranslate"><span class="pre">b_</span></code> , <code class="docutils literal notranslate"><span class="pre">cde</span></code></p></li>
+<li><p>1文字目に <code class="docutils literal notranslate"><span class="pre">_</span></code> は来られない</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>小まとめ🥟：文を定義する（拡張BNF）</h2>
+<ul class="simple">
+<li><p>拡張BNFの記号の意味を確認</p></li>
+<li><p>Pythonの <strong>複合文の定義を読む準備</strong> が整った</p></li>
+</ul>
+</section>
+<section >
+<h3>お品書き：文に立ち返ってPython再入門</h3>
+<ol class="arabic simple">
+<li><p>✅ Pythonにおける文</p></li>
+<li><p>✅ 文を定義する（拡張BNF）</p></li>
+<li><p>文の定義を味わう</p></li>
+</ol>
+</section>
+</section>
+<section >
+<h2>Part III. 文の定義を味わう</h2>
+</section>
+<section>
+<section >
+<h2>構文定義を読んでみる</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#compound-statements">8. 複合文</a> 中の定義を読んでみましょう</p></li>
+<li><p>拡張BNFに沿って読むと、<strong>簡潔な行数で、抜け漏れなく説明される</strong> 感動がありました！</p></li>
+</ul>
+</section>
+<section >
+<h3>構文定義、積ん読！</h3>
+<pre>
+<strong id="grammar-token-python-grammar-compound_stmt">compound_stmt</strong> ::=  if_stmt
+                   | while_stmt
+                   | for_stmt
+                   | funcdef
+                   | match_stmt
+                   | （リファレンスにはまだまだあります）
+</pre>
+</section>
+<section >
+<h3>構文の拡張BNFを読む際の前提</h3>
+<ul class="simple">
+<li><p>プログラムの字句解析が終わって、トークンの並びになっています</p></li>
+<li><p>機械は <strong>トークンの並びが規則に当てはまるか</strong> をチェックしています</p></li>
+<li><p>＝拡張BNFに沿って書けば文法エラーにはなりません</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">if</span></code> 文</h2>
+<blockquote>
+<div><p>if 文は、条件分岐を実行するために使われます:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#the-if-statement">8.1. if 文</a></p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">if</span></code> 文の構文を（EBNFを使わずに）どう伝えますか❔</h3>
+<p>少し考えてみてください</p>
+</section>
+<section >
+<h3>私の戦略：場合分け</h3>
+<ul class="simple">
+<li><p>elseの有無</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>場合分け、抜け漏れの確認ツライ😫</h3>
+<ul class="simple">
+<li><p>elifの個数（0個／1個／複数）</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">elif</span> <span class="pre">...</span> <span class="pre">else</span> <span class="pre">...</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>EBNFでは、たった <strong>3行</strong></h3>
+<ul class="simple">
+<li><p>場合分け戦略だと6つのケースが出てきていた。「これは簡潔！」</p></li>
+<li><p>3行なのに、抜け漏れがない！</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">if</span></code> 文の構文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-if_stmt">if_stmt</strong> ::=  &quot;if&quot; assignment_expression &quot;:&quot; suite
+             (&quot;elif&quot; assignment_expression &quot;:&quot; suite)*
+             [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">suite</span></code> とは</h3>
+<pre>
+<strong id="grammar-token-python-grammar-suite">suite</strong> ::=  stmt_list NEWLINE | NEWLINE INDENT statement+ DEDENT
+</pre>
+<p>「または」で定義</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">suite</span></code></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stmt_list</span> <span class="pre">NEWLINE</span></code> ：セミコロンでつなげた文</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NEWLINE</span> <span class="pre">INDENT</span> <span class="pre">statement+</span> <span class="pre">DEDENT</span></code> ：改行し、インデントして並べた文</p></li>
+</ul>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">if</span></code> 文 1/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-0">if_stmt</strong> ::=  &quot;if&quot; assignment_expression &quot;:&quot; suite
+             (&quot;elif&quot; assignment_expression &quot;:&quot; suite)*
+             [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+<ul class="simple">
+<li><p>キーワード <code class="docutils literal notranslate"><span class="pre">if</span></code> で始まるヘッダと続くスイートからなる節は <strong>必須</strong></p></li>
+</ul>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">if</span></code> 文 2/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-1">if_stmt</strong> ::=  &quot;if&quot; assignment_expression &quot;:&quot; suite
+             (&quot;elif&quot; assignment_expression &quot;:&quot; suite)*
+             [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">elif</span></code> の節は <strong>0回以上</strong> の繰り返し（ない場合もあるし、複数ある場合もある）</p></li>
+</ul>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">if</span></code> 文 3/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-2">if_stmt</strong> ::=  &quot;if&quot; assignment_expression &quot;:&quot; suite
+             (&quot;elif&quot; assignment_expression &quot;:&quot; suite)*
+             [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">else</span></code> の節は <strong>オプション</strong> （0回または1回繰り返し）</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>脱線： <code class="docutils literal notranslate"><span class="pre">assignment_expression</span></code></h2>
+<p><code class="docutils literal notranslate"><span class="pre">if</span></code> 節や <code class="docutils literal notranslate"><span class="pre">elif</span></code> 節のヘッダに登場する <code class="docutils literal notranslate"><span class="pre">assignment_expression</span></code> について</p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">assignment_expression</span></code> は代入式</h3>
+<pre>
+<strong id="grammar-token-python-grammar-assignment_expression">assignment_expression</strong> ::=  [identifier &quot;:=&quot;] expression
+</pre>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/expressions.html#grammar-token-python-grammar-assignment_expression">6.12. 代入式</a></p>
+</section>
+<section >
+<h3>代入式はPython3.8 (2019/10 release) から</h3>
+<blockquote>
+<div><p>大きな構文の一部として、変数に値を割り当てる新しい構文 := が追加されました。
+この構文は セイウチの目と牙 に似ているため、「セイウチ演算子」の愛称で知られています。</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/whatsnew/3.8.html#assignment-expressions">https://docs.python.org/ja/3/whatsnew/3.8.html#assignment-expressions</a></p>
+</section>
+<section >
+<h3>代入式の例（Python 3.8 What's Newより）</h3>
+<blockquote>
+<div><p>代入式により len() 関数を二重に呼びだすことを回避しています:</p>
+</div></blockquote>
+<pre data-id="python-3-8-what-s-new"><code data-trim data-noescape class="python">if (n := len(a)) &gt; 10:
+    print(f&quot;List is too long ({n} elements, expected &lt;= 10)&quot;)</code></pre>
+</section>
+<section >
+<h3>構文を読んでの気づき 1/2</h3>
+<pre>
+<strong id="grammar-token-python-grammar-3">assignment_expression</strong> ::=  [identifier &quot;:=&quot;] expression
+</pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">:=</span></code> は <strong>オプション</strong> として <code class="docutils literal notranslate"><span class="pre">if</span></code> 文の定義に登場</p></li>
+</ul>
+</section>
+<section >
+<h3>構文を読んでの気づき 2/2</h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">:=</span></code> が使えるようになるんだくらいの理解だったが、制御フローの構文が変わるほどの <strong>大きな変更だった</strong> ことを実感</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">while</span></code> 文の定義にも登場します</p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">while</span></code> 文</h2>
+<blockquote>
+<div><p>while 文は、式の値が真である間、実行を繰り返すために使われます:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#the-while-statement">8.2. while 文</a></p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">while</span></code> 文の構文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-while_stmt">while_stmt</strong> ::=  &quot;while&quot; assignment_expression &quot;:&quot; suite
+                [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">while</span></code> 文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-4">while_stmt</strong> ::=  &quot;while&quot; assignment_expression &quot;:&quot; suite
+                [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+<ul class="simple">
+<li><p>キーワード <code class="docutils literal notranslate"><span class="pre">while</span></code> で始まるヘッダと続くスイートからなる節が <strong>必須</strong></p></li>
+<li><p>オプションの <code class="docutils literal notranslate"><span class="pre">else</span></code> の節</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">while</span></code> <code class="docutils literal notranslate"><span class="pre">else</span></code></h3>
+<blockquote>
+<div><p>式が偽であれば (最初から偽になっていることもありえます)、 else 節がある場合にはそれを実行し、ループを終了します。</p>
+<p>最初のスイート内で break 文が実行されると、 else 節のスイートを実行することなくループを終了します。</p>
+</div></blockquote>
+</section>
+<section >
+<h3>🚨 構文でサポートされますが、ループでは <code class="docutils literal notranslate"><span class="pre">else</span></code> 節を使わないのがオススメ</h3>
+<blockquote>
+<div><p>項目9　forループとwhileループの後のelseブロックは使わない</p>
+</div></blockquote>
+<p><a class="reference external" href="https://www.oreilly.co.jp/books/9784873119175/">Effective Python 第2版</a> （誤解を生みやすいためと説明されます）</p>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">for</span></code> 文</h2>
+<blockquote>
+<div><p>for 文は、シーケンス (文字列、タプルまたはリスト) や、その他の反復可能なオブジェクト (iterable object) 内の要素に渡って反復処理を行うために使われます:</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#the-for-statement">8.3. for 文</a></p>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">for</span></code> 文の構文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-for_stmt">for_stmt</strong> ::=  &quot;for&quot; target_list &quot;in&quot; expression_list &quot;:&quot; suite
+              [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">for</span></code> 文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-5">for_stmt</strong> ::=  &quot;for&quot; target_list &quot;in&quot; expression_list &quot;:&quot; suite
+              [&quot;else&quot; &quot;:&quot; suite]
+</pre>
+<ul class="simple">
+<li><p>キーワード <code class="docutils literal notranslate"><span class="pre">for</span></code> で始まり <code class="docutils literal notranslate"><span class="pre">in</span></code> を含むヘッダと、続くスイートからなる節が必須</p></li>
+<li><p>オプションの <code class="docutils literal notranslate"><span class="pre">else</span></code> の節</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">for</span></code> <code class="docutils literal notranslate"><span class="pre">else</span></code></h3>
+<blockquote>
+<div><p>全ての要素を使い切ったとき [略] else 節があればそれが実行され、ループは終了します。</p>
+<p>最初のスイートの中で break 文が実行されると、 else 節のスイートを実行することなくループを終了します。</p>
+</div></blockquote>
+</section>
+</section>
+<section>
+<section >
+<h2>関数定義</h2>
+<blockquote>
+<div><p>関数定義は、ユーザ定義関数オブジェクトを定義します</p>
+</div></blockquote>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#function-definitions">8.7. 関数定義</a></p>
+</section>
+<section >
+<h3>関数定義の構文（<code class="docutils literal notranslate"><span class="pre">def</span></code>）</h3>
+<pre>
+<strong id="grammar-token-python-grammar-funcdef">funcdef</strong> ::=  [decorators] &quot;def&quot; funcname &quot;(&quot; [parameter_list] &quot;)&quot;
+             [&quot;-&gt;&quot; expression] &quot;:&quot; suite
+</pre>
+</section>
+<section >
+<h3>味わう関数定義 1/2</h3>
+<pre>
+<strong id="grammar-token-python-grammar-6">funcdef</strong> ::=  [decorators] &quot;def&quot; funcname &quot;(&quot; [parameter_list] &quot;)&quot;
+             [&quot;-&gt;&quot; expression] &quot;:&quot; suite
+</pre>
+<ul class="simple">
+<li><p>キーワード <code class="docutils literal notranslate"><span class="pre">def</span></code> で始まり関数名 <code class="docutils literal notranslate"><span class="pre">funcname</span></code> と <code class="docutils literal notranslate"><span class="pre">()</span></code> を含むヘッダと、続くスイートからなる節が必須</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">()</span></code> の中の仮引数 <code class="docutils literal notranslate"><span class="pre">parameter_list</span></code> はオプショナル</p></li>
+</ul>
+</section>
+<section >
+<h3>味わう関数定義 2/2</h3>
+<pre>
+<strong id="grammar-token-python-grammar-7">funcdef</strong> ::=  [decorators] &quot;def&quot; funcname &quot;(&quot; [parameter_list] &quot;)&quot;
+             [&quot;-&gt;&quot; expression] &quot;:&quot; suite
+</pre>
+<ul class="simple">
+<li><p>他にもオプショナルなもの</p>
+<ul>
+<li><p>1つ以上のデコレータ <code class="docutils literal notranslate"><span class="pre">decorators</span></code></p></li>
+<li><p>返り値の型を表す型ヒントに使う <code class="docutils literal notranslate"><span class="pre">-&gt;</span> <span class="pre">expression</span></code> の部分</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2><code class="docutils literal notranslate"><span class="pre">match</span></code> 文</h2>
+<blockquote>
+<div><p>The match statement is used for pattern matching.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">match</span></code> 文はパターンマッチングに使われます（nikkie訳）</p>
+<p><a class="reference external" href="https://docs.python.org/ja/3/reference/compound_stmts.html#the-match-statement">8.6. The match statement</a></p>
+</section>
+<section >
+<h3>キャッチアップのリソース📚</h3>
+<ul class="simple">
+<li><p>PyCon Kyushu 2022 Kumamoto: Introduction to Structural Pattern Matching (by takanory-san)</p></li>
+<li><p><a class="reference external" href="https://www.python.org/dev/peps/pep-0636/#appendix-a-quick-intro">PEP 636 -- Structural Pattern Matching: Tutorial &gt; Appendix A -- Quick Intro</a></p></li>
+<li><p><a class="reference external" href="https://gihyo.jp/news/report/01/pyconjp2021/0002">PyCon JP 2021 レポート</a> （YouTubeにアーカイブあります）</p></li>
+</ul>
+</section>
+<section >
+<h3>パターンマッチの構文</h3>
+<pre>
+<strong id="grammar-token-python-grammar-match_stmt">match_stmt</strong> ::=  'match' subject_expr &quot;:&quot; NEWLINE INDENT case_block+ DEDENT
+</pre>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">match</span></code> 文の例</h3>
+<pre data-id="id109"><code data-trim data-noescape class="python" data-line-numbers>def fizzbuzz(number):
+    match number % 3, number % 5:
+        case 0, 0: return &quot;FizzBuzz&quot;
+        case 0, _: return &quot;Fizz&quot;
+        case _, 0: return &quot;Buzz&quot;
+        case _, _: return str(number)</code></pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">match</span></code> 文 1/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-8">match_stmt</strong> ::=  'match' subject_expr &quot;:&quot; NEWLINE INDENT case_block+ DEDENT
+</pre>
+<ul class="simple">
+<li><p>ソフトキーワード <code class="docutils literal notranslate"><span class="pre">match</span></code> で始まるヘッダが必須</p></li>
+</ul>
+<pre data-id="match-1-3"><code data-trim data-noescape class="python" data-line-numbers="2">def fizzbuzz(number):
+    match number % 3, number % 5:
+        case 0, 0: return &quot;FizzBuzz&quot;
+        case 0, _: return &quot;Fizz&quot;
+        case _, 0: return &quot;Buzz&quot;
+        case _, _: return str(number)</code></pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">match</span></code> 文 2/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-9">match_stmt</strong> ::=  'match' subject_expr &quot;:&quot; NEWLINE INDENT case_block+ DEDENT
+</pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">case_block</span></code> （スイート）が1つ以上</p></li>
+</ul>
+<pre data-id="match-2-3"><code data-trim data-noescape class="python" data-line-numbers="3,4,5,6">def fizzbuzz(number):
+    match number % 3, number % 5:
+        case 0, 0: return &quot;FizzBuzz&quot;
+        case 0, _: return &quot;Fizz&quot;
+        case _, 0: return &quot;Buzz&quot;
+        case _, _: return str(number)</code></pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">match</span></code> 文 3/3</h3>
+<pre>
+<strong id="grammar-token-python-grammar-10">match_stmt</strong> ::=  'match' subject_expr &quot;:&quot; NEWLINE INDENT case_block+ DEDENT
+</pre>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">NEWLINE</span></code> （改行）や <code class="docutils literal notranslate"><span class="pre">INDENT</span></code> （インデント）の明示</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">case</span></code> のブロックはヘッダの後につなげない（例えば <code class="docutils literal notranslate"><span class="pre">if</span></code> はヘッダの後に続けられる）</p></li>
+</ul>
+</section>
+<section >
+<h3>もう少し： <code class="docutils literal notranslate"><span class="pre">case_block</span></code></h3>
+<pre>
+<strong id="grammar-token-python-grammar-case_block">case_block</strong> ::=  'case' patterns [guard] &quot;:&quot; block
+</pre>
+</section>
+<section >
+<h3>味わう <code class="docutils literal notranslate"><span class="pre">case_block</span></code></h3>
+<pre>
+<strong id="grammar-token-python-grammar-11">case_block</strong> ::=  'case' patterns [guard] &quot;:&quot; block
+</pre>
+<ul class="simple">
+<li><p>ソフトキーワード <code class="docutils literal notranslate"><span class="pre">case</span></code> で始まるヘッダが必須</p></li>
+<li><p>スイートが <code class="docutils literal notranslate"><span class="pre">block</span></code> （セミコロンで区切っても書けるし、次の行にインデントしても書ける）</p></li>
+</ul>
+<p>質疑より： <code class="docutils literal notranslate"><span class="pre">block</span></code> とは？（ <code class="docutils literal notranslate"><span class="pre">suite</span></code> とどう違う？）👉 Appendixに追加</p>
+</section>
+<section >
+<h3>ガード（guard）※オプショナル</h3>
+<pre>
+<strong id="grammar-token-python-grammar-guard">guard</strong> ::=  &quot;if&quot; named_expression
+</pre>
+</section>
+<section >
+<h3>ガードの例</h3>
+<pre data-id="id111"><code data-trim data-noescape class="python">&gt;&gt;&gt; flag = False
+&gt;&gt;&gt; match (100, 200):
+...    case (100, 200) if flag:  # マッチするが, ガードが成り立たない
+...        print(&quot;Case 2&quot;)
+...    case (100, y):  # ここにマッチ！（yに200が代入される）
+...        print(f&quot;Case 3, y: {y}&quot;)
+...
+Case 3, y: 200</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>小まとめ🥟：文の定義を味わう</h2>
+<ul class="simple">
+<li><p>複合文の定義を味わった</p></li>
+<li><p>拡張BNFで、 <strong>簡潔</strong> かつ <strong>抜け漏れなく</strong> 表現されている</p></li>
+</ul>
+</section>
+<section >
+<h3>お品書き：文に立ち返ってPython再入門</h3>
+<ol class="arabic simple">
+<li><p>✅ Pythonにおける文</p></li>
+<li><p>✅ 文を定義する（拡張BNF）</p></li>
+<li><p>✅ 文の定義を味わう</p></li>
+</ol>
+</section>
+</section>
+<section>
+<section >
+<h2>まとめ🌯：文に立ち返ってPython再入門</h2>
+<ul class="simple">
+<li><p>Pythonの複合文の現在の見た目（<strong>具象構文</strong>）にフォーカス</p></li>
+<li><p>拡張BNFを紹介し、複合文の構文を味わった</p></li>
+</ul>
+</section>
+<section >
+<h2>まとめ🌯：文に立ち返ってPython再入門</h2>
+<ul class="simple">
+<li><p>複合文はヘッダとスイートから構成される</p></li>
+<li><p>コロンやインデントは、文の構成要素を <strong>機械に伝える</strong> ためにある</p></li>
+</ul>
+</section>
+<section >
+<h2>まとめ🌯：文に立ち返ってPython再入門</h2>
+<ul class="simple">
+<li><p>BNFを読み、 <strong>簡潔かつ抜け漏れのない表現</strong> を味わった</p></li>
+<li><p>縦方向のGrowへの取り組みも面白いですよ〜</p></li>
+</ul>
+</section>
+<section >
+<h3>「だんだんな〜」　ご清聴ありがとうございました</h3>
+<p><strong>Enjoy</strong> development with Python!</p>
+</section>
+</section>
+<section>
+<section >
+<h2>References</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/reference/index.html">Python 言語リファレンス</a></p></li>
+<li><p><a class="reference external" href="https://gihyo.jp/magazine/wdpress/archive/2021/vol125">WEB+DB PRESS Vol.125</a> 「特集1 作って学ぶ プログラミング言語のしくみ」</p>
+<ul>
+<li><p>抽象文法、具象文法</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section >
+<h3>本トークの元：2021/11 OSC Fukuoka</h3>
+<iframe width="800" height="480" src="https://ftnext.github.io/2021_slides/osc_fukuoka_Nov/revisit_python_from_statements.html"
+    title="文に立ち返って再入門するPython"></iframe></section>
+</section>
+<section>
+<section >
+<h2>Appendix: blockとは</h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">match</span></code> 文の <code class="docutils literal notranslate"><span class="pre">case</span></code> ブロックの定義に出てくる <code class="docutils literal notranslate"><span class="pre">block</span></code> とは？</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">suite</span></code> と何が違うのか？</p></li>
+</ul>
+<pre>
+<strong id="grammar-token-python-grammar-12">case_block</strong> ::=  'case' patterns [guard] &quot;:&quot; block
+</pre>
+</section>
+<section >
+<h3>発表への質問としていただいた</h3>
+<blockquote class="twitter-tweet" data-align="center" data-conversation="none" data-dnt="true"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/pycon9kuB?src=hash&amp;ref_src=twsrc%5Etfw">#pycon9kuB</a> <a href="https://twitter.com/takanory?ref_src=twsrc%5Etfw">@takanory</a> さんからいただいた質問<br>match文のBNFのblockはsuiteとはどう違う？<br><br>A: 調査不足です。説明できるほど理解してなかったと認識しました。後ほどアップデートします！<br>質問ありがとうございました</p>&mdash; nikkie にっきー (@ftnext) <a href="https://twitter.com/ftnext/status/1484788757241147393?ref_src=twsrc%5Etfw">January 22, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></section>
+<section >
+<h3>回答： <code class="docutils literal notranslate"><span class="pre">block</span></code> はPEG</h3>
+<ul class="simple">
+<li><p>この発表で扱った <strong>BNFではない</strong></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/reference/grammar.html">10. 完全な文法仕様</a> に見つけた（複合文のドキュメントに見つけられなかった）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">match</span></code> 文はPython3.10からなので、Python3.9からのPEGの採用は納得</p></li>
+</ul>
+</section>
+<section >
+<h3><code class="docutils literal notranslate"><span class="pre">block</span></code> のPEG</h3>
+<p>この発表で紹介した「スイート」（EBNFの <code class="docutils literal notranslate"><span class="pre">suite</span></code>）を表していると思われる（宿題：PEG版にアップデート）</p>
+<pre data-id="id119"><code data-trim data-noescape class="peg">block:
+    | NEWLINE INDENT statements DEDENT
+    | simple_stmts</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>Appendix: FAQから見るコロンやインデントの理由</h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/ja/3/faq/design.html">デザインと歴史 FAQ</a></p></li>
+<li><p>Guido-sanの <strong>設計意図</strong> を知られる</p></li>
+</ul>
+</section>
+<section >
+<h3>if/while/def/class 文にコロンが必要なのはなぜですか？</h3>
+<p><a class="reference external" href="https://docs.python.org/ja/3/faq/design.html#why-are-colons-required-for-the-if-while-def-class-statements">https://docs.python.org/ja/3/faq/design.html#why-are-colons-required-for-the-if-while-def-class-statements</a></p>
+</section>
+<section >
+<h3>コロンの理由（FAQより）</h3>
+<ul class="simple">
+<li><p>主に <strong>可読性を高める</strong> ため</p></li>
+<li><p>英語の標準的な用法</p></li>
+<li><p>コロンによってエディタがシンタックスハイライトをしやすくなる</p></li>
+</ul>
+</section>
+<section >
+<h3>Python はなぜ文のグループ化にインデントを使うのですか？</h3>
+<p><a class="reference external" href="https://docs.python.org/ja/3/faq/design.html#why-does-python-use-indentation-for-grouping-of-statements">https://docs.python.org/ja/3/faq/design.html#why-does-python-use-indentation-for-grouping-of-statements</a></p>
+</section>
+<section >
+<h3>インデントの理由（FAQより）</h3>
+<ul class="simple">
+<li><p>インデントでグループ化することで、Pythonプログラムを <strong>読みやすく</strong> するため</p></li>
+<li><p>開始/終了の括弧がないことによる3つの理由（次スライド）</p></li>
+</ul>
+</section>
+<section >
+<h3>開始/終了の括弧がないことで</h3>
+<ul class="simple">
+<li><p>構文解析器と人間の読者の間にグループ化の解釈の違いが起こりえない</p></li>
+<li><p>コーディングスタイルの争いに余り影響されない</p></li>
+<li><p>プログラムが冗長にならない 「20 行の Python は 20 行の C よりもはるかに多くの作業ができます」</p></li>
+</ul>
+</section>
+</section>
+<section >
+<h2>EOF</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      <script src="../_static/revealjs4/plugin/notes/notes.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, 
+    {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: "none",
+        slideNumber: "c/t",
+    }
+);
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,RevealNotes,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>
